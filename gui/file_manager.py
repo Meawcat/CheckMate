@@ -2,7 +2,6 @@ import shutil
 import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTreeView, QFileSystemModel, QMessageBox, QFileDialog, QAction, QToolBar
-from PyQt5.QtGui import QFont, QFontDatabase
 from PyQt5.QtCore import QDir
 
 class FileManager(QMainWindow):
@@ -12,13 +11,10 @@ class FileManager(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        font_id = QFontDatabase.addApplicationFont("Pretendard-SemiBold.ttf")  
-        self.font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
-        self.setFont(QFont(self.font_family))
         self.tree_view = QTreeView()
         self.data_model = QFileSystemModel()
         # 데이터 디렉토리 경로 설정
-        data_directory = "data"
+        data_directory = "../data"
         root_path = QDir.rootPath()
         data_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), data_directory))
         self.data_model.setRootPath(root_path)
@@ -39,7 +35,6 @@ class FileManager(QMainWindow):
         move_action = QAction('이동', self)
         move_action.triggered.connect(self.moveFile)
         self.toolbar.addAction(move_action)
-
         self.setCentralWidget(self.tree_view)
         self.setGeometry(300, 300, 800, 600)
         self.setWindowTitle('File Manager')

@@ -9,12 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from file_manager import FileManager as FD
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(801, 533)
+        MainWindow.resize(801, 535)
         MainWindow.setStyleSheet("#menu_widget {\n"
 "    background-color:  #313a46;\n"
 "}\n"
@@ -36,7 +36,20 @@ class Ui_MainWindow(object):
 "}\n"
 "#MainWindow{\n"
 "    background-color:#fff;\n"
-"}")
+"}\n"
+"#data_page QPushButton:hover{\n"
+"    color: #fff;\n"
+"}\n"
+"#train_page QPushButton:hover{\n"
+"    color: #fff;\n"
+"}\n"
+"#detect_page QPushButton:hover{\n"
+"    color: #fff;\n"
+"}\n"
+"#data_page data_button{\n"
+"    color: #fff;\n"
+"}\n"
+"")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -51,8 +64,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.logo = QtWidgets.QLabel(self.menu_widget)
-        self.logo.setMinimumSize(QtCore.QSize(35, 35))
-        self.logo.setMaximumSize(QtCore.QSize(35, 35))
+        self.logo.setMinimumSize(QtCore.QSize(50, 50))
+        self.logo.setMaximumSize(QtCore.QSize(50, 50))
         self.logo.setText("")
         self.logo.setPixmap(QtGui.QPixmap(":/icons/icons/icons8-출석-표-64.png"))
         self.logo.setScaledContents(True)
@@ -61,7 +74,7 @@ class Ui_MainWindow(object):
         self.title = QtWidgets.QLabel(self.menu_widget)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
-        font.setPointSize(16)
+        font.setPointSize(20)
         self.title.setFont(font)
         self.title.setObjectName("title")
         self.horizontalLayout.addWidget(self.title)
@@ -76,7 +89,7 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-집-48 (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home_button.setIcon(icon)
-        self.home_button.setIconSize(QtCore.QSize(18, 18))
+        self.home_button.setIconSize(QtCore.QSize(25, 25))
         self.home_button.setCheckable(True)
         self.home_button.setAutoExclusive(True)
         self.home_button.setObjectName("home_button")
@@ -89,7 +102,7 @@ class Ui_MainWindow(object):
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-영상-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.data_button.setIcon(icon1)
-        self.data_button.setIconSize(QtCore.QSize(18, 18))
+        self.data_button.setIconSize(QtCore.QSize(25, 25))
         self.data_button.setCheckable(True)
         self.data_button.setAutoExclusive(True)
         self.data_button.setObjectName("data_button")
@@ -102,7 +115,7 @@ class Ui_MainWindow(object):
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-책-공개-시험-48 (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.learn_button.setIcon(icon2)
-        self.learn_button.setIconSize(QtCore.QSize(18, 18))
+        self.learn_button.setIconSize(QtCore.QSize(25, 25))
         self.learn_button.setCheckable(True)
         self.learn_button.setAutoExclusive(True)
         self.learn_button.setObjectName("learn_button")
@@ -115,7 +128,7 @@ class Ui_MainWindow(object):
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-검사-48 (3).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.detect_button.setIcon(icon3)
-        self.detect_button.setIconSize(QtCore.QSize(18, 18))
+        self.detect_button.setIconSize(QtCore.QSize(25, 25))
         self.detect_button.setCheckable(True)
         self.detect_button.setAutoExclusive(True)
         self.detect_button.setObjectName("detect_button")
@@ -131,7 +144,7 @@ class Ui_MainWindow(object):
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-search-more-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.helper_button.setIcon(icon4)
-        self.helper_button.setIconSize(QtCore.QSize(18, 18))
+        self.helper_button.setIconSize(QtCore.QSize(25, 25))
         self.helper_button.setCheckable(True)
         self.helper_button.setAutoExclusive(True)
         self.helper_button.setObjectName("helper_button")
@@ -143,64 +156,106 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.stackedWidget = QtWidgets.QStackedWidget(self.content_widget)
         self.stackedWidget.setObjectName("stackedWidget")
-        self.page = QtWidgets.QWidget()
-        self.page.setObjectName("page")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.page)
+        self.main_page = QtWidgets.QWidget()
+        self.main_page.setObjectName("main_page")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.main_page)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.label = QtWidgets.QLabel(self.page)
+        self.label = QtWidgets.QLabel(self.main_page)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
-        font.setPointSize(20)
+        font.setPointSize(30)
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
-        self.stackedWidget.addWidget(self.page)
-        self.page_3 = QtWidgets.QWidget()
-        self.page_3.setObjectName("page_3")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.page_3)
+        self.stackedWidget.addWidget(self.main_page)
+        self.data_page = QtWidgets.QWidget()
+        self.data_page.setObjectName("data_page")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.data_page)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        spacerItem1 = QtWidgets.QSpacerItem(20, 458, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_3.addItem(spacerItem1, 0, 0, 1, 1)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.pushButton = QtWidgets.QPushButton(self.page_3)
+        self.data_add_button = QtWidgets.QPushButton(self.data_page)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        self.data_add_button.setFont(font)
+        self.data_add_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
 "background-color: #a6aaaf;\n"
 "")
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_3.addWidget(self.pushButton)
-        self.pushButton_2 = QtWidgets.QPushButton(self.page_3)
+        self.data_add_button.setObjectName("data_add_button")
+        self.horizontalLayout_3.addWidget(self.data_add_button)
+        self.data_label_button = QtWidgets.QPushButton(self.data_page)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_2.setFont(font)
-        self.pushButton_2.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        self.data_label_button.setFont(font)
+        self.data_label_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
 "background-color: #a6aaaf;\n"
 "")
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout_3.addWidget(self.pushButton_2)
-        self.gridLayout_3.addLayout(self.horizontalLayout_3, 1, 0, 1, 1)
-        self.stackedWidget.addWidget(self.page_3)
-        self.page_2 = QtWidgets.QWidget()
-        self.page_2.setObjectName("page_2")
-        self.gridLayout_6 = QtWidgets.QGridLayout(self.page_2)
+        self.data_label_button.setObjectName("data_label_button")
+        self.horizontalLayout_3.addWidget(self.data_label_button)
+        self.dataset_create_button = QtWidgets.QPushButton(self.data_page)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.dataset_create_button.setFont(font)
+        self.dataset_create_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+"border-radius: 5px;\n"
+"padding: 1px 5px;\n"
+"background-color: #a6aaaf;\n"
+"")
+        self.dataset_create_button.setObjectName("dataset_create_button")
+        self.horizontalLayout_3.addWidget(self.dataset_create_button)
+        self.gridLayout_3.addLayout(self.horizontalLayout_3, 6, 0, 1, 1)
+        self.data_label = QtWidgets.QLabel(self.data_page)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.data_label.setFont(font)
+        self.data_label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.data_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.data_label.setObjectName("data_label")
+        self.gridLayout_3.addWidget(self.data_label, 0, 0, 1, 1)
+        self.data_info_label = QtWidgets.QLabel(self.data_page)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(10)
+        self.data_info_label.setFont(font)
+        self.data_info_label.setObjectName("data_info_label")
+        self.gridLayout_3.addWidget(self.data_info_label, 1, 0, 1, 1)
+        self.file_manager = FD()
+        self.gridLayout_3.addWidget(self.file_manager, 2, 0, 1, 1)
+        self.stackedWidget.addWidget(self.data_page)
+        self.train_page = QtWidgets.QWidget()
+        self.train_page.setObjectName("train_page")
+        self.gridLayout_6 = QtWidgets.QGridLayout(self.train_page)
         self.gridLayout_6.setObjectName("gridLayout_6")
-        spacerItem2 = QtWidgets.QSpacerItem(20, 434, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_6.addItem(spacerItem2, 1, 0, 1, 1)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.page_2)
+        self.label_2 = QtWidgets.QLabel(self.train_page)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_6.addWidget(self.label_2, 0, 0, 1, 1)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.train_page)
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lineEdit_2.setFont(font)
@@ -210,8 +265,8 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_6.addWidget(self.lineEdit_2, 0, 0, 1, 1)
-        self.train_data_upload_button = QtWidgets.QPushButton(self.page_2)
+        self.horizontalLayout_4.addWidget(self.lineEdit_2)
+        self.train_data_upload_button = QtWidgets.QPushButton(self.train_page)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(10)
@@ -224,24 +279,13 @@ class Ui_MainWindow(object):
 "background-color: #a6aaaf;\n"
 "")
         self.train_data_upload_button.setObjectName("train_data_upload_button")
-        self.gridLayout_6.addWidget(self.train_data_upload_button, 0, 1, 1, 1)
+        self.horizontalLayout_4.addWidget(self.train_data_upload_button)
+        self.gridLayout_6.addLayout(self.horizontalLayout_4, 1, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 434, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_6.addItem(spacerItem1, 2, 0, 1, 1)
         self.gridLayout_5 = QtWidgets.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.autoencoder_button = QtWidgets.QPushButton(self.page_2)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.autoencoder_button.setFont(font)
-        self.autoencoder_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"background-color: #a6aaaf;\n"
-"")
-        self.autoencoder_button.setObjectName("autoencoder_button")
-        self.gridLayout_5.addWidget(self.autoencoder_button, 0, 1, 1, 1)
-        self.yolo_button = QtWidgets.QPushButton(self.page_2)
+        self.yolo_button = QtWidgets.QPushButton(self.train_page)
         self.yolo_button.setMinimumSize(QtCore.QSize(0, 0))
         self.yolo_button.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
@@ -257,70 +301,141 @@ class Ui_MainWindow(object):
 "")
         self.yolo_button.setObjectName("yolo_button")
         self.gridLayout_5.addWidget(self.yolo_button, 0, 0, 1, 1)
-        self.gridLayout_6.addLayout(self.gridLayout_5, 2, 0, 1, 3)
-        self.stackedWidget.addWidget(self.page_2)
-        self.page_4 = QtWidgets.QWidget()
-        self.page_4.setObjectName("page_4")
-        self.gridLayout_9 = QtWidgets.QGridLayout(self.page_4)
-        self.gridLayout_9.setObjectName("gridLayout_9")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.autoencoder_button = QtWidgets.QPushButton(self.train_page)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.autoencoder_button.setFont(font)
+        self.autoencoder_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+"border-radius: 5px;\n"
+"padding: 1px 5px;\n"
+"background-color: #a6aaaf;\n"
+"")
+        self.autoencoder_button.setObjectName("autoencoder_button")
+        self.gridLayout_5.addWidget(self.autoencoder_button, 0, 1, 1, 1)
+        self.gridLayout_6.addLayout(self.gridLayout_5, 3, 0, 1, 1)
+        self.stackedWidget.addWidget(self.train_page)
+        self.detect_page = QtWidgets.QWidget()
+        self.detect_page.setObjectName("detect_page")
+        self.gridLayout_11 = QtWidgets.QGridLayout(self.detect_page)
+        self.gridLayout_11.setObjectName("gridLayout_11")
+        self.gridLayout_10 = QtWidgets.QGridLayout()
+        self.gridLayout_10.setObjectName("gridLayout_10")
+        self.label_3 = QtWidgets.QLabel(self.detect_page)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_3.setFont(font)
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_10.addWidget(self.label_3, 0, 0, 1, 1)
+        self.yolo_detect_widget = QtWidgets.QWidget(self.detect_page)
+        self.yolo_detect_widget.setStyleSheet("#yolo_detect_widget{\n"
+"    border: 2px solid#a6aaaf;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"")
+        self.yolo_detect_widget.setObjectName("yolo_detect_widget")
+        self.gridLayout_8 = QtWidgets.QGridLayout(self.yolo_detect_widget)
+        self.gridLayout_8.setObjectName("gridLayout_8")
+        self.label_4 = QtWidgets.QLabel(self.yolo_detect_widget)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_8.addWidget(self.label_4, 0, 0, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 146, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_8.addItem(spacerItem2, 1, 0, 1, 1)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.lineEdit = QtWidgets.QLineEdit(self.page_4)
-        self.lineEdit.setStyleSheet("border: 2px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"")
-        self.lineEdit.setObjectName("lineEdit")
-        self.horizontalLayout_2.addWidget(self.lineEdit)
-        self.upload_button = QtWidgets.QPushButton(self.page_4)
+        self.detect_image_button = QtWidgets.QPushButton(self.yolo_detect_widget)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
-        font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.upload_button.setFont(font)
-        self.upload_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        self.detect_image_button.setFont(font)
+        self.detect_image_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
 "background-color: #a6aaaf;\n"
 "")
-        self.upload_button.setObjectName("upload_button")
-        self.horizontalLayout_2.addWidget(self.upload_button)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-        self.anomaly_button = QtWidgets.QPushButton(self.page_4)
+        self.detect_image_button.setObjectName("detect_image_button")
+        self.horizontalLayout_2.addWidget(self.detect_image_button)
+        self.detect_video_button = QtWidgets.QPushButton(self.yolo_detect_widget)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
-        font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.anomaly_button.setFont(font)
-        self.anomaly_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        self.detect_video_button.setFont(font)
+        self.detect_video_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
 "background-color: #a6aaaf;\n"
 "")
-        self.anomaly_button.setObjectName("anomaly_button")
-        self.verticalLayout_3.addWidget(self.anomaly_button)
-        self.gridLayout_9.addLayout(self.verticalLayout_3, 0, 0, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 432, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.detect_video_button.setObjectName("detect_video_button")
+        self.horizontalLayout_2.addWidget(self.detect_video_button)
+        self.gridLayout_8.addLayout(self.horizontalLayout_2, 2, 0, 1, 1)
+        self.gridLayout_10.addWidget(self.yolo_detect_widget, 1, 0, 1, 1)
+        self.anomaly_detect_widget = QtWidgets.QWidget(self.detect_page)
+        self.anomaly_detect_widget.setStyleSheet("#anomaly_detect_widget{\n"
+"    border: 2px solid#a6aaaf;\n"
+"    border-radius: 5px;\n"
+"}")
+        self.anomaly_detect_widget.setObjectName("anomaly_detect_widget")
+        self.gridLayout_9 = QtWidgets.QGridLayout(self.anomaly_detect_widget)
+        self.gridLayout_9.setObjectName("gridLayout_9")
+        self.label_5 = QtWidgets.QLabel(self.anomaly_detect_widget)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_5.setFont(font)
+        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_9.addWidget(self.label_5, 0, 0, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 147, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_9.addItem(spacerItem3, 1, 0, 1, 1)
-        self.stackedWidget.addWidget(self.page_4)
-        self.page_5 = QtWidgets.QWidget()
-        self.page_5.setObjectName("page_5")
-        self.gridLayout_7 = QtWidgets.QGridLayout(self.page_5)
+        self.anomaly_detect_start_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setBold(True)
+        font.setWeight(75)
+        self.anomaly_detect_start_button.setFont(font)
+        self.anomaly_detect_start_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+"border-radius: 5px;\n"
+"padding: 1px 5px;\n"
+"background-color: #a6aaaf;")
+        self.anomaly_detect_start_button.setObjectName("anomaly_detect_start_button")
+        self.gridLayout_9.addWidget(self.anomaly_detect_start_button, 2, 0, 1, 1)
+        self.gridLayout_10.addWidget(self.anomaly_detect_widget, 2, 0, 1, 1)
+        self.gridLayout_11.addLayout(self.gridLayout_10, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.detect_page)
+        self.helper_page = QtWidgets.QWidget()
+        self.helper_page.setObjectName("helper_page")
+        self.gridLayout_7 = QtWidgets.QGridLayout(self.helper_page)
         self.gridLayout_7.setObjectName("gridLayout_7")
-        self.textBrowser = QtWidgets.QTextBrowser(self.page_5)
+        self.textBrowser = QtWidgets.QTextBrowser(self.helper_page)
+        font = QtGui.QFont()
+        font.setFamily("Pretendard Variable SemiBold")
+        self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
         self.gridLayout_7.addWidget(self.textBrowser, 0, 0, 1, 1)
-        self.stackedWidget.addWidget(self.page_5)
+        self.stackedWidget.addWidget(self.helper_page)
         self.gridLayout_4.addWidget(self.stackedWidget, 0, 1, 1, 1)
         self.gridLayout.addWidget(self.content_widget, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -333,19 +448,28 @@ class Ui_MainWindow(object):
         self.detect_button.setText(_translate("MainWindow", "검출"))
         self.helper_button.setText(_translate("MainWindow", "도움말"))
         self.label.setText(_translate("MainWindow", "체크메이트"))
-        self.pushButton.setText(_translate("MainWindow", "데이터셋 추가"))
-        self.pushButton_2.setText(_translate("MainWindow", "데이터셋 라벨링"))
+        self.data_add_button.setText(_translate("MainWindow", "데이터 추가"))
+        self.data_label_button.setText(_translate("MainWindow", "데이터 라벨링"))
+        self.dataset_create_button.setText(_translate("MainWindow", "데이터셋 생성"))
+        self.data_label.setText(_translate("MainWindow", "데이터"))
+        self.data_info_label.setText(_translate("MainWindow", "모델 학습을 위한 데이터를 관리하는 메뉴입니다.\n"
+"해당 창에서 데이터 추가, 삭제, 라벨링 분할이 가능합니다."))
+        self.label_2.setText(_translate("MainWindow", "학습"))
         self.train_data_upload_button.setText(_translate("MainWindow", "불러오기"))
-        self.autoencoder_button.setText(_translate("MainWindow", "AUTOENCODER 훈련"))
-        self.yolo_button.setText(_translate("MainWindow", "YOLO 훈련"))
-        self.upload_button.setText(_translate("MainWindow", "불러오기"))
-        self.anomaly_button.setText(_translate("MainWindow", "검출"))
+        self.yolo_button.setText(_translate("MainWindow", "YOLO 학습"))
+        self.autoencoder_button.setText(_translate("MainWindow", "AUTOENCODER 학습"))
+        self.label_3.setText(_translate("MainWindow", "검출"))
+        self.label_4.setText(_translate("MainWindow", "yolo 검출"))
+        self.detect_image_button.setText(_translate("MainWindow", "이미지"))
+        self.detect_video_button.setText(_translate("MainWindow", "실시간 영상"))
+        self.label_5.setText(_translate("MainWindow", "이상 검출"))
+        self.anomaly_detect_start_button.setText(_translate("MainWindow", "검출 시작"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Gulim\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></body></html>"))
+"</style></head><body style=\" font-family:\'Pretendard Variable SemiBold\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Gulim\';\"><br /></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Gulim\';\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></p></body></html>"))
 import resource_rc
 
 
