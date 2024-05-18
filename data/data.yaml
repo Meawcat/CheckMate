@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 3
+names: ['bad', 'good', 'scratch']
+
+roboflow:
+  workspace: jk001226
+  project: hyooddo
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/jk001226/hyooddo/dataset/1
