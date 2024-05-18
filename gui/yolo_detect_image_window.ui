@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>YoloDetectImageWindow</class>
+ <widget class="QMainWindow" name="YoloDetectImageWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>424</width>
+    <height>321</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QPushButton" name="image_upload_button">
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
+    color: #fff;
+}
+QPushButton {
+    border: 4px solid#a6aaaf;
+	border-radius: 5px;
+	padding: 1px 5px;
+	background-color: #a6aaaf;
+}</string>
+        </property>
+        <property name="text">
+         <string>이미지 추가</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QComboBox" name="model_combobox">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <item>
+         <property name="text">
+          <string>새 항목</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>새 항목</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>새 항목</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>새 항목</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>새 항목</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="model_select_button">
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
+    color: #fff;
+}
+QPushButton {
+    border: 4px solid#a6aaaf;
+	border-radius: 5px;
+	padding: 1px 5px;
+	background-color: #a6aaaf;
+}</string>
+        </property>
+        <property name="text">
+         <string>모델 선택</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>70</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="yolo_detect_start_button">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton:hover {
+    color: #fff;
+}
+QPushButton {
+    border: 4px solid#a6aaaf;
+	border-radius: 5px;
+	padding: 1px 5px;
+	background-color: #a6aaaf;
+}</string>
+      </property>
+      <property name="text">
+       <string>검출 시작</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
