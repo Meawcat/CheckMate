@@ -236,8 +236,10 @@ class Ui_MainWindow(object):
         self.data_info_label.setFont(font)
         self.data_info_label.setObjectName("data_info_label")
         self.gridLayout_3.addWidget(self.data_info_label, 1, 0, 1, 1)
+        # 이 부분은 충돌 오류 날 때마다 추가 부탁드립니다
         self.file_manager = FD()
         self.gridLayout_3.addWidget(self.file_manager, 2, 0, 1, 1)
+        #
         self.stackedWidget.addWidget(self.data_page)
         self.train_page = QtWidgets.QWidget()
         self.train_page.setObjectName("train_page")

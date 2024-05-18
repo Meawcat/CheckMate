@@ -89,7 +89,7 @@ class DataPage(QDialog):
         self.valid_slider = None
         self.valid_ratio = None
         self.item_name = None
-        self.button_box = None
+        self.add_button = None
         self.file_button = None
         self.valid_label = None
         self.verLay2 = None
@@ -116,6 +116,9 @@ class DataPage(QDialog):
         self.populate_directory_combo(self.directory_combo)
         self.horLay = ui.horizontalLayout
         self.verLay3 = ui.verticalLayout_3
+        ver6 = ui.verticalLayout_6
+        ver1 = ui.verticalLayout
+        ver5 = ui.verticalLayout_5
         self.train_label = ui.train_label
         self.train_ratio = ui.train_ratio
         self.train_slider = ui.train_slider
@@ -176,7 +179,7 @@ class DataPage(QDialog):
 
         total = train_ratio + valid_ratio + test_ratio
         if total != 1:  # 합이 1이 되도록 조정
-            QMessageBox.warning(self, "경고", "슬라이더 값의 합이 1이 되어야 합니다.")
+            QMessageBox.warning(self, "경고", "슬라이더 값의 합이 100이 되어야 합니다.")
             return
 
         try:
@@ -261,6 +264,7 @@ class DataPage(QDialog):
         ui = label_dialog.Ui_label_dialog()
         ui.setupUi(dialog)
 
+        ver = ui.verticalLayout
         self.item_combo = ui.item_combo
         self.populate_directory_combo(self.item_combo)
         self.label_button = ui.label_button
@@ -296,7 +300,7 @@ class DataPage(QDialog):
                 # QProcess 인스턴스 생성
                 self.process = QProcess(self)
                 # finished 시그널에 연결하여 labelImg.exe가 종료될 때마다 실행
-                self.process.finished.connect(self.on_labelimg_finished(item_name))
+                self.process.finished.connect(lambda: self.on_labelimg_finished(item_name))
                 # exe 파일 실행
                 self.process.start(exe_path)
                 # 튜토리얼 다이얼로그 실행
@@ -326,17 +330,19 @@ class DataPage(QDialog):
         ui.setupUi(dialog)
         self.file_button = ui.file_button
         file_label = ui.file_label
-        self.button_box = ui.button_box
+        self.add_button = ui.add_button
         item_label = ui.item_label
         self.item_name = ui.item_name
         self.item_name.setPlaceholderText("예) eraser, milk, ...")
-
+        verlay2 = ui.verlay2
+        verlay1 = ui.verlay1
+        horlay1 = ui.horlay1
         scroll_area = ui.scrollArea
         self.selected_files_label = ui.selected
         scroll_widget = ui.scrollAreaWidgetContents
         # 버튼 클릭 시 연결될 메서드 설정
         self.file_button.clicked.connect(self.open_file_dialog)
-        self.button_box.clicked.connect(self.add_data)
+        self.add_button.clicked.connect(self.add_data)
 
         dialog.exec_()
 

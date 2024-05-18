@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'label_dialogIWJfjC.ui'
+## Form generated from reading UI file 'label_dialogefOBhH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -12,11 +12,12 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+
 class Ui_label_dialog(object):
     def setupUi(self, label_dialog):
         if not label_dialog.objectName():
             label_dialog.setObjectName(u"label_dialog")
-        label_dialog.resize(552, 380)
+        label_dialog.resize(550, 400)
         label_dialog.setStyleSheet(u"QDialog{\n"
 "	background-color: #fff;\n"
 "}\n"
@@ -32,9 +33,12 @@ class Ui_label_dialog(object):
 "	background-color:rgba(86,101,115,0.5);\n"
 "	color:  #fff;\n"
 "}")
+        self.verticalLayout_2 = QVBoxLayout(label_dialog)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.label_label = QLabel(label_dialog)
         self.label_label.setObjectName(u"label_label")
-        self.label_label.setGeometry(QRect(20, 80, 511, 41))
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -47,9 +51,11 @@ class Ui_label_dialog(object):
         font.setWeight(50)
         self.label_label.setFont(font)
         self.label_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_label, 0, Qt.AlignHCenter)
+
         self.item_combo = QComboBox(label_dialog)
         self.item_combo.setObjectName(u"item_combo")
-        self.item_combo.setGeometry(QRect(200, 170, 141, 32))
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -60,9 +66,11 @@ class Ui_label_dialog(object):
         font1.setKerning(False)
         self.item_combo.setFont(font1)
         self.item_combo.setLayoutDirection(Qt.LeftToRight)
+
+        self.verticalLayout.addWidget(self.item_combo, 0, Qt.AlignHCenter)
+
         self.label_button = QPushButton(label_dialog)
         self.label_button.setObjectName(u"label_button")
-        self.label_button.setGeometry(QRect(210, 310, 120, 41))
         self.label_button.setMaximumSize(QSize(120, 16777215))
         font2 = QFont()
         font2.setFamily(u"\ub9d1\uc740 \uace0\ub515")
@@ -71,6 +79,12 @@ class Ui_label_dialog(object):
         self.label_button.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.label_button.setLayoutDirection(Qt.LeftToRight)
         self.label_button.setStyleSheet(u"")
+
+        self.verticalLayout.addWidget(self.label_button, 0, Qt.AlignHCenter)
+
+
+        self.verticalLayout_2.addLayout(self.verticalLayout)
+
 
         self.retranslateUi(label_dialog)
 
