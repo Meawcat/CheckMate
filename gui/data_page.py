@@ -198,6 +198,7 @@ class DataPage(QDialog):
             train_count = int(train_ratio * total_files)
             valid_count = int(valid_ratio * total_files)
             test_count = int(test_ratio * total_files)
+            train_count += total_files-valid_count-test_count
 
             print(f"total{total_files} train{train_count} valid{valid_count} test{test_count}")
 
