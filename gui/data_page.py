@@ -337,7 +337,7 @@ class DataPage(QDialog):
         self.item_name.setPlaceholderText("예) eraser, milk, ...")
         verlay2 = ui.verlay2
         verlay1 = ui.verlay1
-        horlay1 = ui.horlay1
+        grid = ui.gridLayout
         scroll_area = ui.scrollArea
         self.selected_files_label = ui.selected
         scroll_widget = ui.scrollAreaWidgetContents

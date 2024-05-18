@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>400</height>
+    <width>611</width>
+    <height>403</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -94,8 +94,8 @@ p, li { white-space: pre-wrap; }
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horlay1">
-       <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
         <widget class="QLabel" name="file_label">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -122,7 +122,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="1">
         <widget class="QPushButton" name="file_button">
          <property name="font">
           <font>
@@ -154,8 +154,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>524</width>
-          <height>162</height>
+          <width>526</width>
+          <height>165</height>
          </rect>
         </property>
         <property name="maximumSize">
