@@ -17,9 +17,7 @@
    <string notr="true">#YoloLearnWindow{
 	font: 9pt &quot;맑은 고딕&quot;;
 	background-color: #fff;
-}
-
-</string>
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -40,30 +38,8 @@
       <property name="spacing">
        <number>10</number>
       </property>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEdit_2">
-        <property name="styleSheet">
-         <string notr="true">border: 2px solid#a6aaaf;
-border-radius: 5px;
-padding: 1px 5px;
-
-</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_3">
-        <property name="styleSheet">
-         <string notr="true">border: 2px solid#a6aaaf;
-border-radius: 5px;
-padding: 1px 5px;
-
-</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton">
+      <item row="1" column="2">
+       <widget class="QPushButton" name="find_button">
         <property name="font">
          <font>
           <family>맑은 고딕</family>
@@ -89,8 +65,30 @@ QPushButton {
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QPushButton" name="pushButton_2">
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="model_dir_edit">
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid#a6aaaf;
+border-radius: 5px;
+padding: 1px 5px;
+
+</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="yaml_edit">
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid#a6aaaf;
+border-radius: 5px;
+padding: 1px 5px;
+
+</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QPushButton" name="load_button">
         <property name="font">
          <font>
           <family>맑은 고딕</family>
@@ -114,18 +112,38 @@ QPushButton {
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="2" column="0">
+       <widget class="QLabel" name="model_dir">
         <property name="text">
-         <string>학습 파일 이름</string>
+         <string>학습 모델 폴더 이름</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit">
+      <item row="3" column="0">
+       <widget class="QLabel" name="model_save">
+        <property name="text">
+         <string>학습 모델 저장 위치</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="yaml_dir">
+        <property name="text">
+         <string>data.yaml 파일 위치</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="model_save_edit">
         <property name="styleSheet">
          <string notr="true">border: 2px solid#a6aaaf;
 border-radius: 5px;
@@ -135,30 +153,40 @@ padding: 1px 5px;
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>저장할 디렉토리 선택</string>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: 2px solid #a6aaaf;
+border-radius: 5px;
+padding: 1px 5px;
+
+</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
+      <item row="0" column="0" alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="item_name">
         <property name="text">
-         <string>data.yaml 파일 선택</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <string>물품 이름</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
     <item row="2" column="0">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="train_button">
       <property name="font">
        <font>
         <family>맑은 고딕</family>

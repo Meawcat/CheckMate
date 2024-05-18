@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'yolo_learn_window.ui'
+# Form implementation generated from reading ui file 'gui/yolo_learn_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -9,9 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import os, subprocess
-import threading
-from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_YoloLearnWindow(object):
@@ -148,14 +145,6 @@ class Ui_YoloLearnWindow(object):
         self.retranslateUi(YoloLearnWindow)
         QtCore.QMetaObject.connectSlotsByName(YoloLearnWindow)
 
-
-        self.populate_directory_combo(self.comboBox)
-        self.set_edit()
-        self.find_button.clicked.connect(self.open_file_dialog)
-        self.load_button.clicked.connect(self.open_directory_dialog)
-        self.comboBox.currentIndexChanged.connect(self.set_edit)
-        self.train_button.clicked.connect(self.start_training)
-
     def retranslateUi(self, YoloLearnWindow):
         _translate = QtCore.QCoreApplication.translate
         YoloLearnWindow.setWindowTitle(_translate("YoloLearnWindow", "MainWindow"))
@@ -167,75 +156,6 @@ class Ui_YoloLearnWindow(object):
         self.item_name.setText(_translate("YoloLearnWindow", "물품 이름"))
         self.train_button.setText(_translate("YoloLearnWindow", "학습 시작"))
 
-    def start_training(self):
-        data_yaml = self.yaml_edit.text()
-        model_name = self.model_dir_edit.text()
-        save_dir = self.model_save_edit.text()
-        if not data_yaml or not model_name or not save_dir:
-            QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
-            return
-        epochs = 1
-        command = f'python train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
-
-        # 학습 중에 출력을 실시간으로 읽어오고, 진행 상황에 따라 프로그레스 바를 업데이트하는 코드
-        def update_progress():
-            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-            while process.poll() is None:
-                line = process.stdout.readline()
-                # "progress: XX%" 형식의 문자열에서 진행률 정보 추출.. 수정해야 할 듯
-                if "progress:" in line:
-                    progress = int(line.split("progress: ")[1].split("%")[0])
-                    # 프로그레스 바 업데이트
-                    self.update_progress_bar(progress)
-
-        threading.Thread(target=update_progress).start()
-
-    def update_progress_bar(self, progress):
-        self.progressBar.setValue(progress)
-
-
-    def set_edit(self):
-        selected_item = self.comboBox.currentText()
-        selected_dir = os.path.join("../data", selected_item)
-        selected_yaml = os.path.join(selected_dir, "data.yaml")
-        selected_model_dir = os.path.join("../yolov5/runs/train")
-
-        if not os.path.exists(selected_yaml):
-            self.yaml_edit.setText("해당 파일이 존재하지 않습니다. 다시 확인해 주세요")
-        else:
-            self.yaml_edit.setText(selected_yaml)
-
-        model_name = selected_item
-        i = 1
-        while os.path.exists(os.path.join(selected_model_dir, model_name)):
-            model_name = f"{selected_item}_{i}"
-            i += 1
-
-        self.model_dir_edit.setText(model_name)
-
-        selected_model_save_dir = os.path.join(selected_model_dir, self.model_dir_edit.text(), "weights")
-        self.model_save_edit.setText(selected_model_save_dir)
-
-
-    def populate_directory_combo(self, combo):
-        # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
-        directory = "../data"
-        directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-        combo.addItems(directories)
-
-    # 파일 열기 함수
-    def open_file_dialog(self):
-        options = QtWidgets.QFileDialog.Options()
-        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Select data.yaml file", "", "YAML Files (*.yaml);;All Files (*)", options=options)
-        if file_path:
-                self.yaml_edit.setText(file_path)
-
-    # 디렉토리 열기 함수
-    def open_directory_dialog(self):
-        options = QtWidgets.QFileDialog.Options()
-        directory_path = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Directory", "", options=options)
-        if directory_path:
-            self.model_save_edit.setText(directory_path)
 
 if __name__ == "__main__":
     import sys
