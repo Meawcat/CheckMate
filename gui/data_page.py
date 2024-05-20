@@ -157,7 +157,7 @@ class DataPage(QDialog):
         directory_name = self.directory_combo.currentText()
         directory = os.path.join('../data', directory_name)
 
-        image_files = [f for f in os.listdir(directory) if f.endswith('.jpg')]
+        image_files = [f for f in os.listdir(directory) if f.endswith('.jpg') or f.endswith('.png')]
         if not image_files:
             QMessageBox.warning(self, "경고", "해당 디렉터리 내 이미지가 존재하지 않습니다.")
             return
@@ -284,8 +284,8 @@ class DataPage(QDialog):
                 QMessageBox.warning(self, "경고", "디렉터리가 존재하지 않습니다.")
                 return
 
-            jpg_files = [f for f in os.listdir(self.image_directory) if f.lower().endswith('.jpg')]
-            if not jpg_files:
+            img_files = [f for f in os.listdir(self.image_directory) if f.lower().endswith('.jpg') or f.lower().endswith('.png')]
+            if not img_files:
                 QMessageBox.warning(self, "경고", "디렉터리에 이미지가 있어야 합니다.")
                 return
 
@@ -318,10 +318,10 @@ class DataPage(QDialog):
             yolo_crop = YC()
             yolo_crop.setpath(self.image_directory, os.path.join('../anomaly_data', item, 'train/good'))
             listofall = os.listdir(yolo_crop.input_path)
-            listofjpg = [file for file in listofall if file.lower().endswith(".jpg")]
+            listofimg = [file for file in listofall if file.lower().endswith(".jpg") or file.lower().endswith(".png")]
             listoftag = [file for file in listofall if file.lower().endswith(".txt")]
-            for i in range(len(listofjpg)):
-                yolo_crop.openfile(listoftag[i], listofjpg[i])
+            for i in range(len(listofimg)):
+                yolo_crop.openfile(listoftag[i], listofimg[i])
         else:
             QMessageBox.warning(self, "Error", "labelImg 실행 중 오류가 발생했습니다.")
 
@@ -360,7 +360,7 @@ class DataPage(QDialog):
         os.makedirs(directory, exist_ok=True)
 
         # 폴더 내 파일 수 측정
-        existing_files = [f for f in os.listdir(directory) if f.lower().endswith(".jpg")]
+        existing_files = [f for f in os.listdir(directory) if f.lower().endswith(".jpg") or f.lower().endswith(".png")]
         file_count = len(existing_files)
 
         if not self.files:
