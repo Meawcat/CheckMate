@@ -9,10 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 
 
 class Ui_dataset_dialog(object):
     def setupUi(self, dataset_dialog):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         dataset_dialog.setObjectName("dataset_dialog")
         dataset_dialog.resize(517, 364)
         dataset_dialog.setStyleSheet("QDialog{\n"

@@ -9,10 +9,13 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import os
 
 class Ui_add_dialog(object):
     def setupUi(self, add_dialog):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         add_dialog.setObjectName("add_dialog")
         add_dialog.resize(611, 403)
         add_dialog.setMaximumSize(QtCore.QSize(16777215, 16777215))

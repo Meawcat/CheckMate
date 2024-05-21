@@ -15,6 +15,10 @@ from PyQt5.QtWidgets import QMessageBox
 
 class Ui_AnomalyLearnWindow(object):
     def setupUi(self, AnomalyLearnWindow):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
+
         AnomalyLearnWindow.setObjectName("AnomalyLearnWindow")
         AnomalyLearnWindow.resize(625, 443)
         AnomalyLearnWindow.setStyleSheet("font: 9pt \"맑은 고딕\";\n"

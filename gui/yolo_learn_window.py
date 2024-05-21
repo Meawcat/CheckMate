@@ -16,6 +16,9 @@ from PyQt5.QtWidgets import QMessageBox
 
 class Ui_YoloLearnWindow(object):
     def setupUi(self, YoloLearnWindow):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         YoloLearnWindow.setObjectName("YoloLearnWindow")
         YoloLearnWindow.resize(625, 443)
         YoloLearnWindow.setStyleSheet("#YoloLearnWindow{\n"

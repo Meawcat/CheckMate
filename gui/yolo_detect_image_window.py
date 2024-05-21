@@ -9,10 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import os
 
 class Ui_YoloDetectImageWindow(object):
     def setupUi(self, YoloDetectImageWindow):
+
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         YoloDetectImageWindow.setObjectName("YoloDetectImageWindow")
         YoloDetectImageWindow.resize(424, 321)
         font = QtGui.QFont()

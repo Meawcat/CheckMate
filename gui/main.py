@@ -7,6 +7,7 @@ from data_window import DataPage as DP
 from yolo_learn_window import Ui_YoloLearnWindow # 학습에서 yolo 학습 추가
 from yolo_detect_image_window import Ui_YoloDetectImageWindow # 검출에서 yolo 이미지 추가
 from gui.anomaly_learn_window import Ui_AnomalyLearnWindow
+import os
 
 class myMainWindow(QMainWindow):
     def __init__(self):
@@ -17,6 +18,9 @@ class myMainWindow(QMainWindow):
         # self.setFixedWidth(600)
         # self.setFixedHeight(400)
         self.initUI()
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
 
         # 학습
         self.folder_path1 = self.ui.lineEdit_2
