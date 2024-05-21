@@ -14,6 +14,7 @@ from common import get_autoencoder, get_pdn_small, get_pdn_medium, \
     ImageFolderWithoutTarget, ImageFolderWithPath, InfiniteDataloader
 from sklearn.metrics import roc_auc_score
 
+
 # 현재 스크립트 파일의 절대 경로를 가져옵니다.
 script_path = os.path.abspath(__file__)
 

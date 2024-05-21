@@ -70,9 +70,9 @@ teacher = get_pdn(384)
 student = get_pdn(768)
 
 # Load trained model weights
-auto_dir = 'EfficientAD-main/output/8_64jpg/trainings/mvtec_ad/erazer'
-teach_dir = 'EfficientAD-main/output/8_64jpg/trainings/mvtec_ad/erazer'
-stu_dir = 'EfficientAD-main/output/8_64jpg/trainings/mvtec_ad/erazer'
+auto_dir = 'output/erazer_model/trainings/mvtec_ad/erazer'
+teach_dir = 'output/erazer_model/trainings/mvtec_ad/erazer'
+stu_dir = 'output/erazer_model/trainings/mvtec_ad/erazer'
 autoencoder_load = torch.load(os.path.join(auto_dir, 'autoencoder_final.pth'))
 teacher_load = torch.load(os.path.join(teach_dir, 'teacher_final.pth'))
 student_load = torch.load(os.path.join(stu_dir, 'student_final.pth'))
@@ -98,7 +98,7 @@ quant_mult = torch.e
 quant_add = torch.pi
 
 # 이미지 파일 경로 설정
-image_path = "EfficientAD-main/error/quto1error.jpg"
+image_path = "error/quto1error.jpg"
 
 # 이미지 불러오기
 image = Image.open(image_path).convert("RGB")
@@ -139,7 +139,7 @@ with torch.no_grad():
     result_on_cpu = result_map.cpu().numpy()
 
 # 이미지의 판정 기준 설정 (임계값 예시)
-threshold = 7.78
+threshold = 7.865
 
 # 디스크리피언시 맵의 평균값 계산
 mean_discrepancy = result_on_cpu.mean()
