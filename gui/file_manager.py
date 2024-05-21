@@ -1,7 +1,7 @@
 import shutil
 import os
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTreeView, QFileSystemModel, QMessageBox, QFileDialog, QAction, QToolBar
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTreeView, QFileSystemModel, QMessageBox, QFileDialog, QAction
 from PyQt5.QtCore import QDir
 
 class FileManager(QMainWindow):

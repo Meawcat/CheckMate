@@ -94,15 +94,15 @@ class YoloCrop:
             return lmax, lmin
 
 
-if __name__ == '__main__':
-    yolo_crop = YoloCrop()
-    yolo_crop.setpath('data/eraser', 'data/good_crop')
-
-    listofall = os.listdir(yolo_crop.input_path)
-    listofjpg = [file for file in listofall if file.lower().endswith((".jpg", ".png"))]
-    listoftag = [file for file in listofall if file.lower().endswith(".txt")]
-
-    for img_file in listofjpg:
-        corresponding_txt_file = os.path.splitext(img_file)[0] + '.txt'
-        if corresponding_txt_file in listoftag:
-            yolo_crop.openfile(corresponding_txt_file, img_file)
+# if __name__ == '__main__':
+#     yolo_crop = YoloCrop()
+#     yolo_crop.setpath('data/eraser', 'data/good_crop')
+#
+#     listofall = os.listdir(yolo_crop.input_path)
+#     listofjpg = [file for file in listofall if file.lower().endswith((".jpg", ".png"))]
+#     listoftag = [file for file in listofall if file.lower().endswith(".txt")]
+#
+#     for img_file in listofjpg:
+#         corresponding_txt_file = os.path.splitext(img_file)[0] + '.txt'
+#         if corresponding_txt_file in listoftag:
+#             yolo_crop.openfile(corresponding_txt_file, img_file)

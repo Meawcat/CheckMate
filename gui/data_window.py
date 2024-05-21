@@ -2,12 +2,12 @@ import random
 from PyQt5.QtWidgets import (QMessageBox, QFileDialog)
 import os
 import shutil
-from yolo_crop import YoloCrop as YC
+from gui.yolo_crop import YoloCrop as YC
 from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QPushButton, QLabel, QHBoxLayout
 from PyQt5.QtCore import Qt, QProcess
-import dataset_dialog
-import add_dialog
-import label_dialog
+import gui.dataset_dialog as dataset_dialog
+import gui.add_dialog as add_dialog
+import gui.label_dialog as label_dialog
 import yaml
 
 
