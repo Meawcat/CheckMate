@@ -9,7 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import os, subprocess
+import threading
+from PyQt5.QtWidgets import QMessageBox
 
 class Ui_AnomalyLearnWindow(object):
     def setupUi(self, AnomalyLearnWindow):
@@ -135,6 +137,13 @@ class Ui_AnomalyLearnWindow(object):
         self.retranslateUi(AnomalyLearnWindow)
         QtCore.QMetaObject.connectSlotsByName(AnomalyLearnWindow)
 
+        self.populate_directory_combo(self.comboBox)
+        self.set_edit()
+        self.load_button.clicked.connect(self.open_directory_dialog)
+        self.comboBox.currentIndexChanged.connect(self.set_edit)
+        self.train_button.clicked.connect(self.start_training)
+        self.model_dir_edit.textChanged.connect(self.model_dir_changed)
+
     def retranslateUi(self, AnomalyLearnWindow):
         _translate = QtCore.QCoreApplication.translate
         AnomalyLearnWindow.setWindowTitle(_translate("AnomalyLearnWindow", "MainWindow"))
@@ -144,6 +153,78 @@ class Ui_AnomalyLearnWindow(object):
         self.model_dir.setText(_translate("AnomalyLearnWindow", "학습 모델 폴더 이름"))
         self.train_button.setText(_translate("AnomalyLearnWindow", "학습 시작"))
 
+    def model_dir_changed(self):
+            combo_text = self.comboBox.currentText()
+            model_dir_text = self.model_dir_edit.text()
+            new_path = os.path.join("../EfficientAD-main/output", model_dir_text)
+            self.model_save_edit.setText(new_path)
+
+    def start_training(self):
+        selected_item = self.comboBox.currentText()
+        selected_model_dir = os.path.join("../EfficientAD-main/output")
+        dest = os.path.join(selected_model_dir, selected_item)
+        i = 1
+        if os.path.exists(dest):
+            choice = QMessageBox.question(self, "파일 덮어쓰기",
+                                          f"파일 '{os.path.basename(dest)}'가 이미 존재합니다. 덮어쓰시겠습니까?",
+                                          QMessageBox.Yes | QMessageBox.No)
+            if choice == QMessageBox.No:
+                while os.path.exists(dest):
+                    dest = os.path.join(selected_model_dir, f"{selected_item}_{i}")
+                    i += 1
+
+        # Update the text fields with the final chosen directory name
+        self.model_dir_edit.setText(selected_item if os.path.basename(dest) == selected_item else f"{selected_item}_{i-1}")
+        self.model_save_edit.setText(dest)
+
+        model_name = self.model_dir_edit.text()
+        save_dir = self.model_save_edit.text()
+        if not model_name or not save_dir:
+            QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
+            return
+
+        command = f'python EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {selected_item} --output_dir {save_dir}'
+
+        def update_progress():
+            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+            while process.poll() is None:
+                line = process.stdout.readline()
+                print(line)  # Debug output
+                if "progress:" in line:
+                    try:
+                        progress = int(line.split("progress: ")[1].split("%")[0])
+                        self.progress_signal.emit(progress)
+                    except (IndexError, ValueError):
+                        continue
+
+        threading.Thread(target=update_progress).start()
+
+    def update_progress_bar(self, value):
+        self.progressBar.setValue(value)
+
+    def set_edit(self):
+        selected_item = self.comboBox.currentText()
+        selected_dir = os.path.join("../data", selected_item)
+        selected_model_dir = os.path.join("../EfficientAD-main/output")
+        model_name = selected_item
+        self.model_dir_edit.setText(model_name)
+
+        selected_model_save_dir = os.path.join(selected_model_dir, self.model_dir_edit.text())
+        self.model_save_edit.setText(selected_model_save_dir)
+
+
+    def populate_directory_combo(self, combo):
+        # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
+        directory = "../data"
+        directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+        combo.addItems(directories)
+
+    # 디렉토리 열기 함수
+    def open_directory_dialog(self):
+        options = QtWidgets.QFileDialog.Options()
+        directory_path = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Directory", "", options=options)
+        if directory_path:
+            self.model_save_edit.setText(directory_path)
 
 if __name__ == "__main__":
     import sys

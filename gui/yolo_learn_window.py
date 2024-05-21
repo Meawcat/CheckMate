@@ -155,6 +155,7 @@ class Ui_YoloLearnWindow(object):
         self.load_button.clicked.connect(self.open_directory_dialog)
         self.comboBox.currentIndexChanged.connect(self.set_edit)
         self.train_button.clicked.connect(self.start_training)
+        self.model_dir_edit.textChanged.connect(self.model_dir_changed)
 
     def retranslateUi(self, YoloLearnWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -163,10 +164,16 @@ class Ui_YoloLearnWindow(object):
         self.load_button.setText(_translate("YoloLearnWindow", "불러오기"))
         self.model_dir.setText(_translate("YoloLearnWindow", "학습 모델 폴더 이름"))
         self.model_save.setText(_translate("YoloLearnWindow", "학습 모델 저장 위치"))
-        self.yaml_dir.setText(_translate("YoloLearnWindow", "data.yaml 파일 위치"))
+        self.yaml_dir.setText(_translate("YoloLearnWindow", "../data.yaml 파일 위치"))
         self.item_name.setText(_translate("YoloLearnWindow", "물품 이름"))
         self.train_button.setText(_translate("YoloLearnWindow", "학습 시작"))
 
+    def model_dir_changed(self):
+        combo_text = self.comboBox.currentText()
+        model_dir_text = self.model_dir_edit.text()
+        new_path = os.path.join("../yolov5/runs/train", model_dir_text, "weights")
+        self.model_save_edit.setText(new_path)
+        
     def start_training(self):
         data_yaml = self.yaml_edit.text()
         model_name = self.model_dir_edit.text()
@@ -196,8 +203,8 @@ class Ui_YoloLearnWindow(object):
 
     def set_edit(self):
         selected_item = self.comboBox.currentText()
-        selected_dir = os.path.join("data", selected_item)
-        selected_yaml = os.path.join(selected_dir, "data.yaml")
+        selected_dir = os.path.join("../data", selected_item)
+        selected_yaml = os.path.join(selected_dir, "../data.yaml")
         selected_model_dir = os.path.join("../yolov5/runs/train")
 
         if not os.path.exists(selected_yaml):
@@ -206,11 +213,6 @@ class Ui_YoloLearnWindow(object):
             self.yaml_edit.setText(selected_yaml)
 
         model_name = selected_item
-        i = 1
-        while os.path.exists(os.path.join(selected_model_dir, model_name)):
-            model_name = f"{selected_item}_{i}"
-            i += 1
-
         self.model_dir_edit.setText(model_name)
 
         selected_model_save_dir = os.path.join(selected_model_dir, self.model_dir_edit.text(), "weights")
@@ -218,15 +220,15 @@ class Ui_YoloLearnWindow(object):
 
 
     def populate_directory_combo(self, combo):
-        # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
-        directory = "data"
+        # './../data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
+        directory = "../data"
         directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
         combo.addItems(directories)
 
     # 파일 열기 함수
     def open_file_dialog(self):
         options = QtWidgets.QFileDialog.Options()
-        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Select data.yaml file", "", "YAML Files (*.yaml);;All Files (*)", options=options)
+        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Select ../data.yaml file", "", "YAML Files (*.yaml);;All Files (*)", options=options)
         if file_path:
                 self.yaml_edit.setText(file_path)
 
