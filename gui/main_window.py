@@ -303,20 +303,20 @@ class Ui_MainWindow(object):
 "")
         self.yolo_button.setObjectName("yolo_button")
         self.gridLayout_5.addWidget(self.yolo_button, 0, 0, 1, 1)
-        self.autoencoder_button = QtWidgets.QPushButton(self.train_page)
+        self.efficientAD_button = QtWidgets.QPushButton(self.train_page)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.autoencoder_button.setFont(font)
-        self.autoencoder_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        self.efficientAD_button.setFont(font)
+        self.efficientAD_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
 "background-color: #a6aaaf;\n"
 "")
-        self.autoencoder_button.setObjectName("autoencoder_button")
-        self.gridLayout_5.addWidget(self.autoencoder_button, 0, 1, 1, 1)
+        self.efficientAD_button.setObjectName("efficientAD_button")
+        self.gridLayout_5.addWidget(self.efficientAD_button, 0, 1, 1, 1)
         self.gridLayout_6.addLayout(self.gridLayout_5, 3, 0, 1, 1)
         self.stackedWidget.addWidget(self.train_page)
         self.detect_page = QtWidgets.QWidget()
@@ -459,7 +459,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "학습"))
         self.train_data_upload_button.setText(_translate("MainWindow", "불러오기"))
         self.yolo_button.setText(_translate("MainWindow", "YOLO 학습"))
-        self.autoencoder_button.setText(_translate("MainWindow", "AUTOENCODER 학습"))
+        self.efficientAD_button.setText(_translate("MainWindow", "EfficientAD 학습"))
         self.label_3.setText(_translate("MainWindow", "검출"))
         self.label_4.setText(_translate("MainWindow", "yolo 검출"))
         self.detect_image_button.setText(_translate("MainWindow", "이미지"))

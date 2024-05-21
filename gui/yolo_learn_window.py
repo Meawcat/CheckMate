@@ -196,7 +196,7 @@ class Ui_YoloLearnWindow(object):
 
     def set_edit(self):
         selected_item = self.comboBox.currentText()
-        selected_dir = os.path.join("../data", selected_item)
+        selected_dir = os.path.join("data", selected_item)
         selected_yaml = os.path.join(selected_dir, "data.yaml")
         selected_model_dir = os.path.join("../yolov5/runs/train")
 
@@ -219,7 +219,7 @@ class Ui_YoloLearnWindow(object):
 
     def populate_directory_combo(self, combo):
         # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
-        directory = "../data"
+        directory = "data"
         directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
         combo.addItems(directories)
 
