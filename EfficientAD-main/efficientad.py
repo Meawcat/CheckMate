@@ -14,6 +14,15 @@ from common import get_autoencoder, get_pdn_small, get_pdn_medium, \
     ImageFolderWithoutTarget, ImageFolderWithPath, InfiniteDataloader
 from sklearn.metrics import roc_auc_score
 
+# 현재 스크립트 파일의 절대 경로를 가져옵니다.
+script_path = os.path.abspath(__file__)
+
+# 스크립트 파일이 있는 디렉토리 경로를 가져옵니다.
+script_dir = os.path.dirname(script_path)
+
+# 작업 디렉토리를 스크립트 파일이 있는 디렉토리로 변경합니다.
+os.chdir(script_dir)
+
 def get_argparse():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dataset', default='mvtec_ad',
@@ -24,17 +33,17 @@ def get_argparse():
     parser.add_argument('-o', '--output_dir', default='output/1')
     parser.add_argument('-m', '--model_size', default='small',
                         choices=['small', 'medium'])
-    parser.add_argument('-w', '--weights', default='./EfficientAD-main/models/teacher_small.pth')
+    parser.add_argument('-w', '--weights', default='models/teacher_small.pth')
     parser.add_argument('-i', '--imagenet_train_path',
                         default='none',
                         help='Set to "none" to disable ImageNet' +
                              'pretraining penalty. Or see README.md to' +
                              'download ImageNet and set to ImageNet path')
     parser.add_argument('-a', '--mvtec_ad_path',
-                        default='./EfficientAD-main/mvtec_anomaly_detection',
+                        default='mvtec_anomaly_detection',
                         help='Downloaded Mvtec AD dataset')
     parser.add_argument('-b', '--mvtec_loco_path',
-                        default='./EfficientAD-main/mvtec_loco_anomaly_detection',
+                        default='mvtec_loco_anomaly_detection',
                         help='Downloaded Mvtec LOCO dataset')
     parser.add_argument('-t', '--train_steps', type=int, default=7000)
     return parser.parse_args()
