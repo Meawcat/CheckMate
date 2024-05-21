@@ -8,6 +8,15 @@ import os
 from torchvision import transforms  # 추가: transforms 모듈 import
 from PIL import Image  # 추가: 이미지를 불러오기 위한 모듈 import
 
+# 현재 스크립트 파일의 절대 경로를 가져옵니다.
+script_path = os.path.abspath(__file__)
+
+# 스크립트 파일이 있는 디렉토리 경로를 가져옵니다.
+script_dir = os.path.dirname(script_path)
+
+# 작업 디렉토리를 스크립트 파일이 있는 디렉토리로 변경합니다.
+os.chdir(script_dir)
+
 # Define the models
 def get_pdn(out=384):
     return nn.Sequential(
