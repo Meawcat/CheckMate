@@ -183,7 +183,7 @@ class Ui_AnomalyLearnWindow(object):
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             return
 
-        command = f'python EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {selected_item} --output_dir {save_dir}'
+        command = f'python EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {selected_item} --output_dir EfficientAD-main/output/{selected_model_dir}'
 
         def update_progress():
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
