@@ -149,13 +149,13 @@ class DataPage(QDialog):
 
     def populate_directory_combo(self, combo):
         # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
-        directory = "../data"
+        directory = "data"
         directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
         combo.addItems(directories)
 
     def split_data(self):
         directory_name = self.directory_combo.currentText()
-        directory = os.path.join('../data', directory_name)
+        directory = os.path.join('data', directory_name)
 
         image_files = [f for f in os.listdir(directory) if f.endswith('.jpg') or f.endswith('.png')]
         if not image_files:
@@ -278,7 +278,7 @@ class DataPage(QDialog):
                 QMessageBox.warning(self, "경고", "물품명을 입력하세요.")
                 return
 
-            self.image_directory = os.path.join("../data", item_name)
+            self.image_directory = os.path.join("data", item_name)
 
             if not os.path.exists(self.image_directory):
                 QMessageBox.warning(self, "경고", "디렉터리가 존재하지 않습니다.")
@@ -356,7 +356,7 @@ class DataPage(QDialog):
             return
 
         # 새 디렉터리 생성
-        directory = os.path.join('../data', item_name_text)
+        directory = os.path.join('data', item_name_text)
         os.makedirs(directory, exist_ok=True)
 
         # 폴더 내 파일 수 측정
