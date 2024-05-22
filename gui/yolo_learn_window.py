@@ -167,7 +167,7 @@ class Ui_YoloLearnWindow(object):
         self.load_button.setText(_translate("YoloLearnWindow", "불러오기"))
         self.model_dir.setText(_translate("YoloLearnWindow", "학습 모델 폴더 이름"))
         self.model_save.setText(_translate("YoloLearnWindow", "학습 모델 저장 위치"))
-        self.yaml_dir.setText(_translate("YoloLearnWindow", "../data.yaml 파일 위치"))
+        self.yaml_dir.setText(_translate("YoloLearnWindow", "data.yaml 파일 위치"))
         self.item_name.setText(_translate("YoloLearnWindow", "물품 이름"))
         self.train_button.setText(_translate("YoloLearnWindow", "학습 시작"))
 
@@ -185,8 +185,15 @@ class Ui_YoloLearnWindow(object):
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             return
         epochs = 1
-        command = f'python train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
-
+        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
+        try:
+            result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            QMessageBox.information(None, "성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'))
+        except subprocess.CalledProcessError as e:
+            error_message = f"명령 실행 중 오류가 발생했습니다:\n{e.stderr.decode('utf-8')}"
+            QMessageBox.critical(None, "오류", error_message)
+        except Exception as e:
+            QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
         # 학습 중에 출력을 실시간으로 읽어오고, 진행 상황에 따라 프로그레스 바를 업데이트하는 코드
         def update_progress():
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
@@ -207,7 +214,7 @@ class Ui_YoloLearnWindow(object):
     def set_edit(self):
         selected_item = self.comboBox.currentText()
         selected_dir = os.path.join("../data", selected_item)
-        selected_yaml = os.path.join(selected_dir, "../data.yaml")
+        selected_yaml = os.path.join(selected_dir, "data.yaml")
         selected_model_dir = os.path.join("../yolov5/runs/train")
 
         if not os.path.exists(selected_yaml):
@@ -231,7 +238,7 @@ class Ui_YoloLearnWindow(object):
     # 파일 열기 함수
     def open_file_dialog(self):
         options = QtWidgets.QFileDialog.Options()
-        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Select ../data.yaml file", "", "YAML Files (*.yaml);;All Files (*)", options=options)
+        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Select data.yaml file", "", "YAML Files (*.yaml);;All Files (*)", options=options)
         if file_path:
                 self.yaml_edit.setText(file_path)
 

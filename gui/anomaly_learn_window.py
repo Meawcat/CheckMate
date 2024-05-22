@@ -190,7 +190,15 @@ class Ui_AnomalyLearnWindow(object):
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             return
 
-        command = f'python EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {selected_item} --output_dir EfficientAD-main/output/{selected_model_dir}'
+        command = f'python ../EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {selected_item} --output_dir ../EfficientAD-main/output/{selected_model_dir}'
+        try:
+            result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            QMessageBox.information(None, "성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'))
+        except subprocess.CalledProcessError as e:
+            error_message = f"명령 실행 중 오류가 발생했습니다:\n{e.stderr.decode('utf-8')}"
+            QMessageBox.critical(None, "오류", error_message)
+        except Exception as e:
+            QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
 
         def update_progress():
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
