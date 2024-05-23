@@ -318,13 +318,24 @@ class DataPage(QDialog):
 
     def on_labelimg_finished(self, item):
         if self.process.exitCode() == 0:  # labelImg.exe가 정상 종료된 경우
-            yolo_crop = YC()
-            yolo_crop.setpath(self.image_directory, os.path.join('../anomaly_data', item, 'train/good'))
-            listofall = os.listdir(yolo_crop.input_path)
-            listofimg = [file for file in listofall if file.lower().endswith(".jpg") or file.lower().endswith(".png")]
-            listoftag = [file for file in listofall if file.lower().endswith(".txt")]
-            for i in range(len(listofimg)):
-                yolo_crop.openfile(listoftag[i], listofimg[i])
+            image_files = [f for f in os.listdir(self.image_directory) if f.endswith('.jpg') or f.endswith('.png')]
+            label_files = [f[:-4] + '.txt' for f in image_files if f[:-4] + '.txt' in os.listdir(self.image_directory)]
+            if len(label_files) == len(image_files):
+                reply = QMessageBox.information(self, "안내",
+                                                "모든 이미지에 대한 라벨링이 되었으므로 크롭 이미지를 생성할 수 있습니다. 생성하시겠습니까?",
+                                                QMessageBox.Yes | QMessageBox.No)
+                if reply == QMessageBox.Yes:
+                    yolo_crop = YC()
+                    # 바로 anomaly 쪽에 crop 이미지를 저장하는 방법
+                    # yolo_crop.setpath(self.image_directory, os.path.join('../EfficientAD-main/mvtec_anomaly_detection', item, 'train/good'))
+                    # 먼저 다른 폴더에 crop 이미지를 저장해 두는 방법
+                    yolo_crop.setpath(self.image_directory, os.path.join('../crops', item))
+                    listofall = os.listdir(yolo_crop.input_path)
+                    listofimg = [file for file in listofall if
+                                 file.lower().endswith(".jpg") or file.lower().endswith(".png")]
+                    listoftag = [file for file in listofall if file.lower().endswith(".txt")]
+                    for i in range(len(listofimg)):
+                        yolo_crop.openfile(listoftag[i], listofimg[i])
         else:
             QMessageBox.warning(self, "Error", "labelImg 실행 중 오류가 발생했습니다.")
 
