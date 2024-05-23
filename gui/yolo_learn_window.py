@@ -171,21 +171,45 @@ class Ui_YoloLearnWindow(object):
         self.item_name.setText(_translate("YoloLearnWindow", "물품 이름"))
         self.train_button.setText(_translate("YoloLearnWindow", "학습 시작"))
 
+    import os
+    import subprocess
+    from PyQt5.QtWidgets import QMessageBox
+
     def model_dir_changed(self):
-        combo_text = self.comboBox.currentText()
+        combo_text = self.comboBox.currentText()  # combo_text는 현재 사용되지 않음
         model_dir_text = self.model_dir_edit.text()
         new_path = os.path.join("../yolov5/runs/train", model_dir_text, "weights")
         self.model_save_edit.setText(new_path)
-        
+
     def start_training(self):
         data_yaml = self.yaml_edit.text()
         model_name = self.model_dir_edit.text()
         save_dir = self.model_save_edit.text()
+
         if not data_yaml or not model_name or not save_dir:
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             return
+
+        if os.path.exists(save_dir):
+            choice = QMessageBox.question(None, "파일 덮어쓰기",
+                                          f"파일 '{os.path.basename(save_dir)}'가 이미 존재합니다. 덮어쓰시겠습니까?",
+                                          QMessageBox.Yes | QMessageBox.No)
+            if choice == QMessageBox.No:
+                i = 1
+                new_model_name = f"{model_name}_{i}"
+                self.model_dir_edit.setText(new_model_name)
+                self.model_dir_changed()
+                save_dir = self.model_save_edit.text()
+                while os.path.exists(save_dir):
+                    i += 1
+                    new_model_name = f"{model_name}_{i}"
+                    self.model_dir_edit.setText(new_model_name)
+                    self.model_dir_changed()
+                    save_dir = self.model_save_edit.text()
+
         epochs = 1
-        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project {save_dir}'
+        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project ..yolov5/runs/train'
+
         try:
             result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             QMessageBox.information(None, "성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'))
@@ -194,6 +218,7 @@ class Ui_YoloLearnWindow(object):
             QMessageBox.critical(None, "오류", error_message)
         except Exception as e:
             QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
+
         # 학습 중에 출력을 실시간으로 읽어오고, 진행 상황에 따라 프로그레스 바를 업데이트하는 코드
         def update_progress():
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)

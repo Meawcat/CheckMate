@@ -172,7 +172,7 @@ class Ui_AnomalyLearnWindow(object):
         dest = os.path.join(selected_model_dir, selected_item)
         i = 1
         if os.path.exists(dest):
-            choice = QMessageBox.question(self, "파일 덮어쓰기",
+            choice = QMessageBox.question(None, "파일 덮어쓰기",
                                           f"파일 '{os.path.basename(dest)}'가 이미 존재합니다. 덮어쓰시겠습니까?",
                                           QMessageBox.Yes | QMessageBox.No)
             if choice == QMessageBox.No:
