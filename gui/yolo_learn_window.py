@@ -185,7 +185,7 @@ class Ui_YoloLearnWindow(object):
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             return
         epochs = 1
-        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
+        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project {save_dir}'
         try:
             result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             QMessageBox.information(None, "성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'))
