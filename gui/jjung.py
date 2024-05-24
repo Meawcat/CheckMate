@@ -251,7 +251,7 @@ class YOLOv5GUI:
         if not data_yaml or not model_name or not save_dir:
             messagebox.showwarning("경고", "모든 필드를 입력해주세요.")
             return
-        command = f'python train.py --img 640 --batch 16 --epochs 1 --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
+        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {1} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project ../yolov5/runs/train'
         self.training_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                                  text=True)
         threading.Thread(target=self.read_process_output).start()

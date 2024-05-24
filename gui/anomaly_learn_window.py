@@ -189,8 +189,6 @@ class Ui_AnomalyLearnWindow(object):
         self.model_dir_edit.setText(model_dir_name)
         self.model_dir_changed()
 
-        print(f"self.model_dir_edit: {self.model_dir_edit.text()}")
-        print(self.model_save_edit.text())
         command = f'python ../EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {self.model_dir_edit.text()} --output_dir {self.model_save_edit.text()}'
         try:
             result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

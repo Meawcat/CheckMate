@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'yolo_detect_image_window.ui'
+# Form implementation generated from reading ui file 'gui/yolo_detect_image_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -9,14 +9,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import os
+
 
 class Ui_YoloDetectImageWindow(object):
     def setupUi(self, YoloDetectImageWindow):
-
-        script_path = os.path.abspath(__file__)
-        script_dir = os.path.dirname(script_path)
-        os.chdir(script_dir)
         YoloDetectImageWindow.setObjectName("YoloDetectImageWindow")
         YoloDetectImageWindow.resize(424, 321)
         font = QtGui.QFont()
@@ -46,34 +42,6 @@ class Ui_YoloDetectImageWindow(object):
 "}")
         self.image_upload_button.setObjectName("image_upload_button")
         self.gridLayout.addWidget(self.image_upload_button, 0, 0, 1, 2)
-        self.model_combobox = QtWidgets.QComboBox(self.centralwidget)
-        #self.model_combobox.setMinimumSize(QtCore.QSize(200, 30))
-        #self.model_combobox.setMaximumSize(QtCore.QSize(16777215, 24))
-        self.model_combobox.setStyleSheet("")
-        self.model_combobox.setObjectName("model_combobox")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.gridLayout.addWidget(self.model_combobox, 1, 0, 1, 1)
-        self.model_select_button = QtWidgets.QPushButton(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setBold(True)
-        font.setWeight(75)
-        self.model_select_button.setFont(font)
-        self.model_select_button.setStyleSheet("QPushButton:hover {\n"
-"    color: #fff;\n"
-"}\n"
-"QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"}")
-        self.model_select_button.setObjectName("model_select_button")
-        self.gridLayout.addWidget(self.model_select_button, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 70, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_2.addItem(spacerItem, 1, 0, 1, 1)
@@ -107,12 +75,6 @@ class Ui_YoloDetectImageWindow(object):
         _translate = QtCore.QCoreApplication.translate
         YoloDetectImageWindow.setWindowTitle(_translate("YoloDetectImageWindow", "MainWindow"))
         self.image_upload_button.setText(_translate("YoloDetectImageWindow", "이미지 추가"))
-        self.model_combobox.setItemText(0, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(1, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(2, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(3, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(4, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_select_button.setText(_translate("YoloDetectImageWindow", "모델 선택"))
         self.yolo_detect_start_button.setText(_translate("YoloDetectImageWindow", "검출 시작"))
 
 
