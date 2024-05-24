@@ -1,5 +1,4 @@
-import random
-from PyQt5.QtWidgets import (QMessageBox, QFileDialog)
+from PyQt5.QtWidgets import (QMessageBox, QFileDialog, QProgressDialog)
 import os
 import shutil
 from gui.yolo_crop import YoloCrop as YC
@@ -9,6 +8,7 @@ import gui.dataset_dialog as dataset_dialog
 import gui.add_dialog as add_dialog
 import gui.label_dialog as label_dialog
 import yaml
+import gui.loading
 
 
 class TutorialDialog(QDialog):
@@ -224,8 +224,15 @@ class DataPage(QDialog):
             return
 
     def split_data_anomaly(self, item, imgs, tags):
-        yolo_crop = YC()
+        progressDialog = QProgressDialog("이미지를 처리 중입니다...", "취소", 0, len(tags), self)
+        progressDialog.setWindowModality(Qt.WindowModal)  # 모달 설정
         try:
+            progressDialog.setCancelButton(None)  # 취소 버튼 비활성화
+            progressDialog.setMinimumDuration(0)
+            progressDialog.setAutoClose(True)
+            progressDialog.show()
+
+            yolo_crop = YC()
             good_images = []
             bad_images = []
 
@@ -242,36 +249,42 @@ class DataPage(QDialog):
             num_train_good_images = int(len(good_images) * 0.8)
             num_test_good_images = len(good_images) - num_train_good_images
 
+            total_images = len(good_images) + len(bad_images)  # 전체 이미지 수 계산
+
             # 이미지 경로 설정
             yolo_crop.setinputpath(os.path.join("../data", item))
 
             # 훈련용 'good' 이미지 처리
             yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "train/good"))
-            for img in good_images[:num_train_good_images]:
+            for i, img in enumerate(good_images[:num_train_good_images], 1):
                 corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
                 if corresponding_txt_file in tags:
                     yolo_crop.openfile(corresponding_txt_file, img)
+                progressDialog.setValue(int(i / total_images * 100))  # 진행률 업데이트
 
             # 테스트용 'good' 이미지 처리
             yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "test/good"))
-            for img in good_images[num_train_good_images:]:
+            for i, img in enumerate(good_images[num_train_good_images:], num_train_good_images + 1):
                 corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
                 if corresponding_txt_file in tags:
                     yolo_crop.openfile(corresponding_txt_file, img)
+                progressDialog.setValue(int(i / total_images * 100))  # 진행률 업데이트
 
             # 'bad' 이미지 처리
             yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "test/bad"))
-            for img in bad_images:
+            for i, img in enumerate(bad_images, num_train_good_images + 1):
                 corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
                 if corresponding_txt_file in tags:
                     yolo_crop.openfile(corresponding_txt_file, img)
+                progressDialog.setValue(int(i / total_images * 100))  # 진행률 업데이트
 
+            progressDialog.setValue(100)
             QMessageBox.information(None, "성공", "EfficientAD 데이터셋 생성이 완료되었습니다.")
-            self.create_dataset_dialog.close()
 
         except Exception as e:
             QMessageBox.critical(None, "오류", f"EfficientAD 데이터셋 생성 중 오류가 발생했습니다.: {str(e)}")
-
+        finally:
+            progressDialog.close()
 
     def make_yaml_file(self, dir):
 
