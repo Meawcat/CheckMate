@@ -46,7 +46,7 @@ def get_argparse():
     parser.add_argument('-b', '--mvtec_loco_path',
                         default='mvtec_loco_anomaly_detection',
                         help='Downloaded Mvtec LOCO dataset')
-    parser.add_argument('-t', '--train_steps', type=int, default=7000)
+    parser.add_argument('-t', '--train_steps', type=int, default=10000)
     return parser.parse_args()
 
 # constants

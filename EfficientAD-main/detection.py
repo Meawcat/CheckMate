@@ -70,9 +70,9 @@ teacher = get_pdn(384)
 student = get_pdn(768)
 
 # Load trained model weights
-auto_dir = 'output/erazer_model/trainings/mvtec_ad/erazer'
-teach_dir = 'output/erazer_model/trainings/mvtec_ad/erazer'
-stu_dir = 'output/erazer_model/trainings/mvtec_ad/erazer'
+auto_dir = 'output/hyotto_model_small_10000/trainings/mvtec_ad/hyotto'
+teach_dir = 'output/hyotto_model_small_10000/trainings/mvtec_ad/hyotto'
+stu_dir = 'output/hyotto_model_small_10000/trainings/mvtec_ad/hyotto'
 autoencoder_load = torch.load(os.path.join(auto_dir, 'autoencoder_final.pth'))
 teacher_load = torch.load(os.path.join(teach_dir, 'teacher_final.pth'))
 student_load = torch.load(os.path.join(stu_dir, 'student_final.pth'))
@@ -98,7 +98,7 @@ quant_mult = torch.e
 quant_add = torch.pi
 
 # 이미지 파일 경로 설정
-image_path = "error/quto1error.jpg"
+image_path = "error/035.jpg"
 
 # 이미지 불러오기
 image = Image.open(image_path).convert("RGB")
@@ -124,22 +124,35 @@ with torch.no_grad():
     t = teacher(image_tensor)
     s = student(image_tensor)
 
-    # Calculate the discrepancy maps
+    # 가중치 설정
+    st_weight = 0.5
+    ae_weight = 0.5
+
+    # Calculate the discrepancy maps with normalization
     st_map = torch.mean((t - s[:, :384]) ** 2, dim=1)
     ae = autoencoder(image_tensor)
     
     ae_map = torch.mean((ae - s[:, 384:]) ** 2, dim=1)
-    
-    # Apply quantization
-    st_map = st_map * quant_mult + quant_add
-    ae_map = ae_map * quant_mult + quant_add
-    
-    # Combine the results
-    result_map = st_map + ae_map
+
+    # Normalize discrepancy maps
+    st_map_min = st_map.min()
+    st_map_max = st_map.max()
+    ae_map_min = ae_map.min()
+    ae_map_max = ae_map.max()
+
+    st_map_norm = (st_map - st_map_min) / (st_map_max - st_map_min)
+    ae_map_norm = (ae_map - ae_map_min) / (ae_map_max - ae_map_min)
+
+    # Apply quantization (optional)
+    st_map_quant = st_map_norm * quant_mult + quant_add
+    ae_map_quant = ae_map_norm * quant_mult + quant_add
+
+    # Combine the results with weights
+    result_map = st_weight * st_map_quant + ae_weight * ae_map_quant
     result_on_cpu = result_map.cpu().numpy()
 
 # 이미지의 판정 기준 설정 (임계값 예시)
-threshold = 7.865
+threshold = 3.635  # 임계값을 적절히 조정해주세요.
 
 # 디스크리피언시 맵의 평균값 계산
 mean_discrepancy = result_on_cpu.mean()
