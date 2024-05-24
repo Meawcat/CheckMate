@@ -113,7 +113,7 @@ class DataPage(QDialog):
         self.create_dataset_dialog = QDialog()
         ui = dataset_dialog.Ui_dataset_dialog()
         ui.setupUi(self.create_dataset_dialog)
-
+        self.create_dataset_dialog.setWindowTitle("데이터셋 생성")
         self.combo_label = ui.combobox_label
         self.directory_combo = ui.comboBox
         self.populate_directory_combo(self.directory_combo)
@@ -326,7 +326,7 @@ class DataPage(QDialog):
         dialog = QDialog(self)
         ui = label_dialog.Ui_label_dialog()
         ui.setupUi(dialog)
-
+        dialog.setWindowTitle("데이터 라벨링")
         ver = ui.verticalLayout
         self.item_combo = ui.item_combo
         self.populate_directory_combo(self.item_combo)
@@ -381,6 +381,7 @@ class DataPage(QDialog):
         dialog = QDialog(self)
         ui = add_dialog.Ui_add_dialog()
         ui.setupUi(dialog)
+        dialog.setWindowTitle("데이터 추가")
         self.file_button = ui.file_button
         file_label = ui.file_label
         self.add_button = ui.add_button
