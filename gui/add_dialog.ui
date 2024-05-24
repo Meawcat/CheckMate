@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>611</width>
-    <height>403</height>
+    <width>537</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -36,8 +36,8 @@ QPushButton:hover{
 	color:  #fff;
 }</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
     <layout class="QVBoxLayout" name="verlay2">
      <item>
       <layout class="QVBoxLayout" name="verlay1">
@@ -143,8 +143,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QScrollArea" name="scrollArea">
        <property name="styleSheet">
-        <string notr="true">background-color: transparent;
-</string>
+        <string notr="true">background-color: transparent;</string>
        </property>
        <property name="widgetResizable">
         <bool>true</bool>
@@ -154,22 +153,13 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>526</width>
-          <height>165</height>
+          <width>511</width>
+          <height>210</height>
          </rect>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>526</width>
-          <height>166</height>
-         </size>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
           <widget class="QLabel" name="selected">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
            <property name="text">
             <string/>
            </property>
