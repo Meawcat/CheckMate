@@ -1,8 +1,0 @@
-names:
-- bad
-- good
-- scratch
-nc: 2
-test: ../data\eraser/test
-train: ../data\eraser/train
-val: ../data\eraser/valid

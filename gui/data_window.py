@@ -110,9 +110,9 @@ class DataPage(QDialog):
         super().__init__()
 
     def open_create_dataset(self):
-        dialog = QDialog()
+        self.create_dataset_dialog = QDialog()
         ui = dataset_dialog.Ui_dataset_dialog()
-        ui.setupUi(dialog)
+        ui.setupUi(self.create_dataset_dialog)
 
         self.combo_label = ui.combobox_label
         self.directory_combo = ui.comboBox
@@ -141,14 +141,15 @@ class DataPage(QDialog):
         self.test_slider.setTickInterval(10)
         self.ratio_label = ui.ratio_label
         self.split_button = ui.split_button
-        self.split_button.clicked.connect(self.split_data)
+        self.split_button.clicked.connect(self.split_data_yolo)
 
         # 각 슬라이더의 값 변경 시 해당 라벨을 업데이트합니다.
         self.train_slider.valueChanged.connect(self.update_train_label)
         self.valid_slider.valueChanged.connect(self.update_valid_label)
         self.test_slider.valueChanged.connect(self.update_test_label)
 
-        dialog.exec_()
+        QMessageBox.information(self, None, "YOLOv5를 위한 데이터셋을 생성합니다.")
+        self.create_dataset_dialog.exec_()
 
     def populate_directory_combo(self, combo):
         # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
@@ -156,59 +157,49 @@ class DataPage(QDialog):
         directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
         combo.addItems(directories)
 
-    def split_data(self):
+    def split_data_yolo(self):
         directory_name = self.directory_combo.currentText()
         directory = os.path.join('../data', directory_name)
 
-        image_files = [f for f in os.listdir(directory) if f.endswith('.jpg') or f.endswith('.png')]
+        image_files = [f for f in os.listdir(directory) if f.lower().endswith(('.jpg', '.png'))]
+        label_files = [f[:-4] + '.txt' for f in image_files if f[:-4] + '.txt' in os.listdir(directory)]
+
         if not image_files:
             QMessageBox.warning(self, "경고", "해당 디렉터리 내 이미지가 존재하지 않습니다.")
             return
         elif len(image_files) <= 10:
             QMessageBox.warning(self, "경고", "이미지의 수가 10장 이상이어야 합니다.")
             return
-
-        random.shuffle(image_files)  # 이미지 파일들을 랜덤으로 섞음
-
-        label_files = [f[:-4] + '.txt' for f in image_files if f[:-4] + '.txt' in os.listdir(directory)]
-        if len(label_files) != len(image_files):
+        elif len(label_files) != len(image_files):
             QMessageBox.warning(self, "경고", "이미지와 레이블 파일의 수가 일치하지 않습니다.")
             return
 
-        # train_slider, valid_slider, test_slider의 값으로 데이터셋을 분할하도록 수정합니다.
+        # Train, validation, test ratios
         train_ratio = self.train_slider.value() / 100
         valid_ratio = self.valid_slider.value() / 100
         test_ratio = self.test_slider.value() / 100
 
         total = train_ratio + valid_ratio + test_ratio
-        if total != 1:  # 합이 1이 되도록 조정
+        if total != 1:
             QMessageBox.warning(self, "경고", "슬라이더 값의 합이 100이 되어야 합니다.")
             return
 
         try:
-            # 디렉터리 생성
-            train_dir = os.path.join(directory, 'train')
-            valid_dir = os.path.join(directory, 'valid')
-            test_dir = os.path.join(directory, 'test')
-            for folder in [train_dir, valid_dir, test_dir]:
-                if os.path.exists(folder):
-                    shutil.rmtree(folder)
-                os.makedirs(os.path.join(folder, 'images'), exist_ok=True)
-                os.makedirs(os.path.join(folder, 'labels'), exist_ok=True)
+            # Create directories
+            for folder in ['train', 'valid', 'test']:
+                folder_path = os.path.join(directory, folder)
+                shutil.rmtree(folder_path, ignore_errors=True)  # Clear existing directories
+                os.makedirs(os.path.join(folder_path, 'images'), exist_ok=True)
+                os.makedirs(os.path.join(folder_path, 'labels'), exist_ok=True)
 
-            # 파일을 train, valid, test로 분할하여 복사
             total_files = len(image_files)
             train_count = int(train_ratio * total_files)
             valid_count = int(valid_ratio * total_files)
-            test_count = int(test_ratio * total_files)
-            train_count += total_files-valid_count-test_count
+            test_count = total_files - train_count - valid_count
 
             print(f"total{total_files} train{train_count} valid{valid_count} test{test_count}")
 
-            for i in range(total_files):
-                image_file = image_files[i]
-                label_file = label_files[i]
-
+            for i, (img, lbl) in enumerate(zip(image_files, label_files)):
                 if i < train_count:
                     dest_folder = 'train'
                 elif i < train_count + valid_count:
@@ -216,16 +207,71 @@ class DataPage(QDialog):
                 else:
                     dest_folder = 'test'
 
-                image_dest = os.path.join(directory, dest_folder, 'images', image_file)
-                label_dest = os.path.join(directory, dest_folder, 'labels', label_file)
+                img_dest = os.path.join(directory, dest_folder, 'images', img)
+                lbl_dest = os.path.join(directory, dest_folder, 'labels', lbl)
 
-                shutil.copy(os.path.join(directory, image_file), image_dest)
-                shutil.copy(os.path.join(directory, label_file), label_dest)
+                shutil.copy(os.path.join(directory, img), img_dest)
+                shutil.copy(os.path.join(directory, lbl), lbl_dest)
 
-            QMessageBox.information(self, "완료", "데이터 분할이 완료되었습니다.")
+            QMessageBox.information(self, "성공", "YOLOv5 데이터셋 생성이 완료되었습니다.")
             self.make_yaml_file(directory)
+
+            QMessageBox.information(self, None, "EfficientAD를 위한 데이터셋을 생성합니다.")
+            self.split_data_anomaly(directory_name, image_files, label_files)
+
         except Exception as e:
-            QMessageBox.warning(self, "에러", str(e))
+            QMessageBox.critical(self, "오류", f"YOLOv5 데이터셋 생성 중 오류가 발생했습니다.: {str(e)}")
+            return
+
+    def split_data_anomaly(self, item, imgs, tags):
+        yolo_crop = YC()
+        try:
+            good_images = []
+            bad_images = []
+
+            # 태그 파일을 기반으로 이미지를 분류합니다.
+            for tag_file in tags:
+                with open(os.path.join('../data', item, tag_file), 'r') as f:
+                    first_char = f.read(1)
+                    if first_char == '0':  # 첫 번째 문자가 '0'이면 'bad'
+                        bad_images.append(tag_file[:-4] + '.jpg')  # 해당 이미지 파일을 'bad'로 추가
+                    else:  # 그 외의 경우는 'good'
+                        good_images.append(tag_file[:-4] + '.jpg')  # 해당 이미지 파일을 'good'으로 추가
+
+            # 훈련 및 테스트용 이미지 개수 계산
+            num_train_good_images = int(len(good_images) * 0.8)
+            num_test_good_images = len(good_images) - num_train_good_images
+
+            # 이미지 경로 설정
+            yolo_crop.setinputpath(os.path.join("../data", item))
+
+            # 훈련용 'good' 이미지 처리
+            yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "train/good"))
+            for img in good_images[:num_train_good_images]:
+                corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
+                if corresponding_txt_file in tags:
+                    yolo_crop.openfile(corresponding_txt_file, img)
+
+            # 테스트용 'good' 이미지 처리
+            yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "test/good"))
+            for img in good_images[num_train_good_images:]:
+                corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
+                if corresponding_txt_file in tags:
+                    yolo_crop.openfile(corresponding_txt_file, img)
+
+            # 'bad' 이미지 처리
+            yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "test/bad"))
+            for img in bad_images:
+                corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
+                if corresponding_txt_file in tags:
+                    yolo_crop.openfile(corresponding_txt_file, img)
+
+            QMessageBox.information(None, "성공", "EfficientAD 데이터셋 생성이 완료되었습니다.")
+            self.create_dataset_dialog.close()
+
+        except Exception as e:
+            QMessageBox.critical(None, "오류", f"EfficientAD 데이터셋 생성 중 오류가 발생했습니다.: {str(e)}")
+
 
     def make_yaml_file(self, dir):
 
@@ -275,6 +321,7 @@ class DataPage(QDialog):
         self.label_label = ui.label_label
 
         def on_button_ok_clicked():
+            dialog.close()
             item_name = self.item_combo.currentText().strip()  # 텍스트 불필요한 공백 제거
 
             if not item_name:
@@ -287,7 +334,8 @@ class DataPage(QDialog):
                 QMessageBox.warning(self, "경고", "디렉터리가 존재하지 않습니다.")
                 return
 
-            img_files = [f for f in os.listdir(self.image_directory) if f.lower().endswith('.jpg') or f.lower().endswith('.png')]
+            img_files = [f for f in os.listdir(self.image_directory) if
+                         f.lower().endswith('.jpg') or f.lower().endswith('.png')]
             if not img_files:
                 QMessageBox.warning(self, "경고", "디렉터리에 이미지가 있어야 합니다.")
                 return
@@ -303,8 +351,8 @@ class DataPage(QDialog):
             if os.path.exists(exe_path) and exe_path.lower().endswith(".exe"):
                 # QProcess 인스턴스 생성
                 self.process = QProcess(self)
-                # finished 시그널에 연결하여 labelImg.exe가 종료될 때마다 실행
-                self.process.finished.connect(lambda: self.on_labelimg_finished(item_name))
+                # 프로세스 종료 시그널 연결
+                self.process.finished.connect(lambda: tutorial_dialog.close())
                 # exe 파일 실행
                 self.process.start(exe_path)
                 # 튜토리얼 다이얼로그 실행
@@ -315,29 +363,6 @@ class DataPage(QDialog):
 
         self.label_button.clicked.connect(on_button_ok_clicked)
         dialog.exec_()
-
-    def on_labelimg_finished(self, item):
-        if self.process.exitCode() == 0:  # labelImg.exe가 정상 종료된 경우
-            image_files = [f for f in os.listdir(self.image_directory) if f.endswith('.jpg') or f.endswith('.png')]
-            label_files = [f[:-4] + '.txt' for f in image_files if f[:-4] + '.txt' in os.listdir(self.image_directory)]
-            if len(label_files) == len(image_files):
-                reply = QMessageBox.information(self, "안내",
-                                                "모든 이미지에 대한 라벨링이 되었으므로 크롭 이미지를 생성할 수 있습니다. 생성하시겠습니까?",
-                                                QMessageBox.Yes | QMessageBox.No)
-                if reply == QMessageBox.Yes:
-                    yolo_crop = YC()
-                    # 바로 anomaly 쪽에 crop 이미지를 저장하는 방법
-                    # yolo_crop.setpath(self.image_directory, os.path.join('../EfficientAD-main/mvtec_anomaly_detection', item, 'train/good'))
-                    # 먼저 다른 폴더에 crop 이미지를 저장해 두는 방법
-                    yolo_crop.setpath(self.image_directory, os.path.join('../crops', item))
-                    listofall = os.listdir(yolo_crop.input_path)
-                    listofimg = [file for file in listofall if
-                                 file.lower().endswith(".jpg") or file.lower().endswith(".png")]
-                    listoftag = [file for file in listofall if file.lower().endswith(".txt")]
-                    for i in range(len(listofimg)):
-                        yolo_crop.openfile(listoftag[i], listofimg[i])
-        else:
-            QMessageBox.warning(self, "Error", "labelImg 실행 중 오류가 발생했습니다.")
 
     def open_add_data(self):
         dialog = QDialog(self)

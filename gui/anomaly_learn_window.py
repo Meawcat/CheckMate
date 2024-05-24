@@ -9,6 +9,7 @@
 
 
 import os
+import shutil
 import subprocess
 import threading
 
@@ -167,30 +168,30 @@ class Ui_AnomalyLearnWindow(object):
             self.model_save_edit.setText(new_path)
 
     def start_training(self):
-        selected_item = self.comboBox.currentText()
-        selected_model_dir = os.path.join("../EfficientAD-main/output")
-        dest = os.path.join(selected_model_dir, selected_item)
+        model_save = self.model_save_edit.text()
+        model_dir = self.model_dir_edit.text()
+        model_dir_name = model_dir
         i = 1
-        if os.path.exists(dest):
-            choice = QMessageBox.question(None, "파일 덮어쓰기",
-                                          f"파일 '{os.path.basename(dest)}'가 이미 존재합니다. 덮어쓰시겠습니까?",
-                                          QMessageBox.Yes | QMessageBox.No)
-            if choice == QMessageBox.No:
-                while os.path.exists(dest):
-                    dest = os.path.join(selected_model_dir, f"{selected_item}_{i}")
-                    i += 1
-
-        # Update the text fields with the final chosen directory name
-        self.model_dir_edit.setText(selected_item if os.path.basename(dest) == selected_item else f"{selected_item}_{i-1}")
-        self.model_save_edit.setText(dest)
-
-        model_name = self.model_dir_edit.text()
-        save_dir = self.model_save_edit.text()
-        if not model_name or not save_dir:
+        if not model_save or not model_dir:
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             return
 
-        command = f'python ../EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {selected_item} --output_dir ../EfficientAD-main/output/{selected_model_dir}'
+        if os.path.exists(model_save):
+            choice = QMessageBox.question(None, "파일 덮어쓰기",
+                                          f"파일 '{os.path.basename(model_save)}'가 이미 존재합니다. 덮어쓰시겠습니까?",
+                                          QMessageBox.Yes | QMessageBox.No)
+            if choice == QMessageBox.Yes:
+                shutil.rmtree(model_save)  # Delete the existing directory
+            elif choice == QMessageBox.No:
+                while os.path.exists(model_save):
+                    model_dir_name = f"{model_dir}_{i}"
+                    i += 1
+        self.model_dir_edit.setText(model_dir_name)
+        self.model_dir_changed()
+
+        print(f"self.model_dir_edit: {self.model_dir_edit.text()}")
+        print(self.model_save_edit.text())
+        command = f'python ../EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {self.model_dir_edit.text()} --output_dir {self.model_save_edit.text()}'
         try:
             result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             QMessageBox.information(None, "성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'))
@@ -200,30 +201,11 @@ class Ui_AnomalyLearnWindow(object):
         except Exception as e:
             QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
 
-        def update_progress():
-            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-            while process.poll() is None:
-                line = process.stdout.readline()
-                print(line)  # Debug output
-                if "progress:" in line:
-                    try:
-                        progress = int(line.split("progress: ")[1].split("%")[0])
-                        self.progress_signal.emit(progress)
-                    except (IndexError, ValueError):
-                        continue
-
-        threading.Thread(target=update_progress).start()
-
-    def update_progress_bar(self, value):
-        self.progressBar.setValue(value)
 
     def set_edit(self):
-        selected_item = self.comboBox.currentText()
-        selected_dir = os.path.join("../data", selected_item)
         selected_model_dir = os.path.join("../EfficientAD-main/output")
-        model_name = selected_item
+        model_name = self.comboBox.currentText()
         self.model_dir_edit.setText(model_name)
-
         selected_model_save_dir = os.path.join(selected_model_dir, self.model_dir_edit.text())
         self.model_save_edit.setText(selected_model_save_dir)
 
