@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, Label
+from tkinter import ttk
 from PIL import Image, ImageTk
 import threading
 import subprocess
@@ -8,24 +9,21 @@ import os
 
 class YOLOv5GUI:
     def __init__(self, root):
-        # 초기화 메서드
         self.root = root
-        self.root.title("YOLOv5 GUI")  # 윈도우 제목 설정
-        self.training_process = None  # 학습 프로세스 저장 변수 초기화
-        self.weights_path = None  # 모델 가중치 경로를 저장할 변수
-        self.image_paths = []  # 이미지 파일 경로 리스트 초기화
+        self.root.title("YOLOv5 GUI")
+        self.training_process = None
+        self.weights_path = None
+        self.image_paths = []
 
-        self.current_image_index = 0  # 현재 보여줄 이미지의 인덱스
-        self.photo_images = []  # PhotoImage 객체를 저장할 리스트 추가
+        self.current_image_index = 0
+        self.photo_images = []
 
         # 홈 화면 구성
         self.home_frame = tk.Frame(root)
-        self.home_frame.pack(fill="both", expand=True)  # 홈 화면 표시
-        tk.Label(self.home_frame, text="체크메이트 홈 화면", font=("Arial", 16)).pack(pady=20)  # 타이틀 라벨 추가
-        tk.Button(self.home_frame, text="1. 학습", command=self.open_train_window, width=20, height=2).pack(
-            pady=10)  # 학습 버튼 추가
-        tk.Button(self.home_frame, text="2. 탐지", command=self.open_detect_window, width=20, height=2).pack(
-            pady=10)  # 탐지 버튼 추가
+        self.home_frame.pack(fill="both", expand=True)
+        tk.Label(self.home_frame, text="체크메이트 홈 화면", font=("Arial", 16)).pack(pady=20)
+        tk.Button(self.home_frame, text="1. 학습", command=self.open_train_window, width=20, height=2).pack(pady=10)
+        tk.Button(self.home_frame, text="2. 탐지", command=self.open_detect_window, width=20, height=2).pack(pady=10)
 
         # 학습 화면 구성
         self.train_frame = tk.Frame(root)
@@ -41,9 +39,20 @@ class YOLOv5GUI:
         self.save_dir_path = tk.Entry(self.train_frame, width=50)
         self.save_dir_path.grid(row=3, column=1, padx=10, pady=10)
         tk.Button(self.train_frame, text="찾아보기", command=self.select_directory).grid(row=3, column=2, padx=10, pady=10)
-        tk.Button(self.train_frame, text="학습 시작", command=self.start_training).grid(row=4, column=1, padx=10, pady=20)
+
+        tk.Label(self.train_frame, text="에포크 수 설정:").grid(row=4, column=0, padx=10, pady=10)
+        self.epochs = tk.IntVar(value=1)
+        self.epoch_slider = ttk.Scale(self.train_frame, from_=1, to=300, orient=tk.HORIZONTAL, variable=self.epochs,
+                                      length=300)
+        self.epoch_slider.grid(row=4, column=1, padx=10, pady=10)
+        self.epoch_label = tk.Label(self.train_frame, text=f"{self.epochs.get()} 에포크")
+        self.epoch_label.grid(row=4, column=2, padx=10, pady=10)
+        self.epoch_slider.bind("<Motion>", self.update_epoch_label)
+
+        tk.Button(self.train_frame, text="학습 시작", command=self.start_training).grid(row=5, column=1, padx=10, pady=20)
+
         self.progress_text = tk.Text(self.train_frame, height=10, width=80)
-        self.progress_text.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
+        self.progress_text.grid(row=7, column=0, columnspan=3, padx=10, pady=10)
 
         # 탐지 화면 구성
         self.detect_frame = tk.Frame(root)
@@ -80,6 +89,9 @@ class YOLOv5GUI:
         self.start_detect_button = tk.Button(self.image_detect_frame, text="탐지 시작", command=self.start_detection).grid(
             row=2, column=2, padx=10, pady=10)
 
+    def update_epoch_label(self, event):
+        self.epoch_label.config(text=f"{self.epochs.get()} 에포크")
+
     def open_realtime_detect_window(self):
         self.detect_frame.pack_forget()
         self.realtime_detect_frame.pack(fill="both", expand=True)
@@ -110,13 +122,11 @@ class YOLOv5GUI:
             return
         result_directories = []
 
-        # 각 이미지를 탐지하고 결과 폴더를 수집
         for image_path in self.image_paths:
             command = f'python detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project runs/detect --name exp'
-            subprocess.run(command, shell=True)  # Popen에서 run으로 변경하여 동기 실행
+            subprocess.run(command, shell=True)
             result_directories.append(self.get_latest_results_dir())
 
-        # 모든 결과를 표시
         self.display_results(result_directories)
 
     def get_latest_results_dir(self):
@@ -132,7 +142,7 @@ class YOLOv5GUI:
         if not hasattr(self, 'result_window') or not self.result_window.winfo_exists():
             self.result_window = tk.Toplevel(self.root)
             self.result_window.title("Detection Results")
-            self.photo_images = []  # 새 창이 열릴 때마다 이미지 리스트를 초기화
+            self.photo_images = []
             self.prev_button = tk.Button(self.result_window, text="Previous", command=self.show_prev_image)
             self.prev_button.pack(side=tk.LEFT)
             self.next_button = tk.Button(self.result_window, text="Next", command=self.show_next_image)
@@ -156,13 +166,13 @@ class YOLOv5GUI:
         img = Image.open(img_path)
         img = img.resize((640, 640), Image.Resampling.LANCZOS)
         photo = ImageTk.PhotoImage(img)
-        self.photo_images.append(photo)  # 레퍼런스 유지를 위해 리스트에 추가
+        self.photo_images.append(photo)
 
         if hasattr(self, 'image_label'):
             self.image_label.configure(image=photo)
         else:
             self.image_label = tk.Label(self.result_window, image=photo)
-            self.image_label.image = photo  # 레이블에 이미지 레퍼런스를 직접 할당
+            self.image_label.image = photo
             self.image_label.pack()
 
     def show_next_image(self):
@@ -198,35 +208,23 @@ class YOLOv5GUI:
         self.update_image_list()
 
     def back_to_home(self):
-        if self.training_process and self.training_process.poll() is None:  # 학습이 진행 중인 경우
-            if messagebox.askyesno("경고", "학습이 진행 중입니다. 프로그램을 종료하시겠습니까?"):  # 종료 확인 메시지
-                self.root.destroy()  # 프로그램 종료
+        if self.training_process and self.training_process.poll() is None:
+            if messagebox.askyesno("경고", "학습이 진행 중입니다. 프로그램을 종료하시겠습니까?"):
+                self.root.destroy()
             else:
-                return  # 사용자가 '아니오'를 클릭하면 경고창만 닫히고 아무 일도 일어나지 않음
+                return
         else:
-            self.train_frame.pack_forget()  # 학습 화면 숨기기
-            self.home_frame.pack(fill="both", expand=True)  # 홈 화면 표시
+            self.train_frame.pack_forget()
+            self.home_frame.pack(fill="both", expand=True)
 
     def back_to_home_from_detect(self):
-        self.detect_frame.pack_forget()  # 탐지 화면 숨기기
-        self.home_frame.pack(fill="both", expand=True)  # 홈 화면 표시
+        self.detect_frame.pack_forget()
+        self.home_frame.pack(fill="both", expand=True)
 
     def reset_frames(self):
         for frame in [self.train_frame, self.detect_frame, self.image_detect_frame]:
             frame.pack_forget()
         self.home_frame.pack(fill="both", expand=True)
-
-    def add_image(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png"), ("All files", "*.*")])
-        if file_path:
-            self.image_paths.append(file_path)
-            self.update_image_list()
-
-    def update_image_list(self):
-        for widget in self.image_list_frame.winfo_children():
-            widget.destroy()
-        for idx, path in enumerate(self.image_paths):
-            tk.Label(self.image_list_frame, text=path).grid(row=idx, column=0)
 
     def reset_train_window(self):
         self.data_yaml_path.delete(0, tk.END)
@@ -248,13 +246,42 @@ class YOLOv5GUI:
         data_yaml = self.data_yaml_path.get()
         model_name = self.model_name.get()
         save_dir = self.save_dir_path.get()
+        epochs = self.epochs.get()
         if not data_yaml or not model_name or not save_dir:
             messagebox.showwarning("경고", "모든 필드를 입력해주세요.")
             return
-        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {1} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project ../yolov5/runs/train'
+
+        self.show_loading_screen()
+
+        command = f'python train.py --img 640 --batch 16 --epochs {epochs} --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
         self.training_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                                  text=True)
         threading.Thread(target=self.read_process_output).start()
+
+    def show_loading_screen(self):
+        self.loading_window = tk.Toplevel(self.root)
+        self.loading_window.title("Loading")
+        self.loading_window.geometry("300x200")
+        self.loading_label = tk.Label(self.loading_window, text="학습 중입니다...\n잠시만 기다려주세요.", font=("Arial", 12))
+        self.loading_label.pack(pady=20)
+        gif_path = "icons/loading1.gif"
+        self.loading_gif = [tk.PhotoImage(file=gif_path, format='gif -index %i' % i) for i in
+                            range(30)]  # assuming 30 frames
+        self.loading_gif_label = tk.Label(self.loading_window)
+        self.loading_gif_label.pack()
+        self.animate_gif(0)
+
+    def animate_gif(self, ind):
+        frame = self.loading_gif[ind]
+        ind += 1
+        if ind == len(self.loading_gif):
+            ind = 0
+        self.loading_gif_label.configure(image=frame)
+        self.loading_window.after(50, self.animate_gif, ind)  # update every 50 ms
+
+    def close_loading_screen(self):
+        if hasattr(self, 'loading_window'):
+            self.loading_window.destroy()
 
     def read_process_output(self):
         for line in self.training_process.stdout:
@@ -262,6 +289,7 @@ class YOLOv5GUI:
             self.progress_text.see(tk.END)
         self.training_process.stdout.close()
         self.training_process.wait()
+        self.close_loading_screen()
         if self.training_process.returncode == 0:
             messagebox.showinfo("완료", "학습이 완료되었습니다.")
         else:
@@ -275,6 +303,6 @@ class YOLOv5GUI:
 
 
 if __name__ == "__main__":
-    root = tk.Tk()  # Tkinter 루트 윈도우 생성
-    app = YOLOv5GUI(root)  # YOLOv5 GUI 앱 생성
-    root.mainloop()  # Tkinter 메인 루프 실행
+    root = tk.Tk()
+    app = YOLOv5GUI(root)
+    root.mainloop()

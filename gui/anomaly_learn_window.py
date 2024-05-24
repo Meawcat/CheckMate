@@ -22,12 +22,11 @@ class Ui_AnomalyLearnWindow(object):
         script_path = os.path.abspath(__file__)
         script_dir = os.path.dirname(script_path)
         os.chdir(script_dir)
-
         AnomalyLearnWindow.setObjectName("AnomalyLearnWindow")
         AnomalyLearnWindow.resize(625, 443)
         AnomalyLearnWindow.setStyleSheet("font: 9pt \"맑은 고딕\";\n"
-"background-color: #fff;\n"
-"")
+                                         "background-color: #fff;\n"
+                                         "")
         self.centralwidget = QtWidgets.QWidget(AnomalyLearnWindow)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
@@ -37,16 +36,16 @@ class Ui_AnomalyLearnWindow(object):
         font.setWeight(50)
         self.centralwidget.setFont(font)
         self.centralwidget.setStyleSheet("QPushButton:hover {\n"
-"    color: #fff;\n"
-"    font: bold;\n"
-"}\n"
-"QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"    font: bold;\n"
-"}")
+                                         "    color: #fff;\n"
+                                         "    font: bold;\n"
+                                         "}\n"
+                                         "QPushButton {\n"
+                                         "    border: 4px solid#a6aaaf;\n"
+                                         "    border-radius: 5px;\n"
+                                         "    padding: 1px 5px;\n"
+                                         "    background-color: #a6aaaf;\n"
+                                         "    font: bold;\n"
+                                         "}")
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -70,22 +69,22 @@ class Ui_AnomalyLearnWindow(object):
         font.setWeight(75)
         self.load_button.setFont(font)
         self.load_button.setStyleSheet("QPushButton:hover {\n"
-"    color: #fff;\n"
-"}\n"
-"QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"}")
+                                       "    color: #fff;\n"
+                                       "}\n"
+                                       "QPushButton {\n"
+                                       "    border: 4px solid#a6aaaf;\n"
+                                       "    border-radius: 5px;\n"
+                                       "    padding: 1px 5px;\n"
+                                       "    background-color: #a6aaaf;\n"
+                                       "}")
         self.load_button.setObjectName("load_button")
         self.gridLayout.addWidget(self.load_button, 2, 2, 1, 1)
         self.model_save_edit = QtWidgets.QLineEdit(self.centralwidget)
         self.model_save_edit.setStyleSheet("border: 2px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"\n"
-"")
+                                           "border-radius: 5px;\n"
+                                           "padding: 1px 5px;\n"
+                                           "\n"
+                                           "")
         self.model_save_edit.setObjectName("model_save_edit")
         self.gridLayout.addWidget(self.model_save_edit, 2, 1, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
@@ -96,10 +95,10 @@ class Ui_AnomalyLearnWindow(object):
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.comboBox.setStyleSheet("border: 2px solid #a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"\n"
-"")
+                                    "border-radius: 5px;\n"
+                                    "padding: 1px 5px;\n"
+                                    "\n"
+                                    "")
         self.comboBox.setObjectName("comboBox")
         self.gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
         self.model_dir = QtWidgets.QLabel(self.centralwidget)
@@ -108,10 +107,10 @@ class Ui_AnomalyLearnWindow(object):
         self.gridLayout.addWidget(self.model_dir, 1, 0, 1, 1)
         self.model_dir_edit = QtWidgets.QLineEdit(self.centralwidget)
         self.model_dir_edit.setStyleSheet("border: 2px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"\n"
-"")
+                                          "border-radius: 5px;\n"
+                                          "padding: 1px 5px;\n"
+                                          "\n"
+                                          "")
         self.model_dir_edit.setObjectName("model_dir_edit")
         self.gridLayout.addWidget(self.model_dir_edit, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
@@ -124,22 +123,30 @@ class Ui_AnomalyLearnWindow(object):
         font.setWeight(75)
         self.train_button.setFont(font)
         self.train_button.setStyleSheet("QPushButton:hover {\n"
-"    color: #fff;\n"
-"}\n"
-"QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"}")
+                                        "    color: #fff;\n"
+                                        "}\n"
+                                        "QPushButton {\n"
+                                        "    border: 4px solid#a6aaaf;\n"
+                                        "    border-radius: 5px;\n"
+                                        "    padding: 1px 5px;\n"
+                                        "    background-color: #a6aaaf;\n"
+                                        "}")
         self.train_button.setObjectName("train_button")
         self.gridLayout_2.addWidget(self.train_button, 2, 0, 1, 1)
-        self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
-        self.progressBar.setProperty("value", 0)
-        self.progressBar.setObjectName("progressBar")
-        self.gridLayout_2.addWidget(self.progressBar, 3, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 298, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 1, 0, 1, 1)
+        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 601, 257))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.process = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.process.setText("")
+        self.process.setObjectName("process")
+        self.verticalLayout.addWidget(self.process)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout_2.addWidget(self.scrollArea, 1, 0, 1, 1)
         AnomalyLearnWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AnomalyLearnWindow)
@@ -191,14 +198,22 @@ class Ui_AnomalyLearnWindow(object):
 
         command = f'python ../EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {self.model_dir_edit.text()} --output_dir {self.model_save_edit.text()}'
         try:
-            result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            QMessageBox.information(None, "성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'))
+            result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            self.read_process_output(result)
         except subprocess.CalledProcessError as e:
-            error_message = f"명령 실행 중 오류가 발생했습니다:\n{e.stderr.decode('utf-8')}"
+            error_message = f"명령 실행 중 오류가 발생했습니다:\n{e.stderr}"
             QMessageBox.critical(None, "오류", error_message)
         except Exception as e:
             QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
 
+    def read_process_output(self, process):
+        output = ""
+        while True:
+            line = process.stdout.readline().strip()
+            if line == '':
+                break
+            output += line + "\n"
+            self.process.setText(output)
 
     def set_edit(self):
         selected_model_dir = os.path.join("../EfficientAD-main/output")
