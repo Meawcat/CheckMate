@@ -28,8 +28,8 @@ class myMainWindow(QMainWindow):
         os.chdir(script_dir)
 
         # 학습
-        self.folder_path1 = self.ui.lineEdit_2
-        self.train_data_upload_btn = self.ui.train_data_upload_button
+    #    self.folder_path1 = self.ui.lineEdit_2
+    #    self.train_data_upload_btn = self.ui.train_data_upload_button
         self.yolo_btn = self.ui.yolo_button
         self.efficientAD_btn = self.ui.efficientAD_button
 
@@ -62,13 +62,13 @@ class myMainWindow(QMainWindow):
         self.data_split_btn.clicked.connect(self.data_page.open_create_dataset)
 
     def init_signal_slot1(self):
-        self.train_data_upload_btn.clicked.connect(self.get_folder_path1)
+    #    self.train_data_upload_btn.clicked.connect(self.get_folder_path1)
         self.yolo_btn.clicked.connect(self.start_yolo)
         self.efficientAD_btn.clicked.connect(self.start_efficientAD)
 
-    def get_folder_path1(self):
-        folder_path1 = str(QFileDialog.getExistingDirectory(self, "select Directory"))
-        self.folder_path1.setText(folder_path1)
+    #def get_folder_path1(self):
+    #    folder_path1 = str(QFileDialog.getExistingDirectory(self, "select Directory"))
+    #    self.folder_path1.setText(folder_path1)
 
     def start_yolo(self):
         # yolo 학습 화면 띄우기

@@ -254,36 +254,40 @@ class Ui_MainWindow(object):
         self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setObjectName("label_2")
         self.gridLayout_6.addWidget(self.label_2, 0, 0, 1, 1)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.train_page)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lineEdit_2.setFont(font)
-        self.lineEdit_2.setStyleSheet("border: 2px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"\n"
-"")
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.horizontalLayout_4.addWidget(self.lineEdit_2)
-        self.train_data_upload_button = QtWidgets.QPushButton(self.train_page)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.train_data_upload_button.setFont(font)
-        self.train_data_upload_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"background-color: #a6aaaf;\n"
-"")
-        self.train_data_upload_button.setObjectName("train_data_upload_button")
-        self.horizontalLayout_4.addWidget(self.train_data_upload_button)
-        self.gridLayout_6.addLayout(self.horizontalLayout_4, 1, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 434, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_6.addItem(spacerItem1, 2, 0, 1, 1)
+        #3줄 추가
+        self.textBrowser_2 = QtWidgets.QTextBrowser(self.train_page)
+        self.textBrowser_2.setObjectName("textBrowser_2")
+        self.gridLayout_6.addWidget(self.textBrowser_2, 1, 0, 1, 1)
+#        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+#        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+#        self.lineEdit_2 = QtWidgets.QLineEdit(self.train_page)
+#        font = QtGui.QFont()
+#        font.setPointSize(9)
+#        self.lineEdit_2.setFont(font)
+#        self.lineEdit_2.setStyleSheet("border: 2px solid#a6aaaf;\n"
+#"border-radius: 5px;\n"
+#"padding: 1px 5px;\n"
+#"\n"
+#"")
+#        self.lineEdit_2.setObjectName("lineEdit_2")
+#        self.horizontalLayout_4.addWidget(self.lineEdit_2)
+#        self.train_data_upload_button = QtWidgets.QPushButton(self.train_page)
+#        font = QtGui.QFont()
+#        font.setFamily("맑은 고딕")
+#        font.setPointSize(10)
+#        font.setBold(True)
+#        font.setWeight(75)
+#        self.train_data_upload_button.setFont(font)
+#        self.train_data_upload_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+#"border-radius: 5px;\n"
+#"padding: 1px 5px;\n"
+#"background-color: #a6aaaf;\n"
+#"")
+#        self.train_data_upload_button.setObjectName("train_data_upload_button")
+#        self.horizontalLayout_4.addWidget(self.train_data_upload_button)
+#        self.gridLayout_6.addLayout(self.horizontalLayout_4, 1, 0, 1, 1)
+#        spacerItem1 = QtWidgets.QSpacerItem(20, 434, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+#        self.gridLayout_6.addItem(spacerItem1, 2, 0, 1, 1)
         self.gridLayout_5 = QtWidgets.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.yolo_button = QtWidgets.QPushButton(self.train_page)
@@ -461,7 +465,7 @@ class Ui_MainWindow(object):
         self.data_info_label.setText(_translate("MainWindow", "모델 학습을 위한 데이터를 관리하는 메뉴입니다.\n"
 "해당 창에서 데이터 추가, 삭제, 라벨링 분할이 가능합니다."))
         self.label_2.setText(_translate("MainWindow", "학습"))
-        self.train_data_upload_button.setText(_translate("MainWindow", "불러오기"))
+#        self.train_data_upload_button.setText(_translate("MainWindow", "불러오기"))
         self.yolo_button.setText(_translate("MainWindow", "YOLO 학습"))
         self.efficientAD_button.setText(_translate("MainWindow", "EfficientAD 학습"))
         self.label_3.setText(_translate("MainWindow", "검출"))
