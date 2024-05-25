@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QPushButton, QMessageBox, QLabel, QMainWindow
 from PIL import Image, ImageQt
-import os
+import os, subprocess
 
 class Ui_YoloDetectImageWindow(object):
     def setupUi(self, YoloDetectImageWindow):
@@ -71,10 +71,64 @@ class Ui_YoloDetectImageWindow(object):
         self.retranslateUi(YoloDetectImageWindow)
         QtCore.QMetaObject.connectSlotsByName(YoloDetectImageWindow)
         self.image_upload_button.clicked.connect(self.add_image)
-        self.yolo_detect_start_button.clicked.connect(self.open_image_detect_window)
+        self.yolo_detect_start_button.clicked.connect(self.start_detection)
 
         # Initialize image_paths to store selected images
         self.image_paths = []
+
+    def get_latest_results_dir(self, base_path):
+        all_subdirs = [os.path.join(base_path, subdir) for subdir in os.listdir(base_path) if
+                       os.path.isdir(os.path.join(base_path, subdir))]
+        if not all_subdirs:
+            return None
+        latest_subdir = max(all_subdirs, key=os.path.getmtime)
+        return latest_subdir
+
+    def start_detection(self):
+        detect_base_path = '../yolov5/runs/detect'
+        train_base_path = '../yolov5/runs/train'
+
+        # Get the directories for the specific model
+        latest_detect_dir = os.path.join(detect_base_path, self.model_name)
+        latest_train_dir = os.path.join(train_base_path, self.model_name)
+
+        # Debugging output for directories
+        print(f"Latest detect directory: {latest_detect_dir}")
+        print(f"Latest train directory: {latest_train_dir}")
+        print(f"Latest train directory exists: {os.path.exists(latest_train_dir)}")
+
+        # Set weights_path to the best.pt file in the latest training directory
+        if latest_train_dir:
+            self.weights_path = os.path.join(latest_train_dir, 'weights', 'best.pt')
+        else:
+            self.weights_path = None
+
+        # Debugging output for weights path
+        print(f"Weights path: {self.weights_path}")
+        print(f"Weights file exists: {os.path.exists(self.weights_path)}")
+
+        # Check if image paths and weights file exist
+        if not self.image_paths or not self.weights_path or not os.path.exists(self.weights_path):
+            print("Condition failed. Either image paths are missing, weights path is not set, or the weights file does not exist.")
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("경고")
+            msg.setText("이미지와 모델 파일을 먼저 추가하세요.")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+            return
+
+        result_directories = []
+
+        # Run detection for each image path
+        for image_path in self.image_paths:
+            command = f'python ../yolov5/detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project ../yolov5/runs/detect --name {self.model_name}'
+            print(f"Running command: {command}")
+            subprocess.run(command, shell=True)
+            result_directories.append(self.get_latest_results_dir(latest_detect_dir))
+
+        # Display the results
+        self.display_results(result_directories)
 
     def retranslateUi(self, YoloDetectImageWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -90,13 +144,6 @@ class Ui_YoloDetectImageWindow(object):
         if latest_dir:
             self.display_results([latest_dir])
 
-    def get_latest_results_dir(self):
-        base_path = '../yolov5/runs/detect'
-        all_subdirs = [os.path.join(base_path, self.model_name) for self.model_name in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, self.model_name))]
-        if not all_subdirs:
-            return None
-        latest_subdir = max(all_subdirs, key=os.path.getmtime)
-        return latest_subdir
 
     def display_results(self, folders):
         self.result_window = QWidget()
@@ -144,6 +191,7 @@ class Ui_YoloDetectImageWindow(object):
             self.show_image()
 
     def add_image(self):
+        print(self.model_name)
         file_paths, _ = QFileDialog.getOpenFileNames(None, "Select Images", "", "Image files (*.jpg;*.jpeg;*.png);;All files (*)")
         if file_paths:
             self.image_paths.extend(file_paths)
