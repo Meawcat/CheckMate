@@ -1,7 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QMessageBox, QComboBox
-from PyQt5.QtGui import  QIcon
-
+from PyQt5.QtGui import QIcon
 from gui.main_window import Ui_MainWindow
 from gui.data_window import DataPage as DP
 from gui.yolo_learn_window import Ui_YoloLearnWindow # 학습에서 yolo 학습 추가
@@ -12,17 +11,16 @@ import subprocess
 
 class myMainWindow(QMainWindow):
     def __init__(self):
-
         script_path = os.path.abspath(__file__)
         script_dir = os.path.dirname(script_path)
         os.chdir(script_dir)
         super(myMainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.initUI()
         # self.setFixedSize(QSize(800, 600))
         # self.setFixedWidth(600)
         # self.setFixedHeight(400)
-        self.initUI()
         script_path = os.path.abspath(__file__)
         script_dir = os.path.dirname(script_path)
         os.chdir(script_dir)
@@ -43,13 +41,11 @@ class myMainWindow(QMainWindow):
         self.init_data_btns()
 
         self.combo = self.ui.comboBox
-        self.refresh = self.ui.refresh
         # 검출 + 수정함
         #self.folder_path = self.ui.lineEdit
         self.detect_image_btn = self.ui.detect_image_button
         self.detect_video_btn = self.ui.detect_video_button
         self.anomaly_detect_start_btn = self.ui.anomaly_detect_start_button
-        self.refresh.clicked.connect(self.populate_directory_combo)
         self.init_signal_slot()
 
         # 시작화면을 홈화면으로
@@ -105,11 +101,16 @@ class myMainWindow(QMainWindow):
         self.ui_yolo_detect_image.setModel(self.combo.currentText())
         self.ui_yolo_detect_image.setupUi(self.yolo_detect_image_window)
         self.yolo_detect_image_window.show()
-    def populate_directory_combo(self):
-        directory = 'yolov5/runs/train'
-        directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-        self.combo.addItems(directories)
 
+    def populate_directory_combo(self):
+        self.combo.clear()  # Clear all items from the combo box
+        directory = 'yolov5/runs/train'
+        if os.path.exists(directory) and os.path.isdir(directory):
+            directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+            for d in directories:
+                weights_path = os.path.join(directory, d, 'weights', 'best.pt')
+                if os.path.exists(weights_path):
+                    self.combo.addItem(d)
     def open_yolo_detect_live(self):
         combo_dir = 'yolov5/runs/train'
         model_name = self.combo.currentText()
@@ -130,6 +131,7 @@ class myMainWindow(QMainWindow):
             QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
 
     def open_anomaly_detect(self):
+        # anomaly_detection
         print("detect")
 
     # 화면
@@ -167,6 +169,7 @@ class myMainWindow(QMainWindow):
     def on_detect_button_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(3)
         self.on_stackedWidget_currentChanged(3)
+        self.populate_directory_combo()
     def on_helper_button_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(4)
         self.on_stackedWidget_currentChanged(4)
