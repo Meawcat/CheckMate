@@ -5,7 +5,6 @@ import threading
 import subprocess
 import os
 
-
 class YOLOv5GUI:
     def __init__(self, root):
         # 초기화 메서드
@@ -18,14 +17,14 @@ class YOLOv5GUI:
         self.current_image_index = 0  # 현재 보여줄 이미지의 인덱스
         self.photo_images = []  # PhotoImage 객체를 저장할 리스트 추가
 
+
+
         # 홈 화면 구성
         self.home_frame = tk.Frame(root)
         self.home_frame.pack(fill="both", expand=True)  # 홈 화면 표시
         tk.Label(self.home_frame, text="체크메이트 홈 화면", font=("Arial", 16)).pack(pady=20)  # 타이틀 라벨 추가
-        tk.Button(self.home_frame, text="1. 학습", command=self.open_train_window, width=20, height=2).pack(
-            pady=10)  # 학습 버튼 추가
-        tk.Button(self.home_frame, text="2. 탐지", command=self.open_detect_window, width=20, height=2).pack(
-            pady=10)  # 탐지 버튼 추가
+        tk.Button(self.home_frame, text="1. 학습", command=self.open_train_window, width=20, height=2).pack(pady=10)  # 학습 버튼 추가
+        tk.Button(self.home_frame, text="2. 탐지", command=self.open_detect_window, width=20, height=2).pack(pady=10)  # 탐지 버튼 추가
 
         # 학습 화면 구성
         self.train_frame = tk.Frame(root)
@@ -47,42 +46,30 @@ class YOLOv5GUI:
 
         # 탐지 화면 구성
         self.detect_frame = tk.Frame(root)
-        tk.Button(self.detect_frame, text="뒤로가기", command=self.back_to_home_from_detect).grid(row=0, column=0, padx=10,
-                                                                                              pady=10)
-        tk.Button(self.detect_frame, text="이미지로 탐지", command=self.open_image_detect_window).grid(row=1, column=0,
-                                                                                                 padx=10, pady=10)
-        tk.Button(self.detect_frame, text="실시간 탐지", command=self.open_realtime_detect_window).grid(row=1, column=1,
-                                                                                                   padx=10, pady=10)
+        tk.Button(self.detect_frame, text="뒤로가기", command=self.back_to_home_from_detect).grid(row=0, column=0, padx=10, pady=10)
+        tk.Button(self.detect_frame, text="이미지로 탐지", command=self.open_image_detect_window).grid(row=1, column=0, padx=10, pady=10)
+        tk.Button(self.detect_frame, text="실시간 탐지", command=self.open_realtime_detect_window).grid(row=1, column=1, padx=10, pady=10)
 
         # 실시간 탐지 프레임 설정
         self.realtime_detect_frame = tk.Frame(root)
-        tk.Button(self.realtime_detect_frame, text="뒤로가기", command=self.back_to_detect).grid(row=0, column=0, padx=10,
-                                                                                             pady=10)
-        tk.Button(self.realtime_detect_frame, text="모델 선택", command=self.select_model).grid(row=1, column=0, padx=10,
-                                                                                            pady=10)
-        tk.Button(self.realtime_detect_frame, text="실시간 탐지 시작", command=self.start_realtime_detection).grid(row=1,
-                                                                                                            column=1,
-                                                                                                            padx=10,
-                                                                                                            pady=10)
+        tk.Button(self.realtime_detect_frame, text="뒤로가기", command=self.back_to_detect).grid(row=0, column=0, padx=10, pady=10)
+        tk.Button(self.realtime_detect_frame, text="모델 선택", command=self.select_model).grid(row=1, column=0, padx=10, pady=10)
+        tk.Button(self.realtime_detect_frame, text="실시간 탐지 시작", command=self.start_realtime_detection).grid(row=1, column=1, padx=10, pady=10)
+
 
         # 이미지 탐지 구성
         self.image_detect_frame = tk.Frame(root)
-        tk.Button(self.image_detect_frame, text="뒤로가기", command=self.back_to_detect).grid(row=0, column=0, padx=10,
-                                                                                          pady=10)
+        tk.Button(self.image_detect_frame, text="뒤로가기", command=self.back_to_detect).grid(row=0, column=0, padx=10, pady=10)
         self.image_list_frame = tk.Frame(self.image_detect_frame)
         self.image_list_frame.grid(row=1, column=0, columnspan=3)
-        self.add_image_button = tk.Button(self.image_detect_frame, text="이미지 추가", command=self.add_image).grid(row=2,
-                                                                                                               column=0,
-                                                                                                               padx=10,
-                                                                                                               pady=10)
-        self.select_model_button = tk.Button(self.image_detect_frame, text="모델 선택", command=self.select_model).grid(
-            row=2, column=1, padx=10, pady=10)
-        self.start_detect_button = tk.Button(self.image_detect_frame, text="탐지 시작", command=self.start_detection).grid(
-            row=2, column=2, padx=10, pady=10)
+        self.add_image_button = tk.Button(self.image_detect_frame, text="이미지 추가", command=self.add_image).grid(row=2, column=0, padx=10, pady=10)
+        self.select_model_button = tk.Button(self.image_detect_frame, text="모델 선택", command=self.select_model).grid(row=2, column=1, padx=10, pady=10)
+        self.start_detect_button = tk.Button(self.image_detect_frame, text="탐지 시작", command=self.start_detection).grid(row=2, column=2, padx=10, pady=10)
 
     def open_realtime_detect_window(self):
         self.detect_frame.pack_forget()
         self.realtime_detect_frame.pack(fill="both", expand=True)
+
 
     def start_realtime_detection(self):
         if not self.weights_path:
@@ -91,18 +78,20 @@ class YOLOv5GUI:
         command = f'python detect.py --source 0 --weights "{self.weights_path}" --conf 0.5'
         subprocess.Popen(command, shell=True)
 
+
     def add_image(self):
         file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png"), ("All files", "*.*")])
         if file_path:
             self.image_paths.append(file_path)
             self.update_image_list()
 
+
     def select_model(self):
-        file_path = filedialog.askopenfilename(title="모델 파일 선택",
-                                               filetypes=[("Model files", "*.pt"), ("All files", "*.*")])
+        file_path = filedialog.askopenfilename(title="모델 파일 선택", filetypes=[("Model files", "*.pt"), ("All files", "*.*")])
         if file_path:
             self.weights_path = file_path
             tk.Label(self.image_detect_frame, text=f"선택된 모델: {self.weights_path}").grid(row=3, column=0, columnspan=3)
+
 
     def start_detection(self):
         if not self.image_paths or not self.weights_path:
@@ -121,12 +110,12 @@ class YOLOv5GUI:
 
     def get_latest_results_dir(self):
         base_path = 'runs/detect'
-        all_subdirs = [os.path.join(base_path, d) for d in os.listdir(base_path) if
-                       os.path.isdir(os.path.join(base_path, d))]
+        all_subdirs = [os.path.join(base_path, d) for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))]
         if not all_subdirs:
             return None
         latest_subdir = max(all_subdirs, key=os.path.getmtime)
         return latest_subdir
+
 
     def display_results(self, folders):
         if not hasattr(self, 'result_window') or not self.result_window.winfo_exists():
@@ -146,6 +135,7 @@ class YOLOv5GUI:
 
         self.current_image_index = 0
         self.show_image()
+
 
     def show_image(self):
         if not self.result_images:
@@ -174,6 +164,7 @@ class YOLOv5GUI:
         if self.current_image_index > 0:
             self.current_image_index -= 1
             self.show_image()
+
 
     def update_image_list(self):
         for widget in self.image_list_frame.winfo_children():
@@ -252,8 +243,7 @@ class YOLOv5GUI:
             messagebox.showwarning("경고", "모든 필드를 입력해주세요.")
             return
         command = f'python train.py --img 640 --batch 16 --epochs 1 --data {data_yaml} --cfg models/yolov5s.yaml --weights yolov5s.pt --name {model_name} --project {save_dir}'
-        self.training_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                                 text=True)
+        self.training_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         threading.Thread(target=self.read_process_output).start()
 
     def read_process_output(self):

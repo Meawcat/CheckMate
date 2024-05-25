@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'yolo_detect_image_window.ui'
+# Form implementation generated from reading ui file './gui/yolo_detect_image_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -9,10 +9,15 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QPushButton, QMessageBox, QLabel, QMainWindow
+from PIL import Image, ImageQt
+import os, subprocess
 
 class Ui_YoloDetectImageWindow(object):
     def setupUi(self, YoloDetectImageWindow):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         YoloDetectImageWindow.setObjectName("YoloDetectImageWindow")
         YoloDetectImageWindow.resize(424, 321)
         font = QtGui.QFont()
@@ -21,8 +26,8 @@ class Ui_YoloDetectImageWindow(object):
         YoloDetectImageWindow.setFont(font)
         self.centralwidget = QtWidgets.QWidget(YoloDetectImageWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.image_upload_button = QtWidgets.QPushButton(self.centralwidget)
@@ -42,37 +47,11 @@ class Ui_YoloDetectImageWindow(object):
 "}")
         self.image_upload_button.setObjectName("image_upload_button")
         self.gridLayout.addWidget(self.image_upload_button, 0, 0, 1, 2)
-        self.model_combobox = QtWidgets.QComboBox(self.centralwidget)
-        #self.model_combobox.setMinimumSize(QtCore.QSize(200, 30))
-        #self.model_combobox.setMaximumSize(QtCore.QSize(16777215, 24))
-        self.model_combobox.setStyleSheet("")
-        self.model_combobox.setObjectName("model_combobox")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.model_combobox.addItem("")
-        self.gridLayout.addWidget(self.model_combobox, 1, 0, 1, 1)
-        self.model_select_button = QtWidgets.QPushButton(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setBold(True)
-        font.setWeight(75)
-        self.model_select_button.setFont(font)
-        self.model_select_button.setStyleSheet("QPushButton:hover {\n"
-"    color: #fff;\n"
-"}\n"
-"QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"}")
-        self.model_select_button.setObjectName("model_select_button")
-        self.gridLayout.addWidget(self.model_select_button, 1, 1, 1, 1)
-        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(20, 70, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 1, 0, 1, 1)
+        self.verticalLayout.addLayout(self.gridLayout)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setText("")
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
         self.yolo_detect_start_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
@@ -88,34 +67,171 @@ class Ui_YoloDetectImageWindow(object):
 "    padding: 1px 5px;\n"
 "    background-color: #a6aaaf;\n"
 "}")
+        # Add a layout for the image list
+        self.image_list_layout = QVBoxLayout()
+        self.verticalLayout.addLayout(self.image_list_layout)
+
         self.yolo_detect_start_button.setObjectName("yolo_detect_start_button")
-        self.gridLayout_2.addWidget(self.yolo_detect_start_button, 2, 0, 1, 1)
-        self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
-        self.progressBar.setProperty("value", 0)
-        self.progressBar.setObjectName("progressBar")
-        self.gridLayout_2.addWidget(self.progressBar, 3, 0, 1, 1)
+        self.verticalLayout.addWidget(self.yolo_detect_start_button)
         YoloDetectImageWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(YoloDetectImageWindow)
         QtCore.QMetaObject.connectSlotsByName(YoloDetectImageWindow)
+        self.image_upload_button.clicked.connect(self.add_image)
+        self.yolo_detect_start_button.clicked.connect(self.start_detection)
+
+        # Initialize image_paths to store selected images
+        self.image_paths = []
+        self.image_paths.clear()
+        self.weights_path = None
+        self.update_image_list()
+
+
+
+    def get_latest_results_dir(self):
+        base_path = '../yolov5/runs/detect'
+        all_subdirs = [os.path.join(base_path, subdir) for subdir in os.listdir(base_path) if
+                       os.path.isdir(os.path.join(base_path, subdir))]
+        if not all_subdirs:
+            return None
+        latest_subdir = max(all_subdirs, key=os.path.getmtime)
+        return latest_subdir
+
+    def start_detection(self):
+        detect_base_path = '../yolov5/runs/detect'
+        train_base_path = '../yolov5/runs/train'
+
+        latest_train_dir = os.path.join(train_base_path, self.model_name)
+        # Set weights_path to the best.pt file in the latest training directory
+        if latest_train_dir:
+            self.weights_path = os.path.join(latest_train_dir, 'weights', 'best.pt')
+        else:
+            self.weights_path = None
+
+        # Debugging output for weights path
+        print(f"Weights path: {self.weights_path}")
+        print(f"Weights file exists: {os.path.exists(self.weights_path)}")
+
+        # Check if image paths and weights file exist
+        if not self.image_paths:
+            print(
+                "Condition failed. Either image paths are missing, weights path is not set, or the weights file does not exist.")
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("경고")
+            msg.setText("이미지를 추가하세요.")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+            return
+        elif not self.weights_path or not os.path.exists(self.weights_path):
+            print(
+                "Condition failed. Either image paths are missing, weights path is not set, or the weights file does not exist.")
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("경고")
+            msg.setText("해당 모델이 없습니다.")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+            return
+
+
+        result_directories = []
+
+        # Run detection for each image path
+        for image_path in self.image_paths:
+            command = f'python ../yolov5/detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project ../yolov5/runs/detect --name exp'
+            print(f"Running command: {command}")
+            subprocess.run(command, shell=True)
+
+            result_directories.append(self.get_latest_results_dir())
+        print(result_directories)
+        # Display the results
+        self.display_results(result_directories)
 
     def retranslateUi(self, YoloDetectImageWindow):
         _translate = QtCore.QCoreApplication.translate
         YoloDetectImageWindow.setWindowTitle(_translate("YoloDetectImageWindow", "MainWindow"))
         self.image_upload_button.setText(_translate("YoloDetectImageWindow", "이미지 추가"))
-        self.model_combobox.setItemText(0, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(1, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(2, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(3, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_combobox.setItemText(4, _translate("YoloDetectImageWindow", "새 항목"))
-        self.model_select_button.setText(_translate("YoloDetectImageWindow", "모델 선택"))
         self.yolo_detect_start_button.setText(_translate("YoloDetectImageWindow", "검출 시작"))
+
+    def setModel(self, str):
+        self.model_name = str
+
+    def update_image_list(self):
+        # Remove all widgets from the layout
+        while self.image_list_layout.count() > 0:
+            item = self.image_list_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+        # Add new labels for each image path
+        for path in self.image_paths:
+            label = QLabel(path)
+            self.image_list_layout.addWidget(label)
+
+    def display_results(self, folders):
+        self.result_window = QWidget()
+        self.result_window.setWindowTitle("Detection Results")
+        self.result_layout = QVBoxLayout()
+        self.result_window.setLayout(self.result_layout)
+
+        self.prev_button = QPushButton("Previous", self.result_window)
+        self.prev_button.clicked.connect(self.show_prev_image)
+        self.result_layout.addWidget(self.prev_button)
+
+        self.next_button = QPushButton("Next", self.result_window)
+        self.next_button.clicked.connect(self.show_next_image)
+        self.result_layout.addWidget(self.next_button)
+
+        self.result_images = []
+        for folder in folders:
+            if folder is None:
+                continue
+            self.result_images += [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
+
+        self.current_image_index = 0
+        self.show_image()
+
+        self.result_window.show()
+
+    def show_image(self):
+        if not self.result_images:
+            QMessageBox.information(self.result_window, "Info", "No images to display.")
+            return
+
+        img_path = self.result_images[self.current_image_index]
+        pixmap = QtGui.QPixmap(img_path)
+
+        if hasattr(self, 'image_label'):
+            self.image_label.setPixmap(pixmap)
+        else:
+            self.image_label = QLabel(self.result_window)
+            self.image_label.setPixmap(pixmap)
+            self.result_layout.addWidget(self.image_label)
+
+    def show_next_image(self):
+        if self.current_image_index < len(self.result_images) - 1:
+            self.current_image_index += 1
+            self.show_image()
+
+    def add_image(self):
+        print(self.model_name)
+        file_paths, _ = QFileDialog.getOpenFileNames(None, "Select Images", "", "Image files (*.jpg;*.jpeg;*.png);;All files (*)")
+        if file_paths:
+            self.image_paths.extend(file_paths)
+            self.update_image_list()
+
+    def show_prev_image(self):
+        if self.current_image_index > 0:
+            self.current_image_index -= 1
+            self.show_image()
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    YoloDetectImageWindow = QtWidgets.QMainWindow()
+    YoloDetectImageWindow = QMainWindow()
     ui = Ui_YoloDetectImageWindow()
     ui.setupUi(YoloDetectImageWindow)
     YoloDetectImageWindow.show()

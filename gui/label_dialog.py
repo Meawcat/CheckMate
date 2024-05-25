@@ -9,10 +9,13 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import os
 
 class Ui_label_dialog(object):
     def setupUi(self, label_dialog):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         label_dialog.setObjectName("label_dialog")
         label_dialog.resize(550, 400)
         label_dialog.setStyleSheet("QDialog{\n"

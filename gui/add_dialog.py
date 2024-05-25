@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'add_dialog.ui'
+# Form implementation generated from reading ui file 'gui/add_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_add_dialog(object):
     def setupUi(self, add_dialog):
         add_dialog.setObjectName("add_dialog")
-        add_dialog.resize(611, 403)
+        add_dialog.resize(537, 448)
         add_dialog.setMaximumSize(QtCore.QSize(16777215, 16777215))
         add_dialog.setStyleSheet("QDialog{\n"
 "    background-color: #fff;\n"
@@ -31,8 +31,8 @@ class Ui_add_dialog(object):
 "    background-color:rgba(86,101,115,0.5);\n"
 "    color:  #fff;\n"
 "}")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(add_dialog)
-        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.gridLayout_2 = QtWidgets.QGridLayout(add_dialog)
+        self.gridLayout_2.setObjectName("gridLayout_2")
         self.verlay2 = QtWidgets.QVBoxLayout()
         self.verlay2.setObjectName("verlay2")
         self.verlay1 = QtWidgets.QVBoxLayout()
@@ -90,21 +90,18 @@ class Ui_add_dialog(object):
         self.gridLayout.addWidget(self.file_button, 0, 1, 1, 1)
         self.verlay2.addLayout(self.gridLayout)
         self.scrollArea = QtWidgets.QScrollArea(add_dialog)
-        self.scrollArea.setStyleSheet("background-color: transparent;\n"
-"")
+        self.scrollArea.setStyleSheet("background-color: transparent;")
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 526, 165))
-        self.scrollAreaWidgetContents.setMaximumSize(QtCore.QSize(526, 166))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 511, 210))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_3.setObjectName("gridLayout_3")
         self.selected = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.selected.setStyleSheet("")
         self.selected.setText("")
         self.selected.setObjectName("selected")
-        self.verticalLayout.addWidget(self.selected)
+        self.gridLayout_3.addWidget(self.selected, 0, 0, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verlay2.addWidget(self.scrollArea)
         self.add_button = QtWidgets.QPushButton(add_dialog)
@@ -118,7 +115,7 @@ class Ui_add_dialog(object):
         self.add_button.setStyleSheet("")
         self.add_button.setObjectName("add_button")
         self.verlay2.addWidget(self.add_button, 0, QtCore.Qt.AlignHCenter)
-        self.horizontalLayout.addLayout(self.verlay2)
+        self.gridLayout_2.addLayout(self.verlay2, 0, 0, 1, 1)
 
         self.retranslateUi(add_dialog)
         QtCore.QMetaObject.connectSlotsByName(add_dialog)
