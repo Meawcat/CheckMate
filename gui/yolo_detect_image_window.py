@@ -15,6 +15,9 @@ import os, subprocess
 
 class Ui_YoloDetectImageWindow(object):
     def setupUi(self, YoloDetectImageWindow):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         YoloDetectImageWindow.setObjectName("YoloDetectImageWindow")
         YoloDetectImageWindow.resize(424, 321)
         font = QtGui.QFont()
@@ -64,6 +67,10 @@ class Ui_YoloDetectImageWindow(object):
 "    padding: 1px 5px;\n"
 "    background-color: #a6aaaf;\n"
 "}")
+        # Add a layout for the image list
+        self.image_list_layout = QVBoxLayout()
+        self.verticalLayout.addLayout(self.image_list_layout)
+
         self.yolo_detect_start_button.setObjectName("yolo_detect_start_button")
         self.verticalLayout.addWidget(self.yolo_detect_start_button)
         YoloDetectImageWindow.setCentralWidget(self.centralwidget)
@@ -75,8 +82,14 @@ class Ui_YoloDetectImageWindow(object):
 
         # Initialize image_paths to store selected images
         self.image_paths = []
+        self.image_paths.clear()
+        self.weights_path = None
+        self.update_image_list()
 
-    def get_latest_results_dir(self, base_path):
+
+
+    def get_latest_results_dir(self):
+        base_path = '../yolov5/runs/detect'
         all_subdirs = [os.path.join(base_path, subdir) for subdir in os.listdir(base_path) if
                        os.path.isdir(os.path.join(base_path, subdir))]
         if not all_subdirs:
@@ -88,15 +101,7 @@ class Ui_YoloDetectImageWindow(object):
         detect_base_path = '../yolov5/runs/detect'
         train_base_path = '../yolov5/runs/train'
 
-        # Get the directories for the specific model
-        latest_detect_dir = os.path.join(detect_base_path, self.model_name)
         latest_train_dir = os.path.join(train_base_path, self.model_name)
-
-        # Debugging output for directories
-        print(f"Latest detect directory: {latest_detect_dir}")
-        print(f"Latest train directory: {latest_train_dir}")
-        print(f"Latest train directory exists: {os.path.exists(latest_train_dir)}")
-
         # Set weights_path to the best.pt file in the latest training directory
         if latest_train_dir:
             self.weights_path = os.path.join(latest_train_dir, 'weights', 'best.pt')
@@ -108,25 +113,38 @@ class Ui_YoloDetectImageWindow(object):
         print(f"Weights file exists: {os.path.exists(self.weights_path)}")
 
         # Check if image paths and weights file exist
-        if not self.image_paths or not self.weights_path or not os.path.exists(self.weights_path):
-            print("Condition failed. Either image paths are missing, weights path is not set, or the weights file does not exist.")
+        if not self.image_paths:
+            print(
+                "Condition failed. Either image paths are missing, weights path is not set, or the weights file does not exist.")
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("경고")
-            msg.setText("이미지와 모델 파일을 먼저 추가하세요.")
+            msg.setText("이미지를 추가하세요.")
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec_()
             return
+        elif not self.weights_path or not os.path.exists(self.weights_path):
+            print(
+                "Condition failed. Either image paths are missing, weights path is not set, or the weights file does not exist.")
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("경고")
+            msg.setText("해당 모델이 없습니다.")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+            return
+
 
         result_directories = []
 
         # Run detection for each image path
         for image_path in self.image_paths:
-            command = f'python ../yolov5/detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project ../yolov5/runs/detect --name {self.model_name}'
+            command = f'python ../yolov5/detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project ../yolov5/runs/detect --name exp'
             print(f"Running command: {command}")
             subprocess.run(command, shell=True)
-            result_directories.append(self.get_latest_results_dir(latest_detect_dir))
 
+            result_directories.append(self.get_latest_results_dir())
+        print(result_directories)
         # Display the results
         self.display_results(result_directories)
 
@@ -139,11 +157,18 @@ class Ui_YoloDetectImageWindow(object):
     def setModel(self, str):
         self.model_name = str
 
-    def open_image_detect_window(self):
-        latest_dir = self.get_latest_results_dir()
-        if latest_dir:
-            self.display_results([latest_dir])
+    def update_image_list(self):
+        # Remove all widgets from the layout
+        while self.image_list_layout.count() > 0:
+            item = self.image_list_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
 
+        # Add new labels for each image path
+        for path in self.image_paths:
+            label = QLabel(path)
+            self.image_list_layout.addWidget(label)
 
     def display_results(self, folders):
         self.result_window = QWidget()
@@ -163,7 +188,7 @@ class Ui_YoloDetectImageWindow(object):
         for folder in folders:
             if folder is None:
                 continue
-            self.result_images += [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.jpg')]
+            self.result_images += [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 
         self.current_image_index = 0
         self.show_image()
@@ -195,7 +220,7 @@ class Ui_YoloDetectImageWindow(object):
         file_paths, _ = QFileDialog.getOpenFileNames(None, "Select Images", "", "Image files (*.jpg;*.jpeg;*.png);;All files (*)")
         if file_paths:
             self.image_paths.extend(file_paths)
-            self.label.setText('\n'.join(self.image_paths))
+            self.update_image_list()
 
     def show_prev_image(self):
         if self.current_image_index > 0:
