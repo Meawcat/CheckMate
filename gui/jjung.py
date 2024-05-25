@@ -101,7 +101,7 @@ class YOLOv5GUI:
 
         # 각 이미지를 탐지하고 결과 폴더를 수집
         for image_path in self.image_paths:
-            command = f'python detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project runs/detect --name exp'
+            command = f'python ../yolov5/detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project ../yolov5/runs/detect --name exp'
             subprocess.run(command, shell=True)  # Popen에서 run으로 변경하여 동기 실행
             result_directories.append(self.get_latest_results_dir())
 
@@ -109,7 +109,7 @@ class YOLOv5GUI:
         self.display_results(result_directories)
 
     def get_latest_results_dir(self):
-        base_path = 'runs/detect'
+        base_path = '../yolov5/runs/detect'
         all_subdirs = [os.path.join(base_path, d) for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))]
         if not all_subdirs:
             return None
@@ -207,17 +207,6 @@ class YOLOv5GUI:
             frame.pack_forget()
         self.home_frame.pack(fill="both", expand=True)
 
-    def add_image(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png"), ("All files", "*.*")])
-        if file_path:
-            self.image_paths.append(file_path)
-            self.update_image_list()
-
-    def update_image_list(self):
-        for widget in self.image_list_frame.winfo_children():
-            widget.destroy()
-        for idx, path in enumerate(self.image_paths):
-            tk.Label(self.image_list_frame, text=path).grid(row=idx, column=0)
 
     def reset_train_window(self):
         self.data_yaml_path.delete(0, tk.END)

@@ -10,8 +10,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QPushButton, QMessageBox, QLabel, QMainWindow
-from PIL import Image, ImageQt
-import os, subprocess
+import os
+from subprocess import run
+
 
 class Ui_YoloDetectImageWindow(object):
     def setupUi(self, YoloDetectImageWindow):
@@ -136,12 +137,13 @@ class Ui_YoloDetectImageWindow(object):
 
 
         result_directories = []
+        print("Image paths:", self.image_paths)
 
         # Run detection for each image path
         for image_path in self.image_paths:
             command = f'python ../yolov5/detect.py --source "{image_path}" --weights "{self.weights_path}" --conf 0.5 --project ../yolov5/runs/detect --name exp'
             print(f"Running command: {command}")
-            subprocess.run(command, shell=True)
+            run(command, shell=True)
 
             result_directories.append(self.get_latest_results_dir())
         print(result_directories)
