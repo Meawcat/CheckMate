@@ -152,10 +152,13 @@ class DataPage(QDialog):
         self.create_dataset_dialog.exec_()
 
     def populate_directory_combo(self, combo):
-        # './data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
-        directory = '../data'
-        directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-        combo.addItems(directories)
+        try:
+            directory = "../data"
+            directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+            combo.addItems(directories)
+        except Exception as e:
+            QMessageBox.Warning(None, "경고", "data가 없습니다. 다시 확인해 주세요.")
+
 
     def split_data_yolo(self):
         directory_name = self.directory_combo.currentText()

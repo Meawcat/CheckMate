@@ -423,9 +423,6 @@ class Ui_MainWindow(object):
         self.detect_video_button.setObjectName("detect_video_button")
         self.horizontalLayout_2.addWidget(self.detect_video_button)
         self.gridLayout_8.addLayout(self.horizontalLayout_2, 5, 0, 1, 1)
-        self.refresh = QtWidgets.QPushButton(self.yolo_detect_widget)
-        self.refresh.setObjectName("refresh")
-        self.gridLayout_8.addWidget(self.refresh, 3, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.gridLayout_10.addWidget(self.yolo_detect_widget, 2, 0, 1, 1)
         self.gridLayout_11.addLayout(self.gridLayout_10, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.detect_page)
@@ -474,7 +471,6 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "yolo 검출"))
         self.detect_image_button.setText(_translate("MainWindow", "이미지"))
         self.detect_video_button.setText(_translate("MainWindow", "실시간 영상"))
-        self.refresh.setText(_translate("MainWindow", "새로고침"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

@@ -652,16 +652,6 @@ background-color: #a6aaaf;</string>
 </string>
                </property>
                <layout class="QGridLayout" name="gridLayout_8">
-                <item row="2" column="0" alignment="Qt::AlignHCenter">
-                 <widget class="QComboBox" name="comboBox">
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_4">
                   <property name="font">
@@ -680,7 +670,7 @@ background-color: #a6aaaf;</string>
                   </property>
                  </widget>
                 </item>
-                <item row="5" column="0">
+                <item row="4" column="0">
                  <layout class="QHBoxLayout" name="horizontalLayout_2">
                   <item>
                    <widget class="QPushButton" name="detect_image_button">
@@ -726,10 +716,13 @@ background-color: #a6aaaf;
                   </item>
                  </layout>
                 </item>
-                <item row="3" column="0" alignment="Qt::AlignHCenter">
-                 <widget class="QPushButton" name="refresh">
-                  <property name="text">
-                   <string>새로고침</string>
+                <item row="2" column="0" alignment="Qt::AlignHCenter">
+                 <widget class="QComboBox" name="comboBox">
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>16777215</height>
+                   </size>
                   </property>
                  </widget>
                 </item>

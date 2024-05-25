@@ -206,7 +206,7 @@ class Ui_YoloLearnWindow(object):
 
     def retranslateUi(self, YoloLearnWindow):
         _translate = QtCore.QCoreApplication.translate
-        YoloLearnWindow.setWindowTitle(_translate("YoloLearnWindow", "MainWindow"))
+        YoloLearnWindow.setWindowTitle(_translate("YoloLearnWindow", "YOLOv5 학습"))
         self.find_button.setText(_translate("YoloLearnWindow", "찾아보기"))
         self.load_button.setText(_translate("YoloLearnWindow", "불러오기"))
         self.model_dir.setText(_translate("YoloLearnWindow", "학습 모델 폴더 이름"))
@@ -246,23 +246,53 @@ class Ui_YoloLearnWindow(object):
             return
         try:
             command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epoch} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project ../yolov5/runs/train'
-            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-            self.read_process_output(process)
+            self.training_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8')
+            self.read_process_output()
+            self.thread = threading.Thread(target=self.run_command, args=(command,))
+            self.thread.start()
         except subprocess.CalledProcessError as e:
             error_message = e.stderr.decode('utf-8')
             QtWidgets.QMessageBox.critical(None, "오류", f"명령 실행 중 오류가 발생했습니다:\n{error_message}")
         except Exception as e:
             QtWidgets.QMessageBox.warning(None, "실패", f"알 수 없는 오류가 발생했습니다: {e}")
 
-    def read_process_output(self, process):
-        output = ""
-        while True:
-            line = process.stdout.readline().strip()
-            if line == '':
-                break
-            output += line + "\n"
-            self.process.setText(output)
 
+    def run_command(self, command):
+        try:
+            result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.show_message_box("성공", "명령이 성공적으로 실행되었습니다:\n" + result.stdout.decode('utf-8'), QMessageBox.Information)
+        except subprocess.CalledProcessError as e:
+            error_message = f"명령 실행 중 오류가 발생했습니다:\n{e.stderr.decode('utf-8')}"
+            self.show_message_box("오류", error_message, QMessageBox.Critical)
+        except Exception as e:
+            self.show_message_box("오류", f"알 수 없는 오류가 발생했습니다: {e}", QMessageBox.Warning)
+
+    def read_process_output(self):
+        output_text = ""
+        while True:
+            line = self.training_process.stdout.readline()
+            if not line:
+                break
+            output_text += line
+            self.process.setText(output_text)
+            QtWidgets.QApplication.processEvents()  # Immediate update of QLabel
+            self.scrollArea.verticalScrollBar().setValue(self.scrollArea.verticalScrollBar().maximum())
+
+        self.training_process.stdout.close()
+        self.training_process.wait()
+        self.close_loading_screen()
+        if self.training_process.returncode == 0:
+            self.show_message_box("완료", "학습이 완료되었습니다.", QMessageBox.Information)
+        else:
+            self.show_message_box("오류", "학습 중 오류가 발생했습니다.", QMessageBox.Critical)
+        self.training_process = None
+
+    def show_message_box(self, title, message, icon):
+        msg_box = QMessageBox()
+        msg_box.setIcon(icon)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.exec_()
     def stop_training(self):
         if hasattr(self, 'training_process') and self.training_process.poll() is None:
             self.training_process.terminate()
@@ -296,11 +326,13 @@ class Ui_YoloLearnWindow(object):
         self.loading_window.after(50, self.animate_gif, ind)  # update every 50 ms
 
     def populate_directory_combo(self, combo):
-        # './../data' 디렉터리에서 디렉터리 명들을 읽어와 콤보박스에 추가합니다.
-        directory = "../data"
-        import os
-        directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-        combo.addItems(directories)
+        try:
+            directory = "../data"
+            directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+            combo.addItems(directories)
+        except Exception as e:
+            QMessageBox.Warning(None, "경고", "data가 없습니다. 다시 확인해 주세요.")
+
     def close_loading_screen(self):
         if hasattr(self, 'loading_window'):
             self.loading_window.destroy()
