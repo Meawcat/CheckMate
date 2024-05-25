@@ -12,6 +12,10 @@ import subprocess
 
 class myMainWindow(QMainWindow):
     def __init__(self):
+
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         super(myMainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -91,10 +95,14 @@ class myMainWindow(QMainWindow):
     #    self.folder_path.setText(folder_path)
 
     def open_yolo_detect_image_window(self):
+        if not self.combo:
+            QMessageBox.warning(None, "경고", "모델을 선택하세요.")
+            return
         # 이미지 검출 페이지 연결
         print("open yolo detect image window")
         self.yolo_detect_image_window = QMainWindow()
         self.ui_yolo_detect_image = Ui_YoloDetectImageWindow()
+        self.ui_yolo_detect_image.setModel(self.combo.currentText())
         self.ui_yolo_detect_image.setupUi(self.yolo_detect_image_window)
         self.yolo_detect_image_window.show()
     def populate_directory_combo(self):
@@ -127,7 +135,7 @@ class myMainWindow(QMainWindow):
     # 화면
     def initUI(self):
         self.setWindowTitle('체크메이트')
-        self.setWindowIcon(QIcon('icons/icon.png'))
+        self.setWindowIcon(QIcon('gui/icons/icon.png'))
         #self.setGeometry(300, 300, 300, 200)
         self.show()
 
