@@ -18,9 +18,40 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import os
 
+class TrainingThread(QtCore.QThread):
+    update_progress = QtCore.pyqtSignal(str)
+    finished = QtCore.pyqtSignal(str)
+
+    def __init__(self, command):
+        super().__init__()
+        self.command = command
+
+    def run(self):
+        try:
+            process = subprocess.Popen(self.command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8')
+            output = ""
+            while True:
+                line = process.stdout.readline()
+                if not line:
+                    break
+                output += line
+                self.update_progress.emit(output)
+                QtCore.QCoreApplication.processEvents()
+            process.stdout.close()
+            process.wait()
+            if process.returncode == 0:
+                self.finished.emit("학습이 완료되었습니다.")
+            else:
+                self.finished.emit("학습 중 오류가 발생했습니다.")
+        except Exception as e:
+            self.finished.emit(f"알 수 없는 오류가 발생했습니다: {e}")
+
+
 class Ui_YoloLearnWindow(object):
     def setupUi(self, YoloLearnWindow):
 
+
+        self.is_training = False  # 학습이 진행 중인지 여부를 추적하는 플래그
         script_path = os.path.abspath(__file__)
         script_dir = os.path.dirname(script_path)
         os.chdir(script_dir)
@@ -199,6 +230,20 @@ class Ui_YoloLearnWindow(object):
         self.train_start.clicked.connect(self.start_training)
         self.model_dir_edit.textChanged.connect(self.model_dir_changed)
         self.horizontalSlider.valueChanged.connect(self.update_epoch_num)
+        YoloLearnWindow.closeEvent = self.closeEvent  # 창 닫기 이벤트를 사용자 정의 메서드에 연결
+
+    def closeEvent(self, event):
+        if self.is_training:
+            # 학습이 진행 중일 때 경고 메시지 박스를 띄움
+            reply = QMessageBox.question(None, '경고', '학습이 진행 중입니다. 종료하시겠습니까?',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                event.accept()  # 이벤트를 수락하여 창을 닫음
+            else:
+                event.ignore()  # 이벤트를 무시하여 창을 닫지 않음
+        else:
+            event.accept()  # 이벤트를 수락하여 창을 닫음
+
 
     def update_epoch_num(self):
         value = self.horizontalSlider.value()
@@ -237,25 +282,32 @@ class Ui_YoloLearnWindow(object):
         self.animate_gif(0)
 
     def start_training(self):
+        self.train_start.setEnabled(False)  # 버튼 비활성화
+        self.is_training = True  # 학습이 진행 중임을 나타내는 플래그 설정
         data_yaml = self.yaml_edit.text()
         model_name = self.model_dir_edit.text()
         save_dir = self.model_save_edit.text()
         epoch = self.epoch_num.text()
         if not data_yaml or not model_name or not save_dir:
             QtWidgets.QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
+            self.train_start.setEnabled(True)  # 오류가 발생하면 버튼을 다시 활성화
+            self.is_training = False  # 플래그 초기화
             return
-        try:
-            command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epoch} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project ../yolov5/runs/train'
-            self.training_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8')
-            self.read_process_output()
-            self.thread = threading.Thread(target=self.run_command, args=(command,))
-            self.thread.start()
-        except subprocess.CalledProcessError as e:
-            error_message = e.stderr.decode('utf-8')
-            QtWidgets.QMessageBox.critical(None, "오류", f"명령 실행 중 오류가 발생했습니다:\n{error_message}")
-        except Exception as e:
-            QtWidgets.QMessageBox.warning(None, "실패", f"알 수 없는 오류가 발생했습니다: {e}")
+        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epoch} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project {save_dir}'
 
+        self.thread = TrainingThread(command)
+        self.thread.update_progress.connect(self.update_progress)
+        self.thread.finished.connect(self.training_finished)
+        self.thread.start()
+
+    def update_progress(self, output):
+        self.process.setText(output)
+        self.scrollArea.verticalScrollBar().setValue(self.scrollArea.verticalScrollBar().maximum())
+
+    def training_finished(self, result):
+        self.show_message_box("완료", result, QMessageBox.Information)
+        self.train_start.setEnabled(True)  # 학습이 완료된 후 버튼을 다시 활성화
+        self.is_training = False  # 플래그 초기화
 
     def run_command(self, command):
         try:

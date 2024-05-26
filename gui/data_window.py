@@ -299,7 +299,7 @@ class DataPage(QDialog):
             'val': dir + '/valid',
             'test': dir + '/test',
             'nc': 2,
-            'names': ['bad', 'good', 'scratch']
+            'names': ['bad', 'good']
         }
 
         try:
