@@ -329,6 +329,7 @@ class Ui_MainWindow(object):
         self.gridLayout_10 = QtWidgets.QGridLayout()
         self.gridLayout_10.setObjectName("gridLayout_10")
         self.label_3 = QtWidgets.QLabel(self.detect_page)
+        self.label_3.setMaximumSize(QtCore.QSize(16777215, 40))
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(18)
@@ -340,90 +341,46 @@ class Ui_MainWindow(object):
         self.gridLayout_10.addWidget(self.label_3, 1, 0, 1, 1)
         self.anomaly_detect_widget = QtWidgets.QWidget(self.detect_page)
         self.anomaly_detect_widget.setStyleSheet("#anomaly_detect_widget{\n"
-"    border: 2px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"}")
+                                                 "    border: 2px solid#a6aaaf;\n"
+                                                 "    border-radius: 5px;\n"
+                                                 "}")
         self.anomaly_detect_widget.setObjectName("anomaly_detect_widget")
-        self.gridLayout_9 = QtWidgets.QGridLayout(self.anomaly_detect_widget)
-        self.gridLayout_9.setObjectName("gridLayout_9")
-        spacerItem2 = QtWidgets.QSpacerItem(20, 147, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_9.addItem(spacerItem2, 2, 0, 1, 1)
-        self.anomaly_detect_start_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setBold(True)
-        font.setWeight(75)
-        self.anomaly_detect_start_button.setFont(font)
-        self.anomaly_detect_start_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"background-color: #a6aaaf;")
-        self.anomaly_detect_start_button.setObjectName("anomaly_detect_start_button")
-        self.gridLayout_9.addWidget(self.anomaly_detect_start_button, 3, 0, 1, 1)
-        self.label_5 = QtWidgets.QLabel(self.anomaly_detect_widget)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_5.setFont(font)
-        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout_9.addWidget(self.label_5, 0, 0, 1, 1)
-        self.gridLayout_10.addWidget(self.anomaly_detect_widget, 3, 0, 1, 1)
-        self.yolo_detect_widget = QtWidgets.QWidget(self.detect_page)
-        self.yolo_detect_widget.setStyleSheet("#yolo_detect_widget{\n"
-"    border: 2px solid#a6aaaf;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"")
-        self.yolo_detect_widget.setObjectName("yolo_detect_widget")
-        self.gridLayout_8 = QtWidgets.QGridLayout(self.yolo_detect_widget)
-        self.gridLayout_8.setObjectName("gridLayout_8")
-        self.comboBox = QtWidgets.QComboBox(self.yolo_detect_widget)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.anomaly_detect_widget)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.comboBox = QtWidgets.QComboBox(self.anomaly_detect_widget)
         self.comboBox.setMaximumSize(QtCore.QSize(200, 16777215))
         self.comboBox.setObjectName("comboBox")
-        self.gridLayout_8.addWidget(self.comboBox, 2, 0, 1, 1, QtCore.Qt.AlignHCenter)
-        self.label_4 = QtWidgets.QLabel(self.yolo_detect_widget)
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_4.setFont(font)
-        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout_8.addWidget(self.label_4, 0, 0, 1, 1)
+        self.verticalLayout_3.addWidget(self.comboBox, 0, QtCore.Qt.AlignHCenter)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.detect_image_button = QtWidgets.QPushButton(self.yolo_detect_widget)
+        self.detect_image_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setBold(True)
         font.setWeight(75)
         self.detect_image_button.setFont(font)
         self.detect_image_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"background-color: #a6aaaf;\n"
-"")
+                                               "border-radius: 5px;\n"
+                                               "padding: 1px 5px;\n"
+                                               "background-color: #a6aaaf;\n"
+                                               "")
         self.detect_image_button.setObjectName("detect_image_button")
         self.horizontalLayout_2.addWidget(self.detect_image_button)
-        self.detect_video_button = QtWidgets.QPushButton(self.yolo_detect_widget)
+        self.detect_video_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setBold(True)
         font.setWeight(75)
         self.detect_video_button.setFont(font)
         self.detect_video_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"background-color: #a6aaaf;\n"
-"")
+                                               "border-radius: 5px;\n"
+                                               "padding: 1px 5px;\n"
+                                               "background-color: #a6aaaf;\n"
+                                               "")
         self.detect_video_button.setObjectName("detect_video_button")
         self.horizontalLayout_2.addWidget(self.detect_video_button)
-        self.gridLayout_8.addLayout(self.horizontalLayout_2, 5, 0, 1, 1)
-        self.gridLayout_10.addWidget(self.yolo_detect_widget, 2, 0, 1, 1)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.gridLayout_10.addWidget(self.anomaly_detect_widget, 2, 0, 1, 1)
         self.gridLayout_11.addLayout(self.gridLayout_10, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.detect_page)
         self.helper_page = QtWidgets.QWidget()
@@ -465,10 +422,7 @@ class Ui_MainWindow(object):
 #        self.train_data_upload_button.setText(_translate("MainWindow", "불러오기"))
         self.yolo_button.setText(_translate("MainWindow", "YOLO 학습"))
         self.efficientAD_button.setText(_translate("MainWindow", "EfficientAD 학습"))
-        self.label_3.setText(_translate("MainWindow", "검출"))
-        self.anomaly_detect_start_button.setText(_translate("MainWindow", "검출 시작"))
-        self.label_5.setText(_translate("MainWindow", "이상 검출"))
-        self.label_4.setText(_translate("MainWindow", "yolo 검출"))
+        self.label_3.setText(_translate("MainWindow", "불량 검출"))
         self.detect_image_button.setText(_translate("MainWindow", "이미지"))
         self.detect_video_button.setText(_translate("MainWindow", "실시간 영상"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

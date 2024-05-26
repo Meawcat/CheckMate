@@ -293,7 +293,7 @@ class Ui_YoloLearnWindow(object):
             self.train_start.setEnabled(True)  # 오류가 발생하면 버튼을 다시 활성화
             self.is_training = False  # 플래그 초기화
             return
-        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epoch} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project {save_dir}'
+        command = f'python ../yolov5/train.py --img 640 --batch 16 --epochs {epoch} --data {data_yaml} --cfg ../yolov5/models/yolov5s.yaml --weights ../yolov5/yolov5s.pt --name {model_name} --project ../yolov5/runs/train'
 
         self.thread = TrainingThread(command)
         self.thread.update_progress.connect(self.update_progress)

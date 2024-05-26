@@ -45,8 +45,6 @@ class myMainWindow(QMainWindow):
         #self.folder_path = self.ui.lineEdit
         self.detect_image_btn = self.ui.detect_image_button
         self.detect_video_btn = self.ui.detect_video_button
-        self.anomaly_detect_start_btn = self.ui.anomaly_detect_start_button
-        self.init_signal_slot()
 
         # 시작화면을 홈화면으로
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -84,7 +82,6 @@ class myMainWindow(QMainWindow):
         #self.upload_btn.clicked.connect(self.get_folder_path)
         self.detect_image_btn.clicked.connect(self.open_yolo_detect_image_window)
         self.detect_video_btn.clicked.connect(self.open_yolo_detect_live)
-        self.anomaly_detect_start_btn.clicked.connect(self.open_anomaly_detect)
 
     #def get_folder_path(self):
     #    folder_path = str(QFileDialog.getExistingDirectory(self, "select Directory"))
@@ -129,10 +126,6 @@ class myMainWindow(QMainWindow):
         except Exception as e:
             # 예외 처리
             QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
-
-    def open_anomaly_detect(self):
-        # anomaly_detection
-        print("detect")
 
     # 화면
     def initUI(self):
