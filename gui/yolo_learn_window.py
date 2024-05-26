@@ -63,6 +63,8 @@ class Ui_YoloLearnWindow(object):
                                       "}")
         self.centralwidget = QtWidgets.QWidget(YoloLearnWindow)
         self.centralwidget.setObjectName("centralwidget")
+        #추가
+        self.centralwidget.setStyleSheet("background-color: #ffffff;")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -214,6 +216,8 @@ class Ui_YoloLearnWindow(object):
                                        "    background-color: #a6aaaf;\n"
                                        "}")
         self.train_start.setObjectName("train_start")
+        #추가
+        self.train_start.setFixedWidth(607) 
         self.horizontalLayout.addWidget(self.train_start, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.verticalLayout_2.addLayout(self.verticalLayout)

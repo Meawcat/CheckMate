@@ -22,10 +22,10 @@ class Ui_label_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #a6aaaf;\n"
+"    color: #000;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
 "    height: 60px;\n"
 "}\n"
@@ -73,7 +73,7 @@ class Ui_label_dialog(object):
         self.label_button.setFont(font)
         self.label_button.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.label_button.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label_button.setStyleSheet("")
+        self.label_button.setStyleSheet("font-weight: bold;")
         self.label_button.setObjectName("label_button")
         self.verticalLayout.addWidget(self.label_button, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.addLayout(self.verticalLayout)

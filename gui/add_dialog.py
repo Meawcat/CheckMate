@@ -20,10 +20,10 @@ class Ui_add_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #a6aaaf;\n"
+"    color: #000;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
 "    height: 60px;\n"
 "}\n"
@@ -85,7 +85,7 @@ class Ui_add_dialog(object):
         font.setFamily("맑은 고딕")
         font.setPointSize(10)
         self.file_button.setFont(font)
-        self.file_button.setStyleSheet("")
+        self.file_button.setStyleSheet("font-weight: bold;")
         self.file_button.setObjectName("file_button")
         self.gridLayout.addWidget(self.file_button, 0, 1, 1, 1)
         self.verlay2.addLayout(self.gridLayout)
@@ -112,7 +112,7 @@ class Ui_add_dialog(object):
         self.add_button.setFont(font)
         self.add_button.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.add_button.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.add_button.setStyleSheet("")
+        self.add_button.setStyleSheet("font-weight: bold;")
         self.add_button.setObjectName("add_button")
         self.verlay2.addWidget(self.add_button, 0, QtCore.Qt.AlignHCenter)
         self.gridLayout_2.addLayout(self.verlay2, 0, 0, 1, 1)

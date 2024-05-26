@@ -23,10 +23,10 @@ class Ui_dataset_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #a6aaaf;\n"
+"    color: #000;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
 "    height: 60px;\n"
 "}\n"
@@ -179,7 +179,7 @@ class Ui_dataset_dialog(object):
         font.setFamily("맑은 고딕")
         font.setPointSize(12)
         self.split_button.setFont(font)
-        self.split_button.setStyleSheet("")
+        self.split_button.setStyleSheet("font-weight: bold;")
         self.split_button.setObjectName("split_button")
         self.verticalLayout_6.addWidget(self.split_button, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_7.addLayout(self.verticalLayout_6)

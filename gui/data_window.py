@@ -39,7 +39,8 @@ class TutorialDialog(QDialog):
             "데이터 관리 화면으로 돌아와 해당 물품의 labels 폴더에 저장이 되었는지 확인합니다."
         ]
         self.label = QLabel(self.labels[self.currentPage - 1])
-        self.layout.addWidget(self.label)
+        self.label.setAlignment(Qt.AlignCenter)  # 라벨 중앙 정렬
+        self.layout.addWidget(self.label, alignment=Qt.AlignCenter) #추가
 
         # 페이지 수를 표시하는 레이아웃 추가
         self.page_layout = QHBoxLayout()
@@ -63,6 +64,23 @@ class TutorialDialog(QDialog):
         dialog_geometry = self.geometry()
         self.move(screen_geometry.width() - dialog_geometry.width(),
                   int((screen_geometry.height() - dialog_geometry.height()) / 2))
+        
+        # 버튼 스타일 설정
+        button_style = """
+        QPushButton {
+            background-color: #a6aaaf;
+            border-radius: 5px;
+            font-weight: bold;
+            color: black;
+            min-width: 80px;
+            min-height: 40px;
+        }
+        QPushButton:hover {
+            background-color: #8c8c8c;
+        }
+        """
+        self.prev_button.setStyleSheet(button_style)
+        self.next_button.setStyleSheet(button_style)
 
     def nextPage(self):
         self.currentPage += 1
