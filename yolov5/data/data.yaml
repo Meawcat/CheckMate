@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['bad', 'good']
+
+roboflow:
+  workspace: jk001226
+  project: -cashk
+  version: 4
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/jk001226/-cashk/dataset/4

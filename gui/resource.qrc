@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/icons8-검사-48 (3).png</file>
+    <file>icons/icons8-출석-표-64 (1).png</file>
+    <file>icons/icons8-search-more-48.png</file>
+    <file>icons/icons8-검사-48 (2).png</file>
+    <file>icons/icons8-남성-확인-64.png</file>
+    <file>icons/icons8-영상-48.png</file>
+    <file>icons/icons8-집-48 (1).png</file>
+    <file>icons/icons8-책-공개-시험-48 (1).png</file>
+    <file>icons/icons8-검사-48 (1).png</file>
+    <file>icons/icons8-돋보기-48.png</file>
+    <file>icons/icons8-사진-48.png</file>
+    <file>icons/icons8-집-48.png</file>
+    <file>icons/icons8-책-공개-시험-48.png</file>
+    <file>icons/icons8-출석-표-64.png</file>
+  </qresource>
+</RCC>
