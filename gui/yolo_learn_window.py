@@ -57,10 +57,7 @@ class Ui_YoloLearnWindow(object):
         os.chdir(script_dir)
         YoloLearnWindow.setObjectName("YoloLearnWindow")
         YoloLearnWindow.resize(553, 573)
-        YoloLearnWindow.setStyleSheet("YoloLearnWindow{\n"
-                                      "    font: 9pt \"맑은 고딕\";\n"
-                                      "    background-color: #fff;\n"
-                                      "}")
+        YoloLearnWindow.setStyleSheet("font: 9pt \"맑은 고딕\";\nbackground-color: #fff;\n}")
         self.centralwidget = QtWidgets.QWidget(YoloLearnWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)

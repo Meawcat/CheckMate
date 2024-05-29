@@ -151,7 +151,7 @@ class myMainWindow(QMainWindow):
             # 버튼을 누르면 버튼의 배경 변경 추가
             btn.setStyleSheet("")
         active_button = btn_list[index]
-        active_button.setStyleSheet("background-color: #a6aaaf")
+        active_button.setStyleSheet("background-color: #3F72AF")
         self.populate_directory_combo() 
 
     # 버튼 고정 추가
