@@ -29,6 +29,7 @@ class Ui_MainWindow(object):
         "}\n"
         "#menu_widget QPushButton{\n"
         "    color:  #DBE2EF;\n"
+        "   text-align: left;\n"
         "}\n"
         "#menu_widget QPushButton:hover{\n"
         "    color:  #112D4E;\n"
@@ -54,6 +55,7 @@ class Ui_MainWindow(object):
         self.menu_widget = QtWidgets.QWidget(self.centralwidget)
         self.menu_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.menu_widget.setObjectName("menu_widget")
+        self.menu_widget.setContentsMargins(30, 0, 30, 30)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.menu_widget)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -185,7 +187,7 @@ class Ui_MainWindow(object):
         self.data_label_button = QtWidgets.QPushButton(self.data_page)
         label_font = QtGui.QFont()
         label_font.setFamily("Noto Sans KR")
-        label_font.setPointSize(8)
+        label_font.setPointSize(9)
         # 이 부분은 충돌 오류 날 때마다 추가 부탁드립니다
         self.file_manager = FD()
         self.gridLayout_3.addWidget(self.file_manager, 2, 0, 1, 1)

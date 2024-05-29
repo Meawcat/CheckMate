@@ -136,6 +136,7 @@ class myMainWindow(QMainWindow):
         self.setWindowTitle('체크메이트')
         self.setWindowIcon(QIcon('gui/icons/icon.png'))
         self.populate_directory_combo()  # Ensure combo is populated on startup
+        self.resize(750, 500)
         self.show()
 
     # 버튼 클릭시 페이지 변경
