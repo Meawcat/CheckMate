@@ -478,8 +478,7 @@ class Ui_MainWindow(object):
         self.data_label_button.setText(_translate("MainWindow", "데이터 라벨링"))
         self.dataset_create_button.setText(_translate("MainWindow", "데이터셋 생성"))
         self.data_label.setText(_translate("MainWindow", "데이터"))
-        self.data_info_label.setText(_translate("MainWindow", "모델 학습을 위한 데이터를 관리하는 메뉴입니다.\n"
-"해당 창에서 데이터 추가, 삭제, 라벨링 분할이 가능합니다."))
+        self.data_info_label.setText(_translate("MainWindow", "모델 학습을 위한 데이터를 관리하는 메뉴입니다.\n"))
         self.label_2.setText(_translate("MainWindow", "학습"))
 #        self.train_data_upload_button.setText(_translate("MainWindow", "불러오기"))
         self.yolo_button.setText(_translate("MainWindow", "YOLO 학습"))
