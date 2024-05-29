@@ -45,6 +45,7 @@ class myMainWindow(QMainWindow):
         self.detect_image_btn.clicked.connect(self.open_yolo_detect_image_window)
         self.detect_video_btn.clicked.connect(self.open_yolo_detect_live)
         self.detect_push_btn.clicked.connect(self.open_anomaly_detection_dialog)
+        self.refresh = self.ui.refresh_button.clicked.connect(self.populate_directory_combo)
 
         # 시작화면을 홈화면으로
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -93,14 +94,23 @@ class myMainWindow(QMainWindow):
         dialog.exec_()
 
     def populate_directory_combo(self):
-        self.combo.clear()  # Clear all items from the combo box
+        # self.combo.clear()  # Clear all items from the combo box
         directory = 'yolov5/runs/train'
         if os.path.exists(directory) and os.path.isdir(directory):
             directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
             for d in directories:
                 weights_path = os.path.join(directory, d, 'weights', 'best.pt')
+                # 먼저 해당 weights 파일이 존재하는지 확인
                 if os.path.exists(weights_path):
-                    self.combo.addItem(d)
+                    # combo에 이미 해당 이름의 아이템이 있는지 확인
+                    is_already_added = False
+                    for index in range(self.combo.count()):
+                        if self.combo.itemText(index) == d:
+                            is_already_added = True
+                            break
+                    # 동명의 아이템이 없는 경우에만 추가
+                    if not is_already_added:
+                        self.combo.addItem(d)
 
     def open_yolo_detect_live(self):
         combo_dir = 'yolov5/runs/train'
@@ -157,7 +167,6 @@ class myMainWindow(QMainWindow):
     def on_detect_button_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(3)
         self.on_stackedWidget_currentChanged(3)
-        self.populate_directory_combo()
     def on_helper_button_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(4)
         self.on_stackedWidget_currentChanged(4)
