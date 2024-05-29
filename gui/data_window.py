@@ -332,7 +332,7 @@ class DataPage(QDialog):
             'val': abs_val_path,
             'test': abs_test_path,
             'nc': 2,
-            'names': ['bad', 'good', 'scratch']
+            'names': ['bad', 'good']
         }
 
         try:
