@@ -89,10 +89,8 @@ class DataPage(QDialog):
         self.selected_files_label = None
         self.ratio_label = None
         self.test_ratio = None
-        self.test_slider = None
         self.test_label = None
         self.verLay4 = None
-        self.valid_slider = None
         self.valid_ratio = None
         self.item_name = None
         self.add_button = None
@@ -121,10 +119,6 @@ class DataPage(QDialog):
         self.combo_label = ui.combobox_label
         self.directory_combo = ui.comboBox
         self.populate_directory_combo(self.directory_combo)
-
-        # 검증 및 시험 슬라이더를 숨기지만 레이블은 유지
-        ui.valid_slider.setVisible(False)
-        ui.test_slider.setVisible(False)
 
         # 훈련 슬라이더 설정 (60~80)
         self.train_slider = ui.train_slider
@@ -267,10 +261,10 @@ class DataPage(QDialog):
             yolo_crop = YC()
             good_images = []
             bad_images = []
-
+            script_dir = os.path.dirname(os.path.abspath(__file__))  # 스크립트 디렉토리 가져오기
             # 태그 파일을 기반으로 이미지를 분류합니다.
             for tag_file in tags:
-                with open(os.path.join('../data', item, tag_file), 'r') as f:
+                with open(os.path.join(script_dir, '../data', item, tag_file), 'r') as f:
                     first_char = f.read(1)
                     if first_char == '0':  # 첫 번째 문자가 '0'이면 'bad'
                         bad_images.append(tag_file[:-4] + '.jpg')  # 해당 이미지 파일을 'bad'로 추가
@@ -284,10 +278,10 @@ class DataPage(QDialog):
             total_images = len(good_images) + len(bad_images)  # 전체 이미지 수 계산
 
             # 이미지 경로 설정
-            yolo_crop.setinputpath(os.path.join("../data", item))
+            yolo_crop.setinputpath(os.path.join(script_dir, "../data", item))
 
             # 훈련용 'good' 이미지 처리
-            yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "train/good"))
+            yolo_crop.setoutputpath(os.path.join(script_dir, "../EfficientAD-main/mvtec_anomaly_detection", item, "train/good"))
             for i, img in enumerate(good_images[:num_train_good_images], 1):
                 corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
                 if corresponding_txt_file in tags:
@@ -295,7 +289,7 @@ class DataPage(QDialog):
                 progressDialog.setValue(int(i / total_images * 100))  # 진행률 업데이트
 
             # 테스트용 'good' 이미지 처리
-            yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "test/good"))
+            yolo_crop.setoutputpath(os.path.join(script_dir, "../EfficientAD-main/mvtec_anomaly_detection", item, "test/good"))
             for i, img in enumerate(good_images[num_train_good_images:], num_train_good_images + 1):
                 corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
                 if corresponding_txt_file in tags:
@@ -303,7 +297,7 @@ class DataPage(QDialog):
                 progressDialog.setValue(int(i / total_images * 100))  # 진행률 업데이트
 
             # 'bad' 이미지 처리
-            yolo_crop.setoutputpath(os.path.join("../EfficientAD-main/mvtec_anomaly_detection", item, "test/bad"))
+            yolo_crop.setoutputpath(os.path.join(script_dir, "../EfficientAD-main/mvtec_anomaly_detection", item, "test/bad"))
             for i, img in enumerate(bad_images, num_train_good_images + 1):
                 corresponding_txt_file = os.path.splitext(img)[0] + '.txt'
                 if corresponding_txt_file in tags:

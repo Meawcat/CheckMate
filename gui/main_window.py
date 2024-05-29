@@ -363,7 +363,24 @@ class Ui_MainWindow(object):
         self.comboBox = QtWidgets.QComboBox(self.anomaly_detect_widget)
         self.comboBox.setMaximumSize(QtCore.QSize(200, 16777215))
         self.comboBox.setObjectName("comboBox")
-        self.verticalLayout_3.addWidget(self.comboBox, 0, QtCore.Qt.AlignHCenter)
+        self.refresh_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
+        self.refresh_button.setIconSize(QtCore.QSize(40, 40))  # 버튼 크기 설정
+        icon = QtGui.QIcon("gui/icons/refresh-icon-14.png")  # 이미지 파일 경로 설정
+        self.refresh_button.setIcon(icon)  # 버튼에 이미지 설정
+        self.refresh_button.setFixedSize(QtCore.QSize(40, 40))  # 버튼 크기 고정
+        self.refresh_button.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+            }
+            QPushButton:hover {
+                background-color: #a6aaaf;
+            }
+        """)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.addWidget(self.comboBox)
+        self.horizontalLayout_4.addWidget(self.refresh_button)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_4, 0)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.detect_image_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
