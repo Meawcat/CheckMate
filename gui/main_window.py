@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         self.menu_widget = QtWidgets.QWidget(self.centralwidget)
         self.menu_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.menu_widget.setObjectName("menu_widget")
-        self.menu_widget.setContentsMargins(30, 0, 30, 30)
+        self.menu_widget.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.menu_widget)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -226,6 +226,64 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.data_page)
         self.train_page = QtWidgets.QWidget()
         self.train_page.setObjectName("train_page")
+        self.gridLayout_6 = QtWidgets.QGridLayout(self.train_page)
+        self.gridLayout_6.setObjectName("gridLayout_6")
+        self.label_2 = QtWidgets.QLabel(self.train_page)
+        self.label_2.setFont(page_title_font)
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_6.addWidget(self.label_2, 0, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 70, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_6.addItem(spacerItem1, 1, 0, 1, 1)
+        self.widget = QtWidgets.QWidget(self.train_page)
+        self.widget.setStyleSheet("#widget{\n"
+                                  "    border: 2px solid#a6aaaf;\n"
+                                  "    border-radius: 5px;\n"
+                                  "}")
+        self.widget.setObjectName("widget")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.widget)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        spacerItem2 = QtWidgets.QSpacerItem(17, 28, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem2)
+        self.gridLayout_5 = QtWidgets.QGridLayout()
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.yolo_button = QtWidgets.QPushButton(self.widget)
+        self.yolo_button.setMinimumSize(QtCore.QSize(0, 0))
+        self.yolo_button.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.yolo_button.setFont(font)
+        # self.yolo_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        #                                "border-radius: 5px;\n"
+        #                                "padding: 1px 5px;\n"
+        #                                "background-color: #a6aaaf;\n"
+        #                                "")
+        self.yolo_button.setObjectName("yolo_button")
+        self.gridLayout_5.addWidget(self.yolo_button, 0, 0, 1, 1)
+        self.efficientAD_button = QtWidgets.QPushButton(self.widget)
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.efficientAD_button.setFont(font)
+        # self.efficientAD_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
+        #                                       "border-radius: 5px;\n"
+        #                                       "padding: 1px 5px;\n"
+        #                                       "background-color: #a6aaaf;\n"
+        #                                       "")
+        self.efficientAD_button.setObjectName("efficientAD_button")
+        self.gridLayout_5.addWidget(self.efficientAD_button, 0, 1, 1, 1)
+        self.verticalLayout_5.addLayout(self.gridLayout_5)
+        spacerItem3 = QtWidgets.QSpacerItem(18, 24, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem3)
+        self.gridLayout_6.addWidget(self.widget, 2, 0, 1, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 91, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_6.addItem(spacerItem4, 3, 0, 1, 1)
+        self.stackedWidget.addWidget(self.train_page)
         self.train_page.setStyleSheet("QPushButton {border: 4px solid #DBE2EF;\n"
         "border-radius: 5px;\n"
         "padding: 1px 5px;\n"
@@ -234,88 +292,6 @@ class Ui_MainWindow(object):
         "}"
         "QPushButton:hover{"
         "color: #fff}")
-        self.gridLayout_6 = QtWidgets.QGridLayout(self.train_page)
-        self.gridLayout_6.setObjectName("gridLayout_6")
-        self.label_2 = QtWidgets.QLabel(self.train_page)
-        self.label_2.setFont(title_font)
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout_6.addWidget(self.label_2, 0, 0, 1, 1)
-        #3줄 추가
-        # self.textBrowser_2 = QtWidgets.QTextBrowser(self.train_page)
-        # self.textBrowser_2.setObjectName("textBrowser_2")
-        # self.gridLayout_6.addWidget(self.textBrowser_2, 3, 0, 1, 1)
-#        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-#        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-#        self.lineEdit_2 = QtWidgets.QLineEdit(self.train_page)
-#        font = QtGui.QFont()
-#        font.setPointSize(9)
-#        self.lineEdit_2.setFont(font)
-#        self.lineEdit_2.setStyleSheet("border: 2px solid#a6aaaf;\n"
-#"border-radius: 5px;\n"
-#"padding: 1px 5px;\n"
-#"\n"
-#"")
-#        self.lineEdit_2.setObjectName("lineEdit_2")
-#        self.horizontalLayout_4.addWidget(self.lineEdit_2)
-#        self.train_data_upload_button = QtWidgets.QPushButton(self.train_page)
-#        font = QtGui.QFont()
-#        font.setFamily("Noto Sans KR")
-#        font.setPointSize(10)
-#        font.setBold(True)
-#        font.setWeight(75)
-#        self.train_data_upload_button.setFont(font)
-#        self.train_data_upload_button.setStyleSheet("border: 4px solid#a6aaaf;\n"
-#"border-radius: 5px;\n"
-#"padding: 1px 5px;\n"
-#"background-color: #a6aaaf;\n"
-#"")
-#        self.train_data_upload_button.setObjectName("train_data_upload_button")
-#        self.horizontalLayout_4.addWidget(self.train_data_upload_button)
-#        self.gridLayout_6.addLayout(self.horizontalLayout_4, 1, 0, 1, 1)
-#        spacerItem1 = QtWidgets.QSpacerItem(20, 434, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-#        self.gridLayout_6.addItem(spacerItem1, 2, 0, 1, 1)
-#         self.gridLayout_5 = QtWidgets.QGridLayout()
-#         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.train_widget = QtWidgets.QWidget(self.train_page)
-        self.train_widget.setStyleSheet("#train_widget{\n"
-                                          "    border: 2px solid#a6aaaf;\n"
-                                          "    border-radius: 5px;\n"
-                                          "}")
-        self.train_widget.setObjectName("train_widget")
-        self.gridLayout_5 = QtWidgets.QGridLayout(self.train_widget)
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.yolo_button = QtWidgets.QPushButton(self.train_page)
-        self.yolo_button.setMinimumSize(QtCore.QSize(0, 0))
-        self.yolo_button.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.yolo_button.setFont(button_font)
-        # self.yolo_button.setStyleSheet("border: 4px solid #DBE2EF;\n"
-        # "border-radius: 5px;\n"
-        # "padding: 1px 5px;\n"
-        # "background-color: #DBE2EF;\n"
-        # "color: #112D4E;"
-        # "")
-        self.yolo_button.setObjectName("yolo_button")
-        self.gridLayout_5.addWidget(self.yolo_button, 0, 0, 1, 1)
-        self.efficientAD_button = QtWidgets.QPushButton(self.train_page)
-        self.efficientAD_button.setFont(button_font)
-        # self.efficientAD_button.setStyleSheet("border: 4px solid #DBE2EF;\n"
-        # "border-radius: 5px;\n"
-        # "padding: 1px 5px;\n"
-        # "background-color: #DBE2EF;\n"
-        # "color: #112D4E;"
-        # "")
-        self.efficientAD_button.setObjectName("efficientAD_button")
-        self.gridLayout_5.addWidget(self.efficientAD_button, 0, 1, 1, 1)
-        self.gridLayout_6.addWidget(self.train_widget, 1, 0, 1, 1)
-
-
-        self.stackedWidget.addWidget(self.train_page)
-
-
-
-
-
         self.detect_page = QtWidgets.QWidget()
         self.detect_page.setObjectName("detect_page")
         self.detect_page.setStyleSheet("QPushButton {border: 4px solid #DBE2EF;\n"
