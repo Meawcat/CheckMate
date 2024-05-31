@@ -68,7 +68,6 @@ class Ui_AnomalyLearnWindow(object):
         self.centralwidget.setFont(font)
         self.centralwidget.setStyleSheet("QPushButton:hover {\n"
                                          "    color: #fff;\n"
-                                         "    font: bold;\n"
                                          "}\n"
                                          "QPushButton {\n"
                                          "    border: 4px solid#a6aaaf;\n"
@@ -95,18 +94,20 @@ class Ui_AnomalyLearnWindow(object):
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(9)
-        font.setBold(True)
+        font.setBold(False)
         font.setItalic(False)
-        font.setWeight(75)
+        font.setWeight(50)
         self.load_button.setFont(font)
         self.load_button.setStyleSheet("QPushButton:hover {\n"
                                        "    color: #fff;\n"
                                        "}\n"
                                        "QPushButton {\n"
-                                       "    border: 4px solid#a6aaaf;\n"
+                                       "    border: none;\n"
                                        "    border-radius: 5px;\n"
                                        "    padding: 1px 5px;\n"
-                                       "    background-color: #a6aaaf;\n"
+                                       "    background-color: #DBE2EF;\n"
+                                       "    color: #112D4E;\n"
+                                       "    font-weight: normal; \n"
                                        "}")
         self.load_button.setObjectName("load_button")
         self.gridLayout.addWidget(self.load_button, 2, 2, 1, 1)
@@ -149,18 +150,20 @@ class Ui_AnomalyLearnWindow(object):
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(9)
-        font.setBold(True)
+        font.setBold(False)
         font.setItalic(False)
-        font.setWeight(75)
+        font.setWeight(50)
         self.train_button.setFont(font)
         self.train_button.setStyleSheet("QPushButton:hover {\n"
                                         "    color: #fff;\n"
                                         "}\n"
                                         "QPushButton {\n"
-                                        "    border: 4px solid#a6aaaf;\n"
+                                        "    border: none;\n"
                                         "    border-radius: 5px;\n"
                                         "    padding: 1px 5px;\n"
-                                        "    background-color: #a6aaaf;\n"
+                                        "    background-color: #DBE2EF;\n"
+                                        "    color: #112D4E;\n"
+                                        "    font-weight: normal; \n"
                                         "}")
         self.train_button.setObjectName("train_button")
         self.gridLayout_2.addWidget(self.train_button, 2, 0, 1, 1)

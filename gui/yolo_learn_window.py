@@ -80,10 +80,11 @@ class Ui_YoloLearnWindow(object):
                                        "    color: #fff;\n"
                                        "}\n"
                                        "QPushButton {\n"
-                                       "    border: 4px solid#a6aaaf;\n"
+                                       "    border: none;\n"
                                        "    border-radius: 5px;\n"
                                        "    padding: 1px 5px;\n"
-                                       "    background-color: #a6aaaf;\n"
+                                       "    background-color: #DBE2EF;\n"
+                                       "    color: #112D4E;\n"
                                        "}")
         self.find_button.setObjectName("find_button")
         self.gridLayout.addWidget(self.find_button, 1, 2, 1, 1)
@@ -113,10 +114,11 @@ class Ui_YoloLearnWindow(object):
                                        "    color: #fff;\n"
                                        "}\n"
                                        "QPushButton {\n"
-                                       "    border: 4px solid#a6aaaf;\n"
+                                       "    border: none;\n"
                                        "    border-radius: 5px;\n"
                                        "    padding: 1px 5px;\n"
-                                       "    background-color: #a6aaaf;\n"
+                                       "    background-color: #DBE2EF;\n"
+                                       "    color: #112D4E;\n"
                                        "}")
         self.load_button.setObjectName("load_button")
         self.gridLayout.addWidget(self.load_button, 3, 2, 1, 1)
@@ -205,10 +207,11 @@ class Ui_YoloLearnWindow(object):
                                        "    color: #fff;\n"
                                        "}\n"
                                        "QPushButton {\n"
-                                       "    border: 4px solid#a6aaaf;\n"
+                                       "    border: none;\n"
                                        "    border-radius: 5px;\n"
                                        "    padding: 1px 5px;\n"
-                                       "    background-color: #a6aaaf;\n"
+                                       "    background-color: #DBE2EF;\n"
+                                       "    color: #112D4E;\n"
                                        "}")
         self.train_start.setObjectName("train_start")
         self.horizontalLayout.addWidget(self.train_start, 0, QtCore.Qt.AlignHCenter)

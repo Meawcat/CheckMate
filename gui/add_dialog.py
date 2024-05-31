@@ -20,16 +20,15 @@ class Ui_add_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
-"    height: 60px;\n"
+"    height: 50px;\n"
 "}\n"
 "QPushButton:hover{\n"
-"    background-color:rgba(86,101,115,0.5);\n"
-"    color:  #fff;\n"
+"    color: #fff;\n"
 "}")
         self.gridLayout_2 = QtWidgets.QGridLayout(add_dialog)
         self.gridLayout_2.setObjectName("gridLayout_2")

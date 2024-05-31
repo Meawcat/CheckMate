@@ -42,6 +42,7 @@ class TutorialDialog(QDialog):
         ]
         self.label = QLabel(self.labels[self.currentPage - 1])
         self.layout.addWidget(self.label)
+        self.layout.addWidget(self.label, alignment=Qt.AlignCenter) #추가
 
         # 페이지 수를 표시하는 레이아웃 추가
         self.page_layout = QHBoxLayout()
@@ -49,6 +50,16 @@ class TutorialDialog(QDialog):
         self.layout.addLayout(self.page_layout)
 
         self.prev_button = QPushButton("이전")
+        self.prev_button.setStyleSheet(
+            "QPushButton:hover { color: #fff; }"
+            "QPushButton {"
+            "    border: none;"
+            "    border-radius: 5px;"
+            "    padding: 1px 5px;"
+            "    background-color: #DBE2EF;"
+            "    color: #112D4E;"
+            "}"
+        )
         self.prev_button.clicked.connect(self.prevPage)
         self.page_layout.addWidget(self.prev_button)
 
