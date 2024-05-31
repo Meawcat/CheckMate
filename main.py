@@ -136,6 +136,7 @@ class myMainWindow(QMainWindow):
         self.setWindowTitle('체크메이트')
         self.setWindowIcon(QIcon('gui/icons/icon.png'))
         self.populate_directory_combo()  # Ensure combo is populated on startup
+        self.resize(750, 500)
         self.show()
 
     # 버튼 클릭시 페이지 변경
@@ -151,7 +152,7 @@ class myMainWindow(QMainWindow):
             # 버튼을 누르면 버튼의 배경 변경 추가
             btn.setStyleSheet("")
         active_button = btn_list[index]
-        active_button.setStyleSheet("background-color: #a6aaaf")
+        active_button.setStyleSheet("background-color: #3F72AF")
         self.populate_directory_combo() 
 
     # 버튼 고정 추가

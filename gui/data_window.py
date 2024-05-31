@@ -34,11 +34,11 @@ class TutorialDialog(QDialog):
         self.layout = QVBoxLayout()
         self.resize(400, 500)
         self.labels = [
-            "Open Dir로 라벨링을 원하는 물품 폴더의 good 또는 bad 폴더를 선택하세요.",
-            "Change Save Dir로 라벨링을 원하는 물품 폴더의 labels 폴더를 선택해 주세요.",
-            "PascalVOC를 눌러 YOLO로 바꾼다... 이거 맞음??"
-            "Create Rect Box로 이미지를 지정해 class를 선택한 후 save 버튼 혹은 Ctrl+S를 눌러 사각형을 저장합니다.",
-            "데이터 관리 화면으로 돌아와 해당 물품의 labels 폴더에 저장이 되었는지 확인합니다."
+            "Open Dir 버튼과 Change Save Dir 버튼을 눌러 data 폴더에서 원하는 물품 폴더를 선택하세요.",
+            "PascalVOC 버튼을 눌러 YOLO 버전의 txt 파일로 설정하세요.",
+            "Create Rect Box로 객체의 영역을 지정하세요.",
+            "bad/good 을 선택한 후 save 버튼 혹은 Ctrl+S를 눌러 저장하세요.",
+            "라벨링이 종료되면 프로그램을 닫은 후 라벨링이 모두 완료되었는지 확인합니다."
         ]
         self.label = QLabel(self.labels[self.currentPage - 1])
         self.layout.addWidget(self.label)
