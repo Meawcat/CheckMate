@@ -9,7 +9,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QFileDialog, QDialog, QHBoxLayout, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QMessageBox, QFileDialog, QDialog, QHBoxLayout, QLabel, QVBoxLayout, QScrollArea, QWidget
 import subprocess
 import os
 
@@ -24,6 +24,9 @@ import os
 
 class Ui_anomaly_detection_window(object):
     def setupUi(self, anomaly_detection_window):
+        script_path = os.path.abspath(__file__)
+        script_dir = os.path.dirname(script_path)
+        os.chdir(script_dir)
         anomaly_detection_window.setObjectName("anomaly_detection_window")
         anomaly_detection_window.resize(587, 547)
         anomaly_detection_window.setStyleSheet("background-color: #fff;")
@@ -35,7 +38,7 @@ class Ui_anomaly_detection_window(object):
         self.gridLayout.setObjectName("gridLayout")
         self.detect_image_upload_button = QtWidgets.QPushButton(anomaly_detection_window)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(9)
         font.setBold(True)
         font.setItalic(False)
@@ -72,14 +75,14 @@ class Ui_anomaly_detection_window(object):
         self.detect_image_label.setAlignment(QtCore.Qt.AlignCenter)
         self.detect_image_label.setObjectName("detect_image_label")
         self.gridLayout.addWidget(self.detect_image_label, 1, 0, 1, 1)
-        self.model_dir_edit = QtWidgets.QLineEdit(anomaly_detection_window)
-        self.model_dir_edit.setStyleSheet("border: 2px solid#a6aaaf;\n"
+        self.model_dir_combo = QtWidgets.QComboBox(anomaly_detection_window)
+        self.model_dir_combo.setStyleSheet("border: 2px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
 "\n"
 "")
-        self.model_dir_edit.setObjectName("model_dir_edit")
-        self.gridLayout.addWidget(self.model_dir_edit, 0, 1, 1, 1)
+        self.model_dir_combo.setObjectName("model_dir_edit")
+        self.gridLayout.addWidget(self.model_dir_combo, 0, 1, 1, 1)
         self.threshold_edit = QtWidgets.QLineEdit(anomaly_detection_window)
         self.threshold_edit.setStyleSheet("border: 2px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
@@ -139,7 +142,7 @@ class Ui_anomaly_detection_window(object):
 
         self.retranslateUi(anomaly_detection_window)
         QtCore.QMetaObject.connectSlotsByName(anomaly_detection_window)
-
+        self.set_model_dir()
         self.model_dir_button.clicked.connect(self.upload_model_dir)
         self.detect_image_upload_button.clicked.connect(self.upload_detect_image_dir)
         self.anomaly_detection_button.clicked.connect(self.start_detecting)
@@ -170,7 +173,7 @@ class Ui_anomaly_detection_window(object):
 
     def start_detecting(self):
         # Check if image paths and weights file exist
-        if not self.model_dir_edit.text():
+        if not self.model_dir_combo.currentText():
             self.show_warning_message("모델을 선택하세요.")
             return
         elif not self.detect_image_edit.text():
@@ -179,9 +182,10 @@ class Ui_anomaly_detection_window(object):
 
         self.image_paths = self.detect_image_edit.text()
         print(self.detect_image_edit.text())
-        self.model_path = self.model_dir_edit.text()
-        print(self.model_dir_edit.text())
-        
+        item = self.model_dir_combo.currentText()
+        mvtec_ad = os.path.join("../EfficientAD-main/output/", item, "trainings/mvtec_ad")
+        item_path = os.listdir(mvtec_ad)[0]
+        self.model_path = os.path.join(mvtec_ad, item_path)
         try:
             self.threshold = float(self.threshold_edit.text())  # 문자열을 실수로 변환
         except ValueError:
@@ -204,19 +208,30 @@ class Ui_anomaly_detection_window(object):
 
     def display_result(self):
         dialog = QDialog()
+        dialog.setWindowTitle("Results")
+        dialog.setMinimumSize(800, 600)  # Optional: Set a minimum size for the dialog
 
-        img_layout = QHBoxLayout()
+        # Create a scroll area
+        scroll_area = QScrollArea(dialog)
+        scroll_area.setWidgetResizable(True)
+
+        # Create a container widget
+        container = QWidget()
+        img_layout = QVBoxLayout(container)  # Set layout for the container
 
         for result in self.extracted_results:
-            layout = QVBoxLayout()
+            vlayout = QVBoxLayout()
+            hlayout = QHBoxLayout()
             img_label = QLabel()
             name_label = QLabel()
             status_label = QLabel()
 
+
             # 이미지 경로 설정
             img_path = result[0]
             img_label.setPixmap(QPixmap(img_path).scaled(200, 200, Qt.KeepAspectRatio))
-
+            if not img_path:
+                break
             # 파일 이름 추출
             file_name = os.path.basename(img_path)
             name_label.setText(file_name)
@@ -230,12 +245,20 @@ class Ui_anomaly_detection_window(object):
             status_label.setPixmap(QPixmap(status_icon))
 
             # 레이아웃에 위젯 추가
-            layout.addWidget(img_label)
-            layout.addWidget(name_label)
-            layout.addWidget(status_label)
-            img_layout.addLayout(layout)
+            vlayout.addWidget(img_label)
+            vlayout.addWidget(name_label)
+            hlayout.addLayout(vlayout)
+            hlayout.addWidget(status_label)
+            img_layout.addLayout(hlayout)
 
-        dialog.setLayout(img_layout)
+        # Set the container widget as the scroll area's widget
+        scroll_area.setWidget(container)
+
+        # Create a main layout and add the scroll area to it
+        main_layout = QVBoxLayout(dialog)
+        main_layout.addWidget(scroll_area)
+
+        dialog.setLayout(main_layout)
         dialog.exec_()
 
     def get_result(self, input_str):
@@ -257,6 +280,10 @@ class Ui_anomaly_detection_window(object):
             self.extracted_results.append((image_info, anomaly_detect_info, mean_value_info))
 
         self.display_result()
+    def set_model_dir(self):
+        for dir in os.listdir("../EfficientAD-main/output"):
+            self.model_dir_combo.addItem(dir)
+
     def open_file_or_directory_dialog(self):
         options = QtWidgets.QFileDialog.Options()
         file_dialog = QtWidgets.QFileDialog()
@@ -268,7 +295,7 @@ class Ui_anomaly_detection_window(object):
             selected_files = file_dialog.selectedFiles()
             if selected_files:
                 selected_path = selected_files[0]
-                self.model_dir_edit.setText()
+                self.model_dir_combo.setText()
     def upload_detect_image_dir(self):
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Select")
@@ -312,9 +339,16 @@ class Ui_anomaly_detection_window(object):
 
         if file_dialog.exec_():
             selected_directory = file_dialog.selectedFiles()
+
             if selected_directory:
-                selected_path = selected_directory[0]
-                self.model_dir_edit.setText(selected_path)
+                dirs = selected_directory[0].split("/")
+                for i, dir in enumerate(dirs):
+                    if dir == 'output':
+                        if i + 1 < len(dirs):
+                            self.model_dir_combo.setCurrentText(dirs[i + 1])
+                        break
+
+                self.model_dir_combo.setCurrentText(dirs[i + 1])
 
 if __name__ == "__main__":
     import sys

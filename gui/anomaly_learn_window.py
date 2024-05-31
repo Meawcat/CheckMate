@@ -219,12 +219,9 @@ class Ui_AnomalyLearnWindow(object):
 
     def start_training(self):
         item = self.comboBox.currentText()
-        self.train_button.setEnabled(False)  # 버튼 비활성화
-        self.is_training = True  # 학습이 진행 중임을 나타내는 플래그 설정
         model_save = self.model_save_edit.text()
         model_dir = self.model_dir_edit.text()
         model_dir_name = model_dir
-        i = 1
         if not model_save or not model_dir:
             QMessageBox.warning(None, "경고", "모든 필드를 입력해 주세요")
             self.train_button.setEnabled(True)  # 오류가 발생하면 버튼을 다시 활성화
@@ -238,12 +235,12 @@ class Ui_AnomalyLearnWindow(object):
             if choice == QMessageBox.Yes:
                 shutil.rmtree(model_save)  # Delete the existing directory
             elif choice == QMessageBox.No:
-                while os.path.exists(model_save):
-                    model_dir_name = f"{model_dir}_{i}"
-                    i += 1
+                QMessageBox.information(None, "정보", "이름을 바꿔주세요.")
+                return
         self.model_dir_edit.setText(model_dir_name)
         self.model_dir_changed()
-
+        self.train_button.setEnabled(False)  # 버튼 비활성화
+        self.is_training = True  # 학습이 진행 중임을 나타내는 플래그 설정
         command = f'python ../EfficientAD-main/efficientad.py --dataset mvtec_ad --subdataset {item} --output_dir {self.model_save_edit.text()}'
         self.thread = TrainingThread(command)
         self.thread.update_progress.connect(self.update_progress)

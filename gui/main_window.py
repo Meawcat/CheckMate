@@ -85,7 +85,7 @@ class Ui_MainWindow(object):
         menu_font.setPointSize(12)
         self.home_button.setFont(menu_font)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-집-48 (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-집-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home_button.setIcon(icon1)
         self.home_button.setIconSize(QtCore.QSize(25, 25))
         self.home_button.setCheckable(True)
@@ -95,7 +95,7 @@ class Ui_MainWindow(object):
         self.data_button = QtWidgets.QPushButton(self.menu_widget)
         self.data_button.setFont(menu_font)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-영상-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-사진-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.data_button.setIcon(icon2)
         self.data_button.setIconSize(QtCore.QSize(25, 25))
         self.data_button.setCheckable(True)
@@ -105,7 +105,7 @@ class Ui_MainWindow(object):
         self.learn_button = QtWidgets.QPushButton(self.menu_widget)
         self.learn_button.setFont(menu_font)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-책-공개-시험-48 (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-책-공개-시험-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.learn_button.setIcon(icon3)
         self.learn_button.setIconSize(QtCore.QSize(25, 25))
         self.learn_button.setCheckable(True)
@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
         self.detect_button = QtWidgets.QPushButton(self.menu_widget)
         self.detect_button.setFont(menu_font)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-검사-48 (3).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-검사-48 (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.detect_button.setIcon(icon4)
         self.detect_button.setIconSize(QtCore.QSize(25, 25))
         self.detect_button.setCheckable(True)
@@ -128,7 +128,7 @@ class Ui_MainWindow(object):
         self.helper_button = QtWidgets.QPushButton(self.menu_widget)
         self.helper_button.setFont(menu_font)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-search-more-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-돋보기-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.helper_button.setIcon(icon5)
         self.helper_button.setIconSize(QtCore.QSize(25, 25))
         self.helper_button.setCheckable(True)
@@ -191,7 +191,6 @@ class Ui_MainWindow(object):
         # 이 부분은 충돌 오류 날 때마다 추가 부탁드립니다
         self.file_manager = FD()
         self.gridLayout_3.addWidget(self.file_manager, 2, 0, 1, 1)
-        self.file_manager.setFont(label_font)
         #
         self.data_label_button.setFont(button_font)
         # self.data_label_button.setStyleSheet("border: 4px solid #DBE2EF;\n"
@@ -331,6 +330,11 @@ class Ui_MainWindow(object):
         self.comboBox = QtWidgets.QComboBox(self.anomaly_detect_widget)
         self.comboBox.setMaximumSize(QtCore.QSize(200, 16777215))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.setFont(label_font)
+        self.comboBox.setStyleSheet("""
+            color: #3F72AF;
+            background :#DBE2EF;
+        """)
         self.refresh_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
         self.refresh_button.setIconSize(QtCore.QSize(40, 40))  # 버튼 크기 설정
         icon = QtGui.QIcon("gui/icons/refresh-icon-14.png")  # 이미지 파일 경로 설정

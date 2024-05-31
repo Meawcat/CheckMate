@@ -6,7 +6,7 @@ from gui.data_window import DataPage as DP
 from gui.yolo_learn_window import Ui_YoloLearnWindow # 학습에서 yolo 학습 추가
 from gui.yolo_detect_image_window import Ui_YoloDetectImageWindow # 검출에서 yolo 이미지 추가
 from gui.anomaly_learn_window import Ui_AnomalyLearnWindow
-import gui.anomaly_detect_window as anomaly_detection_window
+from gui.anomaly_detect_window import Ui_anomaly_detection_window
 import os
 import subprocess
 
@@ -89,7 +89,7 @@ class myMainWindow(QMainWindow):
         
     def open_anomaly_detection_dialog(self):
         dialog = QDialog()
-        ui = anomaly_detection_window.Ui_anomaly_detection_window()
+        ui = Ui_anomaly_detection_window()
         ui.setupUi(dialog)
         dialog.exec_()
 

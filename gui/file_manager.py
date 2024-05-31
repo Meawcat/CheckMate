@@ -3,6 +3,7 @@ import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTreeView, QFileSystemModel, QMessageBox, QFileDialog, QAction, \
     QLabel, QScrollArea, QVBoxLayout, QWidget
+from PyQt5 import QtGui
 from PyQt5.QtCore import QDir, QFileSystemWatcher
 
 class FileManager(QMainWindow):
@@ -12,9 +13,9 @@ class FileManager(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        self.setStyleSheet("font-family: 'Noto Sans Kr'; font-size: 9pt;")
         self.tree_view = QTreeView()
         self.data_model = QFileSystemModel()
-
         # 데이터 디렉토리 경로 설정
         current_directory = QDir.currentPath()
         self.data_directory = os.path.join(current_directory, "data")
