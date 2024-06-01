@@ -9,6 +9,11 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QDesktopServices
+import os, subprocess
+import gui.resource_rc
+
 from gui.file_manager import FileManager as FD
 
 class Ui_MainWindow(object):
@@ -402,15 +407,21 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.detect_page)
         self.helper_page = QtWidgets.QWidget()
         self.helper_page.setObjectName("helper_page")
-        self.gridLayout_7 = QtWidgets.QGridLayout(self.helper_page)
-        self.gridLayout_7.setObjectName("gridLayout_7")
+        self.vboxlay = QtWidgets.QVBoxLayout(self.helper_page)
+        self.vboxlay.setObjectName("gridLayout_7")
         self.textBrowser = QtWidgets.QTextBrowser(self.helper_page)
         font = QtGui.QFont()
         font.setFamily("Noto Sans KR")
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
-        self.gridLayout_7.addWidget(self.textBrowser, 0, 0, 1, 1)
+        self.textBrowser.setFrameShape(QtWidgets.QTextBrowser.NoFrame)
+        self.vboxlay.addWidget(self.textBrowser)
+        self.pdf_link = QtWidgets.QLabel("<a href='open_pdf'>checkmate_tutorial.pdf</a>")
+        self.pdf_link.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+        self.pdf_link.linkActivated.connect(lambda: self.open_pdf_link())
+        self.vboxlay.addWidget(self.pdf_link)
         self.stackedWidget.addWidget(self.helper_page)
+
         self.gridLayout_4.addWidget(self.stackedWidget, 0, 1, 1, 1)
         self.gridLayout.addWidget(self.content_widget, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -447,11 +458,37 @@ class Ui_MainWindow(object):
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Pretendard Variable SemiBold\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Gulim\';\"><br /></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Gulim\';\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></p></body></html>"))
-import gui.resource_rc
+"</style></head><body style=\" font-family:\'Noto Sans KR\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Noto Sans KR\';\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Noto Sans KR\';\">"
+                                                          "안녕하세요. 제작자 Leemited입니다. 저희 프로그램을 사용해 주셔서 감사합니다.</span></p>"
+                                                          "<p>해당 프로그램 Check Mate는 2024학년도 1학기 명지대학교 컴퓨터공학과 캡스톤디자인 수업에서 제작되었습니다.</p>"
+                                                          "<p>데이터 관리, 모델 학습, 불량 검출 등의 메뉴로 구성되어있으며, 사용하는 모델로는 YOLOv5, EfficientAD가 있습니다.</p>"
+                                                          "<p>자세한 설명은 아래에 있는 checkmate_tutorial.pdf를 참고해 주세요.</p>"
+                                                          "<p>감사합니다.</p></body></html>"))
 
+    def open_pdf_link(self):
+        # 사용자의 시스템에서 PDF 뷰어 실행 파일 경로 가져오기
+        pdf_viewer_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"  # 사용자 시스템에 맞게 수정
+        if not os.path.exists(pdf_viewer_path):
+            QtWidgets.QMessageBox.critical(None, "Error", "PDF Viewer not found!")
+            return
+
+        # 실제 PDF 파일 경로로 바꾸기
+        pdf_path = "gui/tutorial/checkmate_tutorial.pdf"
+        absolute_path = os.path.abspath(pdf_path)
+
+        # 파일 존재 여부 확인
+        if not os.path.exists(absolute_path):
+            QtWidgets.QMessageBox.critical(None, "Error", f"File not found: {absolute_path}")
+            return
+
+        try:
+            # PDF 파일 열기
+            QDesktopServices.openUrl(QUrl.fromLocalFile(absolute_path))
+            print(f"Opening PDF: {absolute_path}")  # 디버깅 메시지
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(None, "Error", str(e))
 
 if __name__ == "__main__":
     import sys
