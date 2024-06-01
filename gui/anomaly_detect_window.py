@@ -29,7 +29,7 @@ class Ui_anomaly_detection_window(object):
         os.chdir(script_dir)
         anomaly_detection_window.setObjectName("anomaly_detection_window")
         anomaly_detection_window.resize(587, 547)
-        anomaly_detection_window.setStyleSheet("background-color: #fff;")
+        anomaly_detection_window.setStyleSheet("background-color: #fff;font-family: 'Noto Sans Kr'; font-size: 9pt;")
         self.verticalLayout = QtWidgets.QVBoxLayout(anomaly_detection_window)
         self.verticalLayout.setObjectName("verticalLayout")
         self.gridLayout = QtWidgets.QGridLayout()
@@ -40,19 +40,17 @@ class Ui_anomaly_detection_window(object):
         font = QtGui.QFont()
         font.setFamily("Noto Sans KR")
         font.setPointSize(9)
-        font.setBold(True)
         font.setItalic(False)
-        font.setWeight(75)
         self.detect_image_upload_button.setFont(font)
         self.detect_image_upload_button.setStyleSheet("QPushButton:hover {\n"
 "    color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
+"    border: 4px solid#DBE2EF;\n"
 "    border-radius: 5px;\n"
 "    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"    font: bold;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E"  
 "}")
         self.detect_image_upload_button.setObjectName("detect_image_upload_button")
         self.gridLayout.addWidget(self.detect_image_upload_button, 1, 2, 1, 1)
@@ -91,15 +89,20 @@ class Ui_anomaly_detection_window(object):
         self.threshold_edit.setObjectName("threshold_edit")
         self.gridLayout.addWidget(self.threshold_edit, 2, 1, 1, 1)
         self.model_dir_button = QtWidgets.QPushButton(anomaly_detection_window)
+        font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
+        font.setPointSize(9)
+        font.setItalic(False)
+        self.model_dir_button.setFont(font)
         self.model_dir_button.setStyleSheet("QPushButton:hover {\n"
 "    color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
+"    border: 4px solid#DBE2EF;\n"
 "    border-radius: 5px;\n"
 "    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"    font: bold;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E;\n"
 "}")
         self.model_dir_button.setObjectName("model_dir_button")
         self.gridLayout.addWidget(self.model_dir_button, 0, 2, 1, 1)
@@ -120,21 +123,19 @@ class Ui_anomaly_detection_window(object):
         self.verticalLayout.addWidget(self.scrollArea)
         self.anomaly_detection_button = QtWidgets.QPushButton(anomaly_detection_window)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(9)
-        font.setBold(True)
         font.setItalic(False)
-        font.setWeight(75)
         self.anomaly_detection_button.setFont(font)
         self.anomaly_detection_button.setStyleSheet("QPushButton:hover {\n"
 "    color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    border: 4px solid#a6aaaf;\n"
+"    border: 4px solid#DBE2EF;\n"
 "    border-radius: 5px;\n"
 "    padding: 1px 5px;\n"
-"    background-color: #a6aaaf;\n"
-"    font: bold;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E;\n"
 "}")
         self.anomaly_detection_button.setObjectName("anomaly_detection_button")
         self.verticalLayout.addWidget(self.anomaly_detection_button)
@@ -209,7 +210,7 @@ class Ui_anomaly_detection_window(object):
         dialog = QDialog()
         dialog.setWindowTitle("Results")
         dialog.setMinimumSize(800, 600)  # Optional: Set a minimum size for the dialog
-
+        dialog.setStyleSheet("background-color: #fff;")
         # Create a scroll area
         scroll_area = QScrollArea(dialog)
         scroll_area.setWidgetResizable(True)
@@ -295,16 +296,21 @@ class Ui_anomaly_detection_window(object):
             if selected_files:
                 selected_path = selected_files[0]
                 self.model_dir_combo.setText()
+
     def upload_detect_image_dir(self):
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Select")
-        msg_box.setText("단일 이미지 파일을 원한다면 예, 하나의 디렉터리를 원한다면 아니오를 선택하시오.")
-        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msg_box.setDefaultButton(QMessageBox.Yes)
+        msg_box.setText("원하는 이미지의 형태를 선택하세요.")
+        image_button = msg_box.addButton("하나의 이미지", QMessageBox.YesRole)
+        directory_button = msg_box.addButton("하나의 디렉터리", QMessageBox.NoRole)
 
-        button_clicked = msg_box.exec_()
+        msg_box.setDefaultButton(image_button)
 
-        if button_clicked == QMessageBox.Yes:
+        msg_box.exec_()
+
+        button_clicked = msg_box.clickedButton()
+
+        if button_clicked == image_button:
             options = QtWidgets.QFileDialog.Options()
             file_dialog = QtWidgets.QFileDialog()
             file_dialog.setOptions(options)
@@ -316,7 +322,7 @@ class Ui_anomaly_detection_window(object):
                 if selected_files:
                     selected_path = selected_files[0]
                     self.detect_image_edit.setText(selected_path)
-        else:
+        elif button_clicked == directory_button:
             options = QtWidgets.QFileDialog.Options()
             file_dialog = QtWidgets.QFileDialog()
             file_dialog.setOptions(options)
@@ -327,7 +333,6 @@ class Ui_anomaly_detection_window(object):
                 if selected_directory:
                     selected_path = selected_directory[0]
                     self.detect_image_edit.setText(selected_path)
-
     def upload_model_dir(self):
         options = QFileDialog.Options()
         file_dialog = QFileDialog()

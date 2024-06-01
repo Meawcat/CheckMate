@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QPushButton, QMessageBox, QLabel, QMainWindow, QDialog, QHBoxLayout
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 import os
@@ -186,11 +187,13 @@ class Ui_YoloDetectImageWindow(object):
             self.image_list_layout.addWidget(label)
 
     def display_results(self, folders):
+        font = QFont()
+        font.setFamily("Noto Sans KR")
         self.result_window = QWidget()
         self.result_window.setWindowTitle("검출 결과")
         self.result_layout = QVBoxLayout()
         self.result_window.setLayout(self.result_layout)
-
+        self.result_window.setStyleSheet("background-color: #fff;")
         # Create a horizontal layout for navigation buttons
         self.navigation_layout = QHBoxLayout()
 
@@ -204,10 +207,12 @@ class Ui_YoloDetectImageWindow(object):
         "    background-color: #DBE2EF;"
         "    color: #112D4E;"
         "}")
+        self.prev_button.setFont(font)
         self.prev_button.clicked.connect(self.show_prev_image)
         self.navigation_layout.addWidget(self.prev_button)
 
         self.next_button = QPushButton("다음", self.result_window)
+        self.next_button.setFont(font)
         self.next_button.setStyleSheet(
         "QPushButton:hover { color: #fff; }"
         "QPushButton {"
@@ -222,7 +227,8 @@ class Ui_YoloDetectImageWindow(object):
 
         self.result_layout.addLayout(self.navigation_layout)
 
-        self.anomaly_button = QPushButton("이상 감지:", self.result_window)
+        self.anomaly_button = QPushButton("이상 탐지", self.result_window)
+        self.anomaly_button.setFont(font)
         self.anomaly_button.setStyleSheet(
         "QPushButton:hover { color: #fff; }"
         "QPushButton {"
