@@ -40,6 +40,7 @@ class Ui_YoloDetectImageWindow(object):
         os.chdir(script_dir)
         YoloDetectImageWindow.setObjectName("YoloDetectImageWindow")
         YoloDetectImageWindow.resize(424, 321)
+        YoloDetectImageWindow.setStyleSheet("background-color: #fff;")
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -52,7 +53,7 @@ class Ui_YoloDetectImageWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.image_upload_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setBold(True)
         font.setWeight(75)
         self.image_upload_button.setFont(font)
@@ -60,10 +61,11 @@ class Ui_YoloDetectImageWindow(object):
                                                "    color: #fff;\n"
                                                "}\n"
                                                "QPushButton {\n"
-                                               "    border: 4px solid#a6aaaf;\n"
+                                               "    border: none;\n"
                                                "    border-radius: 5px;\n"
                                                "    padding: 1px 5px;\n"
-                                               "    background-color: #a6aaaf;\n"
+                                               "    background-color: #DBE2EF;\n"
+                                               "    color: #112D4E;\n"
                                                "}")
         self.image_upload_button.setObjectName("image_upload_button")
         self.gridLayout.addWidget(self.image_upload_button, 0, 0, 1, 2)
@@ -74,7 +76,7 @@ class Ui_YoloDetectImageWindow(object):
         self.verticalLayout.addWidget(self.label)
         self.yolo_detect_start_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setBold(True)
         font.setWeight(75)
         self.yolo_detect_start_button.setFont(font)
@@ -82,10 +84,11 @@ class Ui_YoloDetectImageWindow(object):
                                                     "    color: #fff;\n"
                                                     "}\n"
                                                     "QPushButton {\n"
-                                                    "    border: 4px solid#a6aaaf;\n"
+                                                    "    border: none;\n"
                                                     "    border-radius: 5px;\n"
                                                     "    padding: 1px 5px;\n"
-                                                    "    background-color: #a6aaaf;\n"
+                                                    "    background-color: #DBE2EF;\n"
+                                                    "    color: #112D4E;\n"
                                                     "}")
         # Add a layout for the image list
         self.image_list_layout = QVBoxLayout()
@@ -192,16 +195,43 @@ class Ui_YoloDetectImageWindow(object):
         self.navigation_layout = QHBoxLayout()
 
         self.prev_button = QPushButton("이전", self.result_window)
+        self.prev_button.setStyleSheet(
+        "QPushButton:hover { color: #fff; }"
+        "QPushButton {"
+        "    border: none;"
+        "    border-radius: 5px;"
+        "    padding: 1px 5px;"
+        "    background-color: #DBE2EF;"
+        "    color: #112D4E;"
+        "}")
         self.prev_button.clicked.connect(self.show_prev_image)
         self.navigation_layout.addWidget(self.prev_button)
 
         self.next_button = QPushButton("다음", self.result_window)
+        self.next_button.setStyleSheet(
+        "QPushButton:hover { color: #fff; }"
+        "QPushButton {"
+        "    border: none;"
+        "    border-radius: 5px;"
+        "    padding: 1px 5px;"
+        "    background-color: #DBE2EF;"
+        "    color: #112D4E;"
+        "}")
         self.next_button.clicked.connect(self.show_next_image)
         self.navigation_layout.addWidget(self.next_button)
 
         self.result_layout.addLayout(self.navigation_layout)
 
         self.anomaly_button = QPushButton("이상 감지:", self.result_window)
+        self.anomaly_button.setStyleSheet(
+        "QPushButton:hover { color: #fff; }"
+        "QPushButton {"
+        "    border: none;"
+        "    border-radius: 5px;"
+        "    padding: 1px 5px;"
+        "    background-color: #DBE2EF;"
+        "    color: #112D4E;"
+        "}")
         self.anomaly_button.clicked.connect(self.open_anomaly_detection_dialog)
         self.result_layout.addWidget(self.anomaly_button)
 

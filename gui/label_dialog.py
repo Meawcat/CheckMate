@@ -22,15 +22,14 @@ class Ui_label_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
-"    height: 60px;\n"
+"    height: 50px;\n"
 "}\n"
 "QPushButton:hover{\n"
-"    background-color:rgba(86,101,115,0.5);\n"
 "    color:  #fff;\n"
 "}")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(label_dialog)
@@ -44,7 +43,7 @@ class Ui_label_dialog(object):
         sizePolicy.setHeightForWidth(self.label_label.sizePolicy().hasHeightForWidth())
         self.label_label.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
@@ -68,7 +67,7 @@ class Ui_label_dialog(object):
         self.label_button = QtWidgets.QPushButton(label_dialog)
         self.label_button.setMaximumSize(QtCore.QSize(120, 16777215))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(12)
         self.label_button.setFont(font)
         self.label_button.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)

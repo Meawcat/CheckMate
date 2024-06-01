@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QPushButton, QLabel, QHBoxLayout, QSlider
 )
 from PyQt5.QtCore import Qt, QProcess
-from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtGui import QPainter, QColor, QPixmap
 import os
 import shutil
 import yaml
@@ -16,12 +16,11 @@ import gui.loading
 class TutorialDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.next_button = QPushButton("다음")
         self.page_label = None
         self.prev_button = None
         self.page_layout = None
-        self.label = None
-        self.labels = None
+        self.text_label = None
+        self.image_label = None
         self.layout = None
         self.currentPage = 1
         self.initUI()
@@ -31,17 +30,28 @@ class TutorialDialog(QDialog):
 
     def initUI(self):
         self.setWindowTitle("설명서")
+        self.resize(600, 500)  # 창 크기 고정
+        self.setStyleSheet("background-color: #fff; font-family: 'Noto Sans Kr'; font-size: 9pt;")
         self.layout = QVBoxLayout()
-        self.resize(400, 500)
         self.labels = [
-            "Open Dir 버튼과 Change Save Dir 버튼을 눌러 data 폴더에서 원하는 물품 폴더를 선택하세요.",
-            "PascalVOC 버튼을 눌러 YOLO 버전의 txt 파일로 설정하세요.",
+            "Open Dir 버튼과 Change Save Dir 버튼을 눌러 data 폴더에서 원하는 물품 폴더를 선택한 후\nPascalVOC 버튼을 눌러 YOLO 버전의 txt 파일로 설정하세요.",
             "Create Rect Box로 객체의 영역을 지정하세요.",
             "bad/good 을 선택한 후 save 버튼 혹은 Ctrl+S를 눌러 저장하세요.",
             "라벨링이 종료되면 프로그램을 닫은 후 라벨링이 모두 완료되었는지 확인합니다."
         ]
-        self.label = QLabel(self.labels[self.currentPage - 1])
-        self.layout.addWidget(self.label)
+        self.image_paths = [
+            "tutorial/tutorial_1.png",  # 이미지 파일 경로를 여기에 추가
+            "tutorial/tutorial_2.png",
+            "tutorial/tutorial_3.png",
+            "tutorial/tutorial_4.png"
+        ]
+        self.text_label = QLabel(self.labels[self.currentPage - 1])
+        self.text_label.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.text_label)
+        self.image_label = QLabel()
+        self.image_label.setAlignment(Qt.AlignCenter)
+        self.updateImage()
+        self.layout.addWidget(self.image_label)
 
         # 페이지 수를 표시하는 레이아웃 추가
         self.page_layout = QHBoxLayout()
@@ -49,12 +59,33 @@ class TutorialDialog(QDialog):
         self.layout.addLayout(self.page_layout)
 
         self.prev_button = QPushButton("이전")
+        self.prev_button.setStyleSheet(
+            "QPushButton:hover { color: #fff; }"
+            "QPushButton {"
+            "    border: none;"
+            "    border-radius: 5px;"
+            "    padding: 1px 5px;"
+            "    background-color: #DBE2EF;"
+            "    color: #112D4E;"
+            "}"
+        )
         self.prev_button.clicked.connect(self.prevPage)
         self.page_layout.addWidget(self.prev_button)
 
         self.page_label = QLabel(f"페이지: {self.currentPage}/{len(self.labels)}")
         self.page_layout.addWidget(self.page_label)
 
+        self.next_button = QPushButton("다음")
+        self.next_button.setStyleSheet(
+            "QPushButton:hover { color: #fff; }"
+            "QPushButton {"
+            "    border: none;"
+            "    border-radius: 5px;"
+            "    padding: 1px 5px;"
+            "    background-color: #DBE2EF;"
+            "    color: #112D4E;"
+            "}"
+        )
         self.next_button.clicked.connect(self.nextPage)
         self.page_layout.addWidget(self.next_button)
 
@@ -66,19 +97,25 @@ class TutorialDialog(QDialog):
         self.move(screen_geometry.width() - dialog_geometry.width(),
                   int((screen_geometry.height() - dialog_geometry.height()) / 2))
 
+    def updateImage(self):
+        pixmap = QPixmap(self.image_paths[self.currentPage - 1])
+        self.image_label.setPixmap(pixmap.scaled(self.image_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
     def nextPage(self):
         self.currentPage += 1
         if self.currentPage <= len(self.labels):
-            self.label.setText(self.labels[self.currentPage - 1])
+            self.text_label.setText(self.labels[self.currentPage - 1])
             self.page_label.setText(f"페이지: {self.currentPage}/{len(self.labels)}")
+            self.updateImage()
         else:
             self.currentPage = len(self.labels)
 
     def prevPage(self):
         self.currentPage -= 1
         if self.currentPage >= 1:
-            self.label.setText(self.labels[self.currentPage - 1])
+            self.text_label.setText(self.labels[self.currentPage - 1])
             self.page_label.setText(f"페이지: {self.currentPage}/{len(self.labels)}")
+            self.updateImage()
         else:
             self.currentPage = 1
 
@@ -359,7 +396,6 @@ class DataPage(QDialog):
         self.label_label = ui.label_label
 
         def on_button_ok_clicked():
-            dialog.close()
             item_name = self.item_combo.currentText().strip()  # 텍스트 불필요한 공백 제거
 
             if not item_name:
@@ -381,7 +417,7 @@ class DataPage(QDialog):
 
             # 이미지가 있는 경우에만 라벨링 가능 메시지 표시
             QMessageBox.information(self, "알림", "이미지 라벨링이 가능합니다.")
-
+            dialog.close()
             # TutorialDialog 인스턴스 생성
             tutorial_dialog = TutorialDialog()
 

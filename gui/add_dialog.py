@@ -20,16 +20,15 @@ class Ui_add_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
-"    height: 60px;\n"
+"    height: 50px;\n"
 "}\n"
 "QPushButton:hover{\n"
-"    background-color:rgba(86,101,115,0.5);\n"
-"    color:  #fff;\n"
+"    color: #fff;\n"
 "}")
         self.gridLayout_2 = QtWidgets.QGridLayout(add_dialog)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -44,7 +43,7 @@ class Ui_add_dialog(object):
         sizePolicy.setHeightForWidth(self.item_label.sizePolicy().hasHeightForWidth())
         self.item_label.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
@@ -73,7 +72,7 @@ class Ui_add_dialog(object):
         self.file_label.setSizePolicy(sizePolicy)
         self.file_label.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
@@ -82,7 +81,7 @@ class Ui_add_dialog(object):
         self.gridLayout.addWidget(self.file_label, 0, 0, 1, 1)
         self.file_button = QtWidgets.QPushButton(add_dialog)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(10)
         self.file_button.setFont(font)
         self.file_button.setStyleSheet("")
@@ -107,7 +106,7 @@ class Ui_add_dialog(object):
         self.add_button = QtWidgets.QPushButton(add_dialog)
         self.add_button.setMaximumSize(QtCore.QSize(120, 16777215))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(12)
         self.add_button.setFont(font)
         self.add_button.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
@@ -128,7 +127,7 @@ class Ui_add_dialog(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Gulim\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'맑은 고딕\';\"><br /></p></body></html>"))
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Noto Sans KR\';\"><br /></p></body></html>"))
         self.file_label.setText(_translate("add_dialog", "추가할 데이터 파일들을 선택해 주세요"))
         self.file_button.setText(_translate("add_dialog", "파일 찾기"))
         self.add_button.setText(_translate("add_dialog", "확인"))

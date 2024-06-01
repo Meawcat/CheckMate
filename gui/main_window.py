@@ -330,11 +330,6 @@ class Ui_MainWindow(object):
         self.comboBox = QtWidgets.QComboBox(self.anomaly_detect_widget)
         self.comboBox.setMaximumSize(QtCore.QSize(200, 16777215))
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.setFont(label_font)
-        self.comboBox.setStyleSheet("""
-            color: #3F72AF;
-            background :#DBE2EF;
-        """)
         self.refresh_button = QtWidgets.QPushButton(self.anomaly_detect_widget)
         self.refresh_button.setIconSize(QtCore.QSize(40, 40))  # 버튼 크기 설정
         icon = QtGui.QIcon("gui/icons/refresh-icon-14.png")  # 이미지 파일 경로 설정

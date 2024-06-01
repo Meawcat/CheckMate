@@ -19,15 +19,14 @@ class Ui_dataset_dialog(object):
 "    background-color: #fff;\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #313a46;\n"
-"    color: #fff;\n"
+"    background-color: #DBE2EF;\n"
+"    color: #112D4E;\n"
 "    border: none;\n"
-"    border-radius: 20px;\n"
+"    border-radius: 5px;\n"
 "    width: 120px;\n"
-"    height: 60px;\n"
+"    height: 50px;\n"
 "}\n"
 "QPushButton:hover{\n"
-"    background-color:rgba(86,101,115,0.5);\n"
 "    color:  #fff;\n"
 "}")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(dataset_dialog)
@@ -41,7 +40,7 @@ class Ui_dataset_dialog(object):
         sizePolicy.setHeightForWidth(self.combobox_label.sizePolicy().hasHeightForWidth())
         self.combobox_label.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
@@ -66,7 +65,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_6.addLayout(self.verticalLayout)
         self.ratio_label = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         self.ratio_label.setFont(font)
         self.ratio_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -80,6 +79,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.train_label = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         self.train_label.setFont(font)
         self.train_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -87,6 +87,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_2.addWidget(self.train_label)
         self.train_ratio = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(True)
         font.setWeight(75)
@@ -99,6 +100,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.valid_label = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         self.valid_label.setFont(font)
         self.valid_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -106,6 +108,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_3.addWidget(self.valid_label)
         self.valid_ratio = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(True)
         font.setWeight(75)
@@ -118,6 +121,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.test_label = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         self.test_label.setFont(font)
         self.test_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -125,6 +129,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_4.addWidget(self.test_label)
         self.test_ratio = QtWidgets.QLabel(dataset_dialog)
         font = QtGui.QFont()
+        font.setFamily("Noto Sans KR")
         font.setPointSize(13)
         font.setBold(True)
         font.setWeight(75)
@@ -147,7 +152,7 @@ class Ui_dataset_dialog(object):
         self.verticalLayout_6.addLayout(self.verticalLayout_5)
         self.split_button = QtWidgets.QPushButton(dataset_dialog)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(12)
         self.split_button.setFont(font)
         self.split_button.setStyleSheet("")
