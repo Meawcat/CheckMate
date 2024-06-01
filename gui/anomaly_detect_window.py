@@ -171,8 +171,8 @@ class Ui_anomaly_detection_window(object):
         _translate = QtCore.QCoreApplication.translate
         anomaly_detection_window.setWindowTitle(_translate("anomaly_detection_window", "이상 탐지"))
         self.detect_image_upload_button.setText(_translate("anomaly_detection_window", "찾아보기"))
-        self.model_dir_label.setText(_translate("anomaly_detection_window", "모델 위치"))
-        self.threshold_label.setText(_translate("anomaly_detection_window", "임계값"))
+        self.model_dir_label.setText(_translate("anomaly_detection_window", "모델 이름"))
+        self.threshold_label.setText(_translate("anomaly_detection_window", "임곗값"))
         self.detect_image_label.setText(_translate("anomaly_detection_window", "탐지 이미지"))
         self.model_dir_button.setText(_translate("anomaly_detection_window", "찾아보기"))
         self.anomaly_detection_button.setText(_translate("anomaly_detection_window", "이상 탐지"))
@@ -324,13 +324,12 @@ class Ui_anomaly_detection_window(object):
 
     def upload_detect_image_dir(self):
         msg_box = QMessageBox()
-        msg_box.setWindowTitle("Select")
+        msg_box.setWindowTitle("이미지 선택")
         msg_box.setText("원하는 이미지의 형태를 선택하세요.")
         image_button = msg_box.addButton("하나의 이미지", QMessageBox.YesRole)
         directory_button = msg_box.addButton("하나의 디렉터리", QMessageBox.NoRole)
-
-        msg_box.setDefaultButton(image_button)
-
+        # 디폴트 버튼을 제거함
+        msg_box.setDefaultButton(None)
         msg_box.exec_()
 
         button_clicked = msg_box.clickedButton()

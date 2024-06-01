@@ -472,9 +472,9 @@ class Ui_MainWindow(object):
         self.efficientAD_button.setText(_translate("MainWindow", "EfficientAD 학습"))
         self.label_3.setText(_translate("MainWindow", "불량 검출"))
         self.detect_image_button.setText(_translate("MainWindow", "이미지"))
-        self.detect_video_button.setText(_translate("MainWindow", "영상"))
+        self.detect_video_button.setText(_translate("MainWindow", "실시간 영상"))
         self.label_4.setText(_translate("MainWindow", "YOLO 검출")) #추가
-        self.label_5.setText(_translate("MainWindow", "EFFICIENT 검출")) #추가
+        self.label_5.setText(_translate("MainWindow", "EfficientAD 검출")) #추가
         self.pushButton.setText(_translate("MainWindow", "이상 탐지")) #추가
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -492,7 +492,7 @@ class Ui_MainWindow(object):
         # 사용자의 시스템에서 PDF 뷰어 실행 파일 경로 가져오기
         pdf_viewer_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"  # 사용자 시스템에 맞게 수정
         if not os.path.exists(pdf_viewer_path):
-            QtWidgets.QMessageBox.critical(None, "Error", "PDF Viewer not found!")
+            QtWidgets.QMessageBox.critical(None, "경고", "PDF 뷰어를 찾을 수 없습니다.")
             return
 
         # 실제 PDF 파일 경로로 바꾸기
@@ -501,7 +501,7 @@ class Ui_MainWindow(object):
 
         # 파일 존재 여부 확인
         if not os.path.exists(absolute_path):
-            QtWidgets.QMessageBox.critical(None, "Error", f"File not found: {absolute_path}")
+            QtWidgets.QMessageBox.critical(None, "경고", f"파일을 찾을 수 없습니다.: {absolute_path}")
             return
 
         try:
@@ -509,7 +509,7 @@ class Ui_MainWindow(object):
             QDesktopServices.openUrl(QUrl.fromLocalFile(absolute_path))
             print(f"Opening PDF: {absolute_path}")  # 디버깅 메시지
         except Exception as e:
-            QtWidgets.QMessageBox.critical(None, "Error", str(e))
+            QtWidgets.QMessageBox.critical(None, "경고", str(e))
 
 if __name__ == "__main__":
     import sys

@@ -279,7 +279,7 @@ class Ui_AnomalyLearnWindow(object):
         self.scrollArea.verticalScrollBar().setValue(self.scrollArea.verticalScrollBar().maximum())
 
     def training_finished(self, result):
-        self.show_message_box("완료", result, QMessageBox.Information)
+        self.show_message_box("완료", "결과", QMessageBox.Information)
         self.train_button.setEnabled(True)  # 학습이 완료된 후 버튼을 다시 활성화
         self.is_training = False  # 플래그 초기화
 

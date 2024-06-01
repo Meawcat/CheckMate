@@ -267,7 +267,7 @@ class Ui_YoloDetectImageWindow(object):
 
     def show_image(self):
         if not self.result_images:
-            QMessageBox.information(self.result_window, "Info", "No images to display.")
+            QMessageBox.information(self.result_window, "정보", "나타 낼 이미지가 없습니다.")
             return
 
         img_path = self.result_images[self.current_image_index]
