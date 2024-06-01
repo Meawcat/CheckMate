@@ -74,10 +74,27 @@ class Ui_anomaly_detection_window(object):
         self.detect_image_label.setObjectName("detect_image_label")
         self.gridLayout.addWidget(self.detect_image_label, 1, 0, 1, 1)
         self.model_dir_combo = QtWidgets.QComboBox(anomaly_detection_window)
-        self.model_dir_combo.setStyleSheet("border: 2px solid#a6aaaf;\n"
-"border-radius: 5px;\n"
-"padding: 1px 5px;\n"
-"")
+        self.model_dir_combo.setStyleSheet("""
+            QComboBox {
+                background-color: #fff;
+                padding: 3px;
+                border: 1px solid #a6aaaf;
+                border-radius: 5px;
+            }
+            QComboBox:hover {
+                background-color: #F9F9F9;
+            }
+            QComboBox:disabled {
+                background-color: #F1F1F1;
+                color: #A0A0A0;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                border: 1px solid #112D4E;
+                selection-background-color: #3F72AF;
+                selection-color: #fff;
+            }
+            """)
         self.model_dir_combo.setObjectName("model_dir_edit")
         self.gridLayout.addWidget(self.model_dir_combo, 0, 1, 1, 1)
         self.threshold_edit = QtWidgets.QLineEdit(anomaly_detection_window)
@@ -120,6 +137,10 @@ class Ui_anomaly_detection_window(object):
         self.log.setObjectName("log")
         self.verticalLayout_3.addWidget(self.log)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.scrollArea.setStyleSheet("border: none; background-color: #F9F7F7;")
+        self.log.verticalScrollBar().setStyleSheet(
+            "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
+        )
         self.verticalLayout.addWidget(self.scrollArea)
         self.anomaly_detection_button = QtWidgets.QPushButton(anomaly_detection_window)
         font = QtGui.QFont()
@@ -208,12 +229,16 @@ class Ui_anomaly_detection_window(object):
 
     def display_result(self):
         dialog = QDialog()
-        dialog.setWindowTitle("Results")
+        dialog.setWindowTitle("이상 탐지 결과")
         dialog.setMinimumSize(800, 600)  # Optional: Set a minimum size for the dialog
         dialog.setStyleSheet("background-color: #fff;")
         # Create a scroll area
         scroll_area = QScrollArea(dialog)
         scroll_area.setWidgetResizable(True)
+        scroll_area.setStyleSheet("border: none; background-color: #F9F7F7;")
+        scroll_area.verticalScrollBar().setStyleSheet(
+                "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
+        )
 
         # Create a container widget
         container = QWidget()

@@ -3,10 +3,11 @@ from PyQt5.QtWidgets import (
     QPushButton, QLabel, QHBoxLayout, QSlider
 )
 from PyQt5.QtCore import Qt, QProcess
-from PyQt5.QtGui import QPainter, QColor, QPixmap
+from PyQt5.QtGui import QPainter, QColor, QPixmap, QFont
 import os
 import shutil
 import yaml
+
 import gui.dataset_dialog as dataset_dialog
 import gui.add_dialog as add_dialog
 import gui.label_dialog as label_dialog
@@ -171,6 +172,11 @@ class DataPage(QDialog):
         self.recommend_label = QLabel("*추천값*", self.create_dataset_dialog)
         self.recommend_label.setAlignment(Qt.AlignCenter)
         self.recommend_label.setVisible(False)
+        font = QFont()
+        font.setFamily("Noto Sans KR")
+        font.setPointSize(13)
+        font.setWeight(75)
+        self.recommend_label.setFont(font)
         ui.verticalLayout.insertWidget(2, self.recommend_label)  # 데이터 분할 비율을 조정해 주세요 밑에 추가
 
         self.split_button = ui.split_button
