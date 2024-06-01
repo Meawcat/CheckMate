@@ -55,12 +55,34 @@ class Ui_dataset_dialog(object):
         sizePolicy.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.comboBox.setStyleSheet("""
+            QComboBox {
+                background-color: #fff;
+                padding: 3px;
+                border: 1px solid #a6aaaf;
+                border-radius: 5px;
+            }
+            QComboBox:hover {
+                background-color: #F9F9F9;
+            }
+            QComboBox:disabled {
+                background-color: #F1F1F1;
+                color: #A0A0A0;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                border: 1px solid #112D4E;
+                selection-background-color: #3F72AF;
+                selection-color: #fff;
+            }
+            """)
         font = QtGui.QFont()
-        font.setPointSize(15)
+        font.setPointSize(10)
         font.setKerning(False)
         self.comboBox.setFont(font)
         self.comboBox.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.setFixedSize(100, 30)
         self.verticalLayout.addWidget(self.comboBox, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_6.addLayout(self.verticalLayout)
         self.ratio_label = QtWidgets.QLabel(dataset_dialog)

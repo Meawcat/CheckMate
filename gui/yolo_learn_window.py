@@ -150,6 +150,27 @@ class Ui_YoloLearnWindow(object):
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.setStyleSheet("""
+            QComboBox {
+                background-color: #fff;
+                padding: 3px;
+                border: 1px solid #a6aaaf;
+                border-radius: 5px;
+            }
+            QComboBox:hover {
+                background-color: #F9F9F9;
+            }
+            QComboBox:disabled {
+                background-color: #F1F1F1;
+                color: #A0A0A0;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                border: 1px solid #112D4E;
+                selection-background-color: #3F72AF;
+                selection-color: #fff;
+            }
+            """)
         self.gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
         self.item_name = QtWidgets.QLabel(self.centralwidget)
         self.item_name.setObjectName("item_name")

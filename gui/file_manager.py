@@ -33,7 +33,12 @@ class FileManager(QMainWindow):
         scroll_area = QScrollArea()
         scroll_area.setWidget(self.tree_view)
         scroll_area.setWidgetResizable(True)
-
+        self.tree_view.horizontalScrollBar().setStyleSheet(
+                "QScrollBar:horizontal { border: none; background-color: #3F72AF; }"
+        )
+        self.tree_view.verticalScrollBar().setStyleSheet(
+                "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
+        )
         # 메인 위젯 및 레이아웃 설정
         main_widget = QWidget()
         self.main_layout = QVBoxLayout(main_widget)

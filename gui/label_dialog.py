@@ -53,16 +53,38 @@ class Ui_label_dialog(object):
         self.verticalLayout.addWidget(self.label_label, 0, QtCore.Qt.AlignHCenter)
         self.item_combo = QtWidgets.QComboBox(label_dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setHorizontalStretch(2)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.item_combo.sizePolicy().hasHeightForWidth())
         self.item_combo.setSizePolicy(sizePolicy)
+        self.item_combo.setFixedSize(100, 30)
         font = QtGui.QFont()
-        font.setPointSize(15)
+        font.setPointSize(10)
         font.setKerning(False)
         self.item_combo.setFont(font)
         self.item_combo.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.item_combo.setObjectName("item_combo")
+        self.item_combo.setStyleSheet("""
+            QComboBox {
+                background-color: #fff;
+                padding: 3px;
+                border: 1px solid #a6aaaf;
+                border-radius: 5px;
+            }
+            QComboBox:hover {
+                background-color: #F9F9F9;
+            }
+            QComboBox:disabled {
+                background-color: #F1F1F1;
+                color: #A0A0A0;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                border: 1px solid #112D4E;
+                selection-background-color: #3F72AF;
+                selection-color: #fff;
+            }
+            """)
         self.verticalLayout.addWidget(self.item_combo, 0, QtCore.Qt.AlignHCenter)
         self.label_button = QtWidgets.QPushButton(label_dialog)
         self.label_button.setMaximumSize(QtCore.QSize(120, 16777215))

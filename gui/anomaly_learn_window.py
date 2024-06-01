@@ -126,11 +126,27 @@ class Ui_AnomalyLearnWindow(object):
         sizePolicy.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.comboBox.setStyleSheet("border: 2px solid #a6aaaf;\n"
-                                    "border-radius: 5px;\n"
-                                    "padding: 1px 5px;\n"
-                                    "\n"
-                                    "")
+        self.comboBox.setStyleSheet("""
+            QComboBox {
+                background-color: #fff;
+                padding: 3px;
+                border: 1px solid #a6aaaf;
+                border-radius: 5px;
+            }
+            QComboBox:hover {
+                background-color: #F9F9F9;
+            }
+            QComboBox:disabled {
+                background-color: #F1F1F1;
+                color: #A0A0A0;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                border: 1px solid #112D4E;
+                selection-background-color: #3F72AF;
+                selection-color: #fff;
+            }
+            """)
         self.comboBox.setObjectName("comboBox")
         self.gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
         self.model_dir = QtWidgets.QLabel(self.centralwidget)
@@ -170,6 +186,13 @@ class Ui_AnomalyLearnWindow(object):
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
+        self.scrollArea.setStyleSheet("border: none; background-color: #F9F7F7;")
+        self.scrollArea.verticalScrollBar().setStyleSheet(
+            "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
+        )
+        self.scrollArea.horizontalScrollBar().setStyleSheet(
+            "QScrollBar:horizontal { border: none; background-color: #3F72AF; }"
+        )
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 601, 257))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
