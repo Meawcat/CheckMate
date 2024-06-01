@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import shutil
 
 # Form implementation generated from reading ui file 'gui/anomaly_detect_window.ui'
 #
@@ -357,6 +358,28 @@ class Ui_anomaly_detection_window(object):
                 if selected_directory:
                     selected_path = selected_directory[0]
                     self.detect_image_edit.setText(selected_path)
+
+    def set_images(self, image_paths):
+        # 현재 작업 디렉토리의 상위 디렉토리 가져오기
+        current_directory = os.getcwd()
+        parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
+        tempdata_directory = os.path.join(parent_directory, "tempdata")
+
+        # tempdata 디렉토리가 존재하면 삭제
+        if os.path.exists(tempdata_directory):
+            shutil.rmtree(tempdata_directory)
+
+        # tempdata 디렉토리 생성
+        os.mkdir(tempdata_directory)
+
+        # image_paths의 모든 파일을 tempdata 디렉토리로 복사
+        for image_path in image_paths:
+            if os.path.isfile(image_path):
+                shutil.copy(image_path, tempdata_directory)
+
+        # self.detect_image_edit에 tempdata 디렉토리 경로 설정
+        self.detect_image_edit.setText(tempdata_directory)
+
     def upload_model_dir(self):
         options = QFileDialog.Options()
         file_dialog = QFileDialog()
