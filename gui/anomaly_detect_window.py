@@ -79,7 +79,6 @@ class Ui_anomaly_detection_window(object):
         self.model_dir_combo.setStyleSheet("border: 2px solid#a6aaaf;\n"
 "border-radius: 5px;\n"
 "padding: 1px 5px;\n"
-"\n"
 "")
         self.model_dir_combo.setObjectName("model_dir_edit")
         self.gridLayout.addWidget(self.model_dir_combo, 0, 1, 1, 1)

@@ -55,12 +55,12 @@ class Ui_AnomalyLearnWindow(object):
         os.chdir(script_dir)
         AnomalyLearnWindow.setObjectName("AnomalyLearnWindow")
         AnomalyLearnWindow.resize(625, 443)
-        AnomalyLearnWindow.setStyleSheet("font: 9pt \"맑은 고딕\";\n"
+        AnomalyLearnWindow.setStyleSheet("font: 9pt \"Noto Sans KR\";\n"
                                          "background-color: #fff;\n"
                                          "")
         self.centralwidget = QtWidgets.QWidget(AnomalyLearnWindow)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(9)
         font.setBold(False)
         font.setItalic(False)
@@ -92,7 +92,7 @@ class Ui_AnomalyLearnWindow(object):
         self.gridLayout.addWidget(self.item_name, 0, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.load_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(9)
         font.setBold(False)
         font.setItalic(False)
@@ -148,7 +148,7 @@ class Ui_AnomalyLearnWindow(object):
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         self.train_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(9)
         font.setBold(False)
         font.setItalic(False)

@@ -57,7 +57,7 @@ class Ui_YoloLearnWindow(object):
         os.chdir(script_dir)
         YoloLearnWindow.setObjectName("YoloLearnWindow")
         YoloLearnWindow.resize(553, 573)
-        YoloLearnWindow.setStyleSheet("font: 9pt \"맑은 고딕\";\nbackground-color: #fff;\n}")
+        YoloLearnWindow.setStyleSheet("font: 9pt \"Noto Sans KR\";\nbackground-color: #fff;\n}")
         self.centralwidget = QtWidgets.QWidget(YoloLearnWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -70,7 +70,7 @@ class Ui_YoloLearnWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.find_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setPointSize(9)
         font.setBold(True)
         font.setItalic(False)
@@ -106,7 +106,7 @@ class Ui_YoloLearnWindow(object):
         self.gridLayout.addWidget(self.yaml_edit, 1, 1, 1, 1)
         self.load_button = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setBold(True)
         font.setWeight(75)
         self.load_button.setFont(font)
@@ -149,11 +149,6 @@ class Ui_YoloLearnWindow(object):
         sizePolicy.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.comboBox.setStyleSheet("border: 2px solid #a6aaaf;\n"
-                                    "border-radius: 5px;\n"
-                                    "padding: 1px 5px;\n"
-                                    "\n"
-                                    "")
         self.comboBox.setObjectName("comboBox")
         self.gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
         self.item_name = QtWidgets.QLabel(self.centralwidget)
@@ -199,7 +194,7 @@ class Ui_YoloLearnWindow(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.train_start = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
+        font.setFamily("Noto Sans KR")
         font.setBold(True)
         font.setWeight(75)
         self.train_start.setFont(font)
