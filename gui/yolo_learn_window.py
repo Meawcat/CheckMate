@@ -200,6 +200,13 @@ class Ui_YoloLearnWindow(object):
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
+        self.scrollArea.setStyleSheet("border: none; background-color: #F9F7F7;")
+        self.scrollArea.verticalScrollBar().setStyleSheet(
+                "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
+        )
+        self.scrollArea.horizontalScrollBar().setStyleSheet(
+            "QScrollBar:horizontal { border: none; background-color: #3F72AF; }"
+        )
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 527, 314))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")

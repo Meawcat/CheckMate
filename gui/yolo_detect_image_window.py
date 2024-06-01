@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal
 import os
 import gui.anomaly_detect_window as anomaly_detection_window
 from subprocess import run
+import sys
 
 
 class DetectionThread(QThread):
@@ -263,11 +264,12 @@ class Ui_YoloDetectImageWindow(object):
         dialog = QDialog()
         ui = anomaly_detection_window.Ui_anomaly_detection_window()
         ui.setupUi(dialog)
+        ui.set_images(self.image_paths)
         dialog.exec_()
 
     def show_image(self):
         if not self.result_images:
-            QMessageBox.information(self.result_window, "정보", "나타 낼 이미지가 없습니다.")
+            QMessageBox.information(self.result_window, "정보", "결과를 나타내는 중 오류가 발생했습니다.")
             return
 
         img_path = self.result_images[self.current_image_index]
@@ -302,7 +304,6 @@ class Ui_YoloDetectImageWindow(object):
 
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     YoloDetectImageWindow = QMainWindow()
     ui = Ui_YoloDetectImageWindow()

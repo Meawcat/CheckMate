@@ -182,7 +182,7 @@ class DataPage(QDialog):
         self.split_button = ui.split_button
         self.split_button.clicked.connect(self.split_data_yolo)
 
-        QMessageBox.information(self, None, "YOLOv5를 위한 데이터셋을 생성합니다.")
+        QMessageBox.information(self, "YOLO 데이터셋", "YOLOv5를 위한 데이터셋을 생성합니다.")
         self.create_dataset_dialog.exec_()
 
     def update_ratios(self):
@@ -286,7 +286,7 @@ class DataPage(QDialog):
             QMessageBox.information(self, "성공", "YOLOv5 데이터셋 생성이 완료되었습니다.")
             self.make_yaml_file(directory)
 
-            QMessageBox.information(self, None, "EfficientAD를 위한 데이터셋을 생성합니다.")
+            QMessageBox.information(self, "EfficientAD 데이터셋", "EfficientAD를 위한 데이터셋을 생성합니다.")
             self.split_data_anomaly(directory_name, image_files, label_files)
 
         except Exception as e:
@@ -295,6 +295,7 @@ class DataPage(QDialog):
     def split_data_anomaly(self, item, imgs, tags):
         progressDialog = QProgressDialog("이미지를 처리 중입니다...", "취소", 0, len(tags), self)
         progressDialog.setWindowModality(Qt.WindowModal)  # 모달 설정
+        progressDialog.setWindowTitle("처리 중")
         try:
             progressDialog.setCancelButton(None)  # 취소 버튼 비활성화
             progressDialog.setMinimumDuration(0)

@@ -94,23 +94,32 @@ class myMainWindow(QMainWindow):
         dialog.exec_()
 
     def populate_directory_combo(self):
-        # self.combo.clear()  # Clear all items from the combo box
         directory = 'yolov5/runs/train'
+
+        # 현재 콤보박스에 있는 아이템들을 리스트로 저장
+        current_items = [self.combo.itemText(i) for i in range(self.combo.count())]
+
+        # 새로운 디렉터리와 비교할 기존 아이템 리스트
+        valid_items = []
+
         if os.path.exists(directory) and os.path.isdir(directory):
             directories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+
             for d in directories:
                 weights_path = os.path.join(directory, d, 'weights', 'best.pt')
-                # 먼저 해당 weights 파일이 존재하는지 확인
+
+                # weights 파일이 존재하는지 확인
                 if os.path.exists(weights_path):
-                    # combo에 이미 해당 이름의 아이템이 있는지 확인
-                    is_already_added = False
-                    for index in range(self.combo.count()):
-                        if self.combo.itemText(index) == d:
-                            is_already_added = True
-                            break
-                    # 동명의 아이템이 없는 경우에만 추가
-                    if not is_already_added:
+                    valid_items.append(d)
+                    # 콤보박스에 이미 존재하지 않는 경우에만 추가
+                    if d not in current_items:
                         self.combo.addItem(d)
+
+        # 기존 아이템 리스트에서 유효하지 않은 아이템 제거
+        for item in current_items:
+            if item not in valid_items:
+                index = self.combo.findText(item)
+                self.combo.removeItem(index)
 
     def open_yolo_detect_live(self):
         combo_dir = 'yolov5/runs/train'
