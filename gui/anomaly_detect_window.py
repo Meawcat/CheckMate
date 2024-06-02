@@ -202,7 +202,7 @@ class Ui_anomaly_detection_window(object):
             return
 
         self.image_paths = self.detect_image_edit.text()
-        print(self.detect_image_edit.text())
+        # print(self.detect_image_edit.text())
         item = self.model_dir_combo.currentText()
         mvtec_ad = os.path.join("../EfficientAD-main/output/", item, "trainings/mvtec_ad")
         item_path = os.listdir(mvtec_ad)[0]
@@ -212,7 +212,9 @@ class Ui_anomaly_detection_window(object):
         except ValueError:
             self.show_warning_message("잘못된 임계값입니다. 숫자를 입력하세요.")
             return
-
+        map_dir = "../EfficientAD-main/map"
+        if not os.path.exists(map_dir):
+            os.makedirs(map_dir)
         # Run detection for each image path
         for image_path in self.image_paths.split(", "):  # 다중 파일 선택시 경로 분리
             try:
@@ -247,8 +249,8 @@ class Ui_anomaly_detection_window(object):
 
         # Create a dictionary to map file names to their map paths
         map_dir = "../EfficientAD-main/map"
-        map_paths = {os.path.splitext(file)[0]: os.path.join(map_dir, file) for file in os.listdir(map_dir)}
-
+        map_paths = os.listdir(map_dir)
+        # print(map_paths)
         for result in self.extracted_results:
             vlayout = QVBoxLayout()
             hlayout = QHBoxLayout()
@@ -280,13 +282,16 @@ class Ui_anomaly_detection_window(object):
                 status_icon = "icons/wrong.png"
                 # Construct the expected anomaly map file name
                 base_name, ext = os.path.splitext(file_name)
-                anomaly_file_name = f"{base_name}_anomaly{ext}"
-                if base_name in map_paths:
+                anomaly_file_name = f"{base_name}_anomaly.jpg"
+                # print(map_paths)
+                if anomaly_file_name in map_paths:
                     map_label = QLabel()
                     anomaly_file_path = os.path.join(map_dir, anomaly_file_name)
+                    # print(f"anomaly_file_path:{anomaly_file_path}")
                     if os.path.exists(anomaly_file_path):
-                        map_label.setPixmap(QPixmap(anomaly_file_path).scaled(300, 300, Qt.KeepAspectRatio))
+                        map_label.setPixmap(QPixmap(anomaly_file_path).scaled(200, 200, Qt.KeepAspectRatio))
                         hlayout.addWidget(map_label)
+
 
             status_label.setPixmap(QPixmap(status_icon))
 

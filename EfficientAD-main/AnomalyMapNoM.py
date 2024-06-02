@@ -90,9 +90,9 @@ student = get_pdn(768)
 auto_dir = args.model_dir
 teach_dir = args.model_dir
 stu_dir = args.model_dir #'output/erazer_model/trainings/mvtec_ad/erazer'
-autoencoder_load = torch.load(os.path.join(auto_dir, 'autoencoder_tmp.pth'))
-teacher_load = torch.load(os.path.join(teach_dir, 'teacher_tmp.pth'))
-student_load = torch.load(os.path.join(stu_dir, 'student_tmp.pth'))
+autoencoder_load = torch.load(os.path.join(auto_dir, 'autoencoder_tmp.pth'), map_location=torch.device('cpu'))
+teacher_load = torch.load(os.path.join(teach_dir, 'teacher_tmp.pth'), map_location=torch.device('cpu'))
+student_load = torch.load(os.path.join(stu_dir, 'student_tmp.pth'), map_location=torch.device('cpu'))
 
 # Load the state dicts into the models
 autoencoder.load_state_dict(autoencoder_load, strict=False)

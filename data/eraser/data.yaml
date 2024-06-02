@@ -1,0 +1,7 @@
+names:
+- bad
+- good
+nc: 2
+test: C:\Users\hhy\Desktop\MJU_CheckMate\data\eraser\test
+train: C:\Users\hhy\Desktop\MJU_CheckMate\data\eraser\train
+val: C:\Users\hhy\Desktop\MJU_CheckMate\data\eraser\valid
