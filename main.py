@@ -133,12 +133,19 @@ class myMainWindow(QMainWindow):
         self.combo.addItems(new_items)
 
     def open_yolo_detect_live(self):
-        combo_dir = 'yolov5/runs/train'
+        current_dir = os.getcwd()
+        dirs = current_dir.split(os.sep)
+        if 'gui' in dirs:
+            yolo_dir = '../yolov5'
+        else:
+            yolo_dir = 'yolov5'
+        combo_dir = os.path.join(yolo_dir, 'runs/train')
         model_name = self.combo.currentText()
-
+        model_path = os.path.join(combo_dir, model_name, "weights/best.pt")
+        print(model_path)
         try:
-            if os.path.exists(f"{combo_dir}/{model_name}/weights/best.pt"):
-                command = f'python yolov5/detect.py --source 0 --weights {combo_dir}/{model_name}/weights/best.pt --conf 0.5'
+            if os.path.exists(model_path):
+                command = f'python {yolo_dir}/detect.py --source 0 --weights {model_path} --conf 0.5'
                 subprocess.Popen(command, shell=True)
             else:
                 QMessageBox.information(None, "안내", "해당 파일에 학습 모델이 없습니다. 다시 선택하세요.")

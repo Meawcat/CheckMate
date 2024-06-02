@@ -150,7 +150,7 @@ class DataPage(QDialog):
         self.create_dataset_dialog = None
 
     def open_create_dataset(self):
-        self.create_dataset_dialog = QDialog()
+        self.create_dataset_dialog = QDialog(None, Qt.Dialog | Qt.WindowCloseButtonHint)
         ui = dataset_dialog.Ui_dataset_dialog()
         ui.setupUi(self.create_dataset_dialog)
         self.create_dataset_dialog.setWindowTitle("데이터셋 생성")
@@ -294,6 +294,7 @@ class DataPage(QDialog):
             return
     def split_data_anomaly(self, item, imgs, tags):
         progressDialog = QProgressDialog("이미지를 처리 중입니다...", "취소", 0, len(tags), self)
+        progressDialog.setWindowFlags(progressDialog.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         progressDialog.setWindowModality(Qt.WindowModal)  # 모달 설정
         progressDialog.setWindowTitle("처리 중")
         try:
@@ -392,7 +393,7 @@ class DataPage(QDialog):
             QMessageBox.warning(None, "경고", "data가 없습니다. 다시 확인해 주세요.")
 
     def open_label_data(self):
-        dialog = QDialog(self)
+        dialog = QDialog(self, Qt.Dialog | Qt.WindowCloseButtonHint)
         ui = label_dialog.Ui_label_dialog()
         ui.setupUi(dialog)
         dialog.setWindowTitle("데이터 라벨링")
@@ -447,7 +448,7 @@ class DataPage(QDialog):
         dialog.exec_()
 
     def open_add_data(self):
-        dialog = QDialog(self)
+        dialog = QDialog(self, Qt.Dialog | Qt.WindowCloseButtonHint)
         ui = add_dialog.Ui_add_dialog()
         ui.setupUi(dialog)
         dialog.setWindowTitle("데이터 추가")
