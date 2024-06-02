@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from time import time
 import numpy as np
 import torch
 from torch import nn
@@ -29,6 +28,7 @@ def get_argparse():
     parser.add_argument('-t', '--threshold', type=float, default=0, help='Threshold for anomaly detection')
     parser.add_argument('-i', '--image_dir', required=True, help='Relative path to the image directory')
     parser.add_argument('-d', '--model_dir', required=True, help='Relative path to the image directory')
+    parser.add_argument('-o', '--output_dir', default=None, help='Download path to the image directory')
     return parser.parse_args()
 
 # Parse arguments
@@ -198,6 +198,17 @@ for image_path in image_list:
 
     # 이상 탐지 결과 출력
     print(f'[Image: {image_path}]||[Anomaly Detected: {is_anomaly}]||[Mean Value: {mean_value}]')
+    
+    # 이상 탐지 결과 저장
+    if args.output_dir != None:
+        base_name = os.path.basename(image_path)
+        file_name = os.path.splitext(base_name)[0] + "_anomaly.jpg"
+        
+        output_file = os.path.join(args.output_dir, file_name)
+        plt.imshow(map_ae[0, 0].cpu().numpy(), cmap='hot')
+        plt.axis('off')
+        plt.savefig(output_file, bbox_inches='tight', pad_inches=0)
+        plt.close()
 
     plt.show()
     
