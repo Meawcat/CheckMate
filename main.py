@@ -45,7 +45,7 @@ class myMainWindow(QMainWindow):
         self.detect_image_btn.clicked.connect(self.open_yolo_detect_image_window)
         self.detect_video_btn.clicked.connect(self.open_yolo_detect_live)
         self.detect_push_btn.clicked.connect(self.open_anomaly_detection_dialog)
-        self.refresh = self.ui.refresh_button.clicked.connect(self.populate_directory_combo)
+        self.refresh = self.ui.refresh_button.clicked.connect(self.populate_yolomodel_combo)
 
         # 시작화면을 홈화면으로
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -66,7 +66,7 @@ class myMainWindow(QMainWindow):
         self.ui_yolo = Ui_YoloLearnWindow()
         self.ui_yolo.setupUi(self.yolo_window)
         self.yolo_window.show()
-        self.populate_directory_combo()  # Ensure combo is updated after training
+        self.populate_yolomodel_combo()
 
     def start_efficientAD(self):
         # EfficientAD 띄우기
@@ -74,6 +74,7 @@ class myMainWindow(QMainWindow):
         self.ui_efficientAD = Ui_AnomalyLearnWindow()
         self.ui_efficientAD.setupUi(self.efficientAD)
         self.efficientAD.show()
+        self.populate_yolomodel_combo()
 
     def open_yolo_detect_image_window(self):
         if not self.combo:
@@ -86,20 +87,27 @@ class myMainWindow(QMainWindow):
         self.ui_yolo_detect_image.setModel(self.combo.currentText())
         self.ui_yolo_detect_image.setupUi(self.yolo_detect_image_window)
         self.yolo_detect_image_window.show()
+        self.populate_yolomodel_combo()
         
     def open_anomaly_detection_dialog(self):
         dialog = QDialog()
         ui = Ui_anomaly_detection_window()
         ui.setupUi(dialog)
         dialog.exec_()
+        self.populate_yolomodel_combo()
 
-    def populate_directory_combo(self):
-        directory = 'yolov5/runs/train'
+    def populate_yolomodel_combo(self):
+        current_dir = os.getcwd()
+        dirs = current_dir.split(os.sep)
+        if 'gui' in dirs:
+            directory = '../yolov5/runs/train'
+        else:
+            directory = 'yolov5/runs/train'
 
         # 현재 콤보박스에 있는 아이템들을 리스트로 저장
         current_items = [self.combo.itemText(i) for i in range(self.combo.count())]
 
-        # 새로운 디렉터리와 비교할 기존 아이템 리스트
+        # 새로운 디렉토리와 비교할 기존 아이템 리스트
         valid_items = []
 
         if os.path.exists(directory) and os.path.isdir(directory):
@@ -111,15 +119,16 @@ class myMainWindow(QMainWindow):
                 # weights 파일이 존재하는지 확인
                 if os.path.exists(weights_path):
                     valid_items.append(d)
-                    # 콤보박스에 이미 존재하지 않는 경우에만 추가
-                    if d not in current_items:
-                        self.combo.addItem(d)
 
         # 기존 아이템 리스트에서 유효하지 않은 아이템 제거
         for item in current_items:
             if item not in valid_items:
                 index = self.combo.findText(item)
                 self.combo.removeItem(index)
+
+        # 유효한 아이템 리스트에서 기존 아이템을 제외한 새 아이템 추가
+        new_items = [item for item in valid_items if item not in current_items]
+        self.combo.addItems(new_items)
 
     def open_yolo_detect_live(self):
         combo_dir = 'yolov5/runs/train'
@@ -139,12 +148,12 @@ class myMainWindow(QMainWindow):
         except Exception as e:
             # 예외 처리
             QMessageBox.warning(None, "오류", f"알 수 없는 오류가 발생했습니다: {e}")
+        self.populate_yolomodel_combo()
 
     # 화면
     def initUI(self):
         self.setWindowTitle('체크메이트')
         self.setWindowIcon(QIcon('gui/icons/icon.png'))
-        self.populate_directory_combo()  # Ensure combo is populated on startup
         self.resize(750, 500)
         self.show()
 
@@ -162,7 +171,6 @@ class myMainWindow(QMainWindow):
             btn.setStyleSheet("")
         active_button = btn_list[index]
         active_button.setStyleSheet("background-color: #3F72AF")
-        self.populate_directory_combo() 
 
     # 버튼 고정 추가
     def on_home_button_toggled(self):
@@ -175,6 +183,7 @@ class myMainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(2)
         self.on_stackedWidget_currentChanged(2)
     def on_detect_button_toggled(self):
+        self.populate_yolomodel_combo()  # Ensure combo is populated on startup
         self.ui.stackedWidget.setCurrentIndex(3)
         self.on_stackedWidget_currentChanged(3)
     def on_helper_button_toggled(self):
