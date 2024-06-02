@@ -1,4 +1,5 @@
 import sys
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QMessageBox, QComboBox, QDialog
 from PyQt5.QtGui import QIcon
 from gui.main_window import Ui_MainWindow
@@ -90,7 +91,7 @@ class myMainWindow(QMainWindow):
         self.populate_yolomodel_combo()
 
     def open_anomaly_detection_dialog(self):
-        dialog = QDialog()
+        dialog = QDialog(None, Qt.Dialog | Qt.WindowCloseButtonHint)
         ui = Ui_anomaly_detection_window()
         ui.setupUi(dialog)
         if ui.set_model_dir():
