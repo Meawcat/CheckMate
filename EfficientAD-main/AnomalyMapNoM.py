@@ -200,7 +200,7 @@ for image_path in image_list:
     print(f'[Image: {image_path}]||[Anomaly Detected: {is_anomaly}]||[Mean Value: {mean_value}]')
     
     # 이상 탐지 결과 저장
-    if args.output_dir != None:
+    if args.output_dir != None & is_anomaly:
         base_name = os.path.basename(image_path)
         file_name = os.path.splitext(base_name)[0] + "_anomaly.jpg"
         
