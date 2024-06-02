@@ -88,13 +88,14 @@ class myMainWindow(QMainWindow):
         self.ui_yolo_detect_image.setupUi(self.yolo_detect_image_window)
         self.yolo_detect_image_window.show()
         self.populate_yolomodel_combo()
-        
+
     def open_anomaly_detection_dialog(self):
         dialog = QDialog()
         ui = Ui_anomaly_detection_window()
         ui.setupUi(dialog)
-        dialog.exec_()
-        self.populate_yolomodel_combo()
+        if ui.set_model_dir():
+            dialog.exec_()
+            self.populate_yolomodel_combo()
 
     def populate_yolomodel_combo(self):
         current_dir = os.getcwd()

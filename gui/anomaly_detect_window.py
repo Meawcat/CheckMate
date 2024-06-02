@@ -164,7 +164,6 @@ class Ui_anomaly_detection_window(object):
 
         self.retranslateUi(anomaly_detection_window)
         QtCore.QMetaObject.connectSlotsByName(anomaly_detection_window)
-        self.set_model_dir()
         self.model_dir_button.clicked.connect(self.upload_model_dir)
         self.detect_image_upload_button.clicked.connect(self.upload_detect_image_dir)
         self.anomaly_detection_button.clicked.connect(self.start_detecting)
@@ -307,8 +306,17 @@ class Ui_anomaly_detection_window(object):
 
         self.display_result()
     def set_model_dir(self):
-        for dir in os.listdir("../EfficientAD-main/output"):
-            self.model_dir_combo.addItem(dir)
+        model_dir_path = "../EfficientAD-main/output"
+
+        if not os.path.exists(model_dir_path):
+            QMessageBox.warning(None, "경고", "학습된 모델이 없습니다. 다시 확인해 주세요.")
+            return False
+        self.model_dir_combo.clear()
+        for dir_name in os.listdir(model_dir_path):
+            dir_path = os.path.join(model_dir_path, dir_name)
+            if os.path.isdir(dir_path):
+                self.model_dir_combo.addItem(dir_name)
+        return True
 
     def open_file_or_directory_dialog(self):
         options = QtWidgets.QFileDialog.Options()
