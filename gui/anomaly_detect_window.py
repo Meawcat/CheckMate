@@ -216,7 +216,7 @@ class Ui_anomaly_detection_window(object):
         # Run detection for each image path
         for image_path in self.image_paths.split(", "):  # 다중 파일 선택시 경로 분리
             try:
-                command = f'python ..\EfficientAD-main\AnomalyMapNoM.py -d {self.model_path} -i {image_path} -t {self.threshold}'
+                command = f'python ..\EfficientAD-main\AnomalyMapNoM.py -d {self.model_path} -i {image_path} -t {self.threshold} -o ../EfficientAD-main/map'
                 print(f"Running command: {command}")
                 result = subprocess.run(command, shell=True, capture_output=True, text=True, check=False, encoding='utf-8')
                 if result.returncode == 0:
@@ -243,7 +243,8 @@ class Ui_anomaly_detection_window(object):
         # Create a container widget
         container = QWidget()
         img_layout = QVBoxLayout(container)  # Set layout for the container
-
+        map_paths = os.listdir("../EfficientAD-main/map")
+        i = 0
         for result in self.extracted_results:
             vlayout = QVBoxLayout()
             hlayout = QHBoxLayout()
@@ -254,26 +255,34 @@ class Ui_anomaly_detection_window(object):
 
             # 이미지 경로 설정
             img_path = result[0]
-            img_label.setPixmap(QPixmap(img_path).scaled(200, 200, Qt.KeepAspectRatio))
+            img_label.setPixmap(QPixmap(img_path).scaled(100, 100, Qt.KeepAspectRatio))
+
+            vlayout.addWidget(img_label)
+            # map 지정
+
             if not img_path:
                 break
             # 파일 이름 추출
             file_name = os.path.basename(img_path)
             name_label.setText(file_name)
 
+            vlayout.addWidget(name_label)
+
+            hlayout.addLayout(vlayout)
             # 상태에 따라 아이콘 설정
             if result[1] == "정상":
                 status_icon = "icons/right.png"
             else:
                 status_icon = "icons/wrong.png"
+                map_label = QLabel()
+                map_label.setPixmap(QPixmap(map_paths[i]).scaled)
+                i = i+1
+                hlayout.addWidget(map_label)
 
             status_label.setPixmap(QPixmap(status_icon))
 
-            # 레이아웃에 위젯 추가
-            vlayout.addWidget(img_label)
-            vlayout.addWidget(name_label)
-            hlayout.addLayout(vlayout)
             hlayout.addWidget(status_label)
+            # 레이아웃에 위젯 추가
             img_layout.addLayout(hlayout)
 
         # Set the container widget as the scroll area's widget
