@@ -232,19 +232,23 @@ class Ui_anomaly_detection_window(object):
         dialog.setWindowTitle("이상 탐지 결과")
         dialog.setMinimumSize(800, 600)  # Optional: Set a minimum size for the dialog
         dialog.setStyleSheet("background-color: #fff;")
+
         # Create a scroll area
         scroll_area = QScrollArea(dialog)
         scroll_area.setWidgetResizable(True)
         scroll_area.setStyleSheet("border: none; background-color: #F9F7F7;")
         scroll_area.verticalScrollBar().setStyleSheet(
-                "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
+            "QScrollBar:vertical { border: none; background-color: #3F72AF; }"
         )
 
         # Create a container widget
         container = QWidget()
         img_layout = QVBoxLayout(container)  # Set layout for the container
-        map_paths = os.listdir("../EfficientAD-main/map")
-        i = 0
+
+        # Create a dictionary to map file names to their map paths
+        map_dir = "../EfficientAD-main/map"
+        map_paths = {os.path.splitext(file)[0]: os.path.join(map_dir, file) for file in os.listdir(map_dir)}
+
         for result in self.extracted_results:
             vlayout = QVBoxLayout()
             hlayout = QHBoxLayout()
@@ -252,16 +256,15 @@ class Ui_anomaly_detection_window(object):
             name_label = QLabel()
             status_label = QLabel()
 
-
             # 이미지 경로 설정
             img_path = result[0]
-            img_label.setPixmap(QPixmap(img_path).scaled(100, 100, Qt.KeepAspectRatio))
+            img_label.setPixmap(QPixmap(img_path).scaled(300, 300, Qt.KeepAspectRatio))
 
             vlayout.addWidget(img_label)
-            # map 지정
 
             if not img_path:
                 break
+
             # 파일 이름 추출
             file_name = os.path.basename(img_path)
             name_label.setText(file_name)
@@ -269,15 +272,21 @@ class Ui_anomaly_detection_window(object):
             vlayout.addWidget(name_label)
 
             hlayout.addLayout(vlayout)
+
             # 상태에 따라 아이콘 설정
             if result[1] == "정상":
                 status_icon = "icons/right.png"
             else:
                 status_icon = "icons/wrong.png"
-                map_label = QLabel()
-                map_label.setPixmap(QPixmap(map_paths[i]).scaled)
-                i = i+1
-                hlayout.addWidget(map_label)
+                # Construct the expected anomaly map file name
+                base_name, ext = os.path.splitext(file_name)
+                anomaly_file_name = f"{base_name}_anomaly{ext}"
+                if base_name in map_paths:
+                    map_label = QLabel()
+                    anomaly_file_path = os.path.join(map_dir, anomaly_file_name)
+                    if os.path.exists(anomaly_file_path):
+                        map_label.setPixmap(QPixmap(anomaly_file_path).scaled(300, 300, Qt.KeepAspectRatio))
+                        hlayout.addWidget(map_label)
 
             status_label.setPixmap(QPixmap(status_icon))
 
