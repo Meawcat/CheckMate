@@ -329,7 +329,12 @@ class Ui_anomaly_detection_window(object):
 
         self.display_result()
     def set_model_dir(self):
-        model_dir_path = "../EfficientAD-main/output"
+        current_dir = os.getcwd()
+        dirs = current_dir.split(os.sep)
+        if 'gui' in dirs:
+            model_dir_path = "../EfficientAD-main/output"
+        else:
+            model_dir_path = "EfficientAD-main/output"
 
         if not os.path.exists(model_dir_path):
             QMessageBox.warning(None, "경고", "학습된 모델이 없습니다. 다시 확인해 주세요.")

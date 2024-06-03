@@ -265,6 +265,7 @@ class Ui_YoloDetectImageWindow(object):
         ui = anomaly_detection_window.Ui_anomaly_detection_window()
         ui.setupUi(dialog)
         ui.set_images(self.image_paths)
+        ui.set_model_dir()
         dialog.exec_()
 
     def show_image(self):
