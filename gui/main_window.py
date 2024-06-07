@@ -495,9 +495,14 @@ class Ui_MainWindow(object):
         if not os.path.exists(pdf_viewer_path):
             QtWidgets.QMessageBox.critical(None, "경고", "PDF 뷰어를 찾을 수 없습니다.")
             return
+        current_dir = os.getcwd()
+        dirs = current_dir.split(os.sep)
+        if 'gui' in dirs:
+            pdf_path = "tutorial/checkmate_tutorial.pdf"
+        else:
+            pdf_path = "gui/tutorial/checkmate_tutorial.pdf"
 
         # 실제 PDF 파일 경로로 바꾸기
-        pdf_path = "gui/tutorial/checkmate_tutorial.pdf"
         absolute_path = os.path.abspath(pdf_path)
 
         # 파일 존재 여부 확인

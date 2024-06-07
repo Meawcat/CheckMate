@@ -131,8 +131,8 @@ def run(
     vid_path, vid_writer = [None] * bs, [None] * bs
 
 
-    custom_img_good = cv2.imread(r'icons\right.png', cv2.IMREAD_UNCHANGED)  # 변경된 부분: "good" 이미지 경로 설정
-    custom_img_bad = cv2.imread(r'icons\wrong.png', cv2.IMREAD_UNCHANGED)  # "bad" 라벨 이미지 경로 설정
+    custom_img_good = cv2.imread(r'..\gui\icons\right.png', cv2.IMREAD_UNCHANGED)  # 변경된 부분: "good" 이미지 경로 설정
+    custom_img_bad = cv2.imread(r'..\gui\icons\wrong.png', cv2.IMREAD_UNCHANGED)  # "bad" 라벨 이미지 경로 설정
 
     scale_factor = 2  # 이미지를 3배 확대
   

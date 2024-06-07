@@ -218,7 +218,7 @@ class Ui_anomaly_detection_window(object):
         # Run detection for each image path
         for image_path in self.image_paths.split(", "):  # 다중 파일 선택시 경로 분리
             try:
-                command = f'python ..\EfficientAD-main\AnomalyMapNoM.py -d {self.model_path} -i {image_path} -t {self.threshold} -o ../EfficientAD-main/map'
+                command = f'python ../EfficientAD-main/AnomalyMapNoM.py -d {self.model_path} -i {image_path} -t {self.threshold} -o ../EfficientAD-main/map'
                 print(f"Running command: {command}")
                 result = subprocess.run(command, shell=True, capture_output=True, text=True, check=False, encoding='utf-8')
                 if result.returncode == 0:
